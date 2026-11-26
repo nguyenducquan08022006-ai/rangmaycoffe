@@ -462,6 +462,77 @@ Deno.serve(async (request: Request) => {
       return jsonResponse({ user: updatedProfile }, 200, cors);
     }
 
+    if (action === "create_user") {
+      const fullName = typeof body.fullName === "string" ? body.fullName.trim() : "";
+      const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+      const password = typeof body.password === "string" ? body.password : "";
+      const role = body.role as UserRole;
+      const minLen = role === "customer" ? 10 : 14;
+
+      if (
+        fullName.length < 2 || fullName.length > 100 ||
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254 ||
+        typeof role !== "string" || !USER_ROLES.includes(role) ||
+        password.length < minLen || password.length > 128 ||
+        !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password) || !/[^A-Za-z0-9\s]/.test(password)
+      ) {
+        return jsonResponse({ error: `Thông tin hoặc mật khẩu chưa đạt chuẩn an toàn (>=${minLen} ký tự đủ 4 nhóm).` }, 400, cors);
+      }
+
+      const canEditPrice = role === "admin"
+        ? true
+        : role === "manager"
+          ? Boolean(body.canEditPrice)
+          : false;
+
+      const { data: createdAuth, error: createAuthErr } = await db.auth.admin.createUser({
+        email,
+        password,
+        email_confirm: true,
+        user_metadata: { full_name: fullName }
+      });
+
+      if (createAuthErr || !createdAuth?.user) {
+        const isDup = String(createAuthErr?.message || "").toLowerCase().includes("already");
+        return jsonResponse(
+          { error: isDup ? "Email tài khoản đã tồn tại trong hệ thống." : "Không thể tạo tài khoản mới." },
+          isDup ? 409 : 400,
+          cors
+        );
+      }
+
+      const { data: savedProfile, error: profErr } = await db
+        .from("profiles")
+        .upsert({
+          id: createdAuth.user.id,
+          email,
+          full_name: fullName,
+          role,
+          can_edit_price: canEditPrice,
+          is_active: true,
+          updated_at: new Date().toISOString()
+        }, { onConflict: "id" })
+        .select("id, email, full_name, phone, role, can_edit_price, is_active, created_at, updated_at")
+        .single();
+
+      if (profErr || !savedProfile) {
+        return jsonResponse({ error: "Đã tạo Auth nhưng lỗi cập nhật phân quyền hồ sơ." }, 500, cors);
+      }
+
+      await writeAuditLog(db, {
+        actorId: actor.id,
+        actorEmail: actor.email,
+        actorRole: actor.role,
+        action: "user.created",
+        targetType: "profile",
+        targetId: createdAuth.user.id,
+        details: { targetEmail: email, role, canEditPrice },
+        ipHash
+      });
+
+      return jsonResponse({ user: savedProfile }, 201, cors);
+    }
+
     if (action === "update_product") {
       const productId = body.productId;
       const price = body.price;

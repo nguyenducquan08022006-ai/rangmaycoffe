@@ -1,11 +1,11 @@
 (function initRangMayConfig(globalScope) {
   "use strict";
 
-  // Điền Project URL và Publishable/Anon Key từ Supabase Dashboard (Project Settings -> API).
-  // TUYỆT ĐỐI KHÔNG điền service_role key vào file frontend này.
+  // Cấu hình kết nối công khai Supabase Cloud (publishable key).
+  // TUYỆT ĐỐI KHÔNG điền service_role / secret key vào file frontend này.
   const config = Object.freeze({
-    supabaseUrl: "",
-    supabaseAnonKey: "",
+    supabaseUrl: "https://wwrosngjthxwnyenksvc.supabase.co",
+    supabaseAnonKey: "sb_publishable_YSAWD1qVkdRrdq8H-swjpg_jlfulBC0",
     turnstileSiteKey: "",
     adminIdleTimeoutMinutes: 30
   });

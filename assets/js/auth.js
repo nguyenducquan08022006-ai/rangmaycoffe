@@ -41,13 +41,20 @@
     return Boolean(cfg.supabaseUrl && cfg.supabaseAnonKey);
   }
 
+  function isLocalhostBrowser() {
+    if (typeof window === "undefined" || !window.location) return false;
+    const h = window.location.hostname;
+    return h === "localhost" || h === "127.0.0.1";
+  }
+
   function getBackendMode() {
-    if (hasSupabaseConfig()) return "supabase";
     if (detectedLocalServerInfo && detectedLocalServerInfo.ok) return "local-secure";
+    if (hasSupabaseConfig()) return "supabase";
     return "unconfigured";
   }
 
   function isConfigured() {
+    if (isLocalhostBrowser() && !backendProbePromise) return false;
     return getBackendMode() !== "unconfigured";
   }
 
@@ -56,11 +63,15 @@
   }
 
   async function initBackendMode() {
-    if (hasSupabaseConfig()) return "supabase";
     if (detectedLocalServerInfo && detectedLocalServerInfo.ok) return "local-secure";
-    if (typeof window === "undefined" || typeof fetch !== "function") return "unconfigured";
+    if (hasSupabaseConfig() && !isLocalhostBrowser()) return "supabase";
+    if (typeof window === "undefined" || typeof fetch !== "function") {
+      return hasSupabaseConfig() ? "supabase" : "unconfigured";
+    }
     const proto = window.location && window.location.protocol;
-    if (proto !== "http:" && proto !== "https:") return "unconfigured";
+    if (proto !== "http:" && proto !== "https:") {
+      return hasSupabaseConfig() ? "supabase" : "unconfigured";
+    }
 
     if (!backendProbePromise) {
       backendProbePromise = (async () => {
@@ -69,15 +80,15 @@
             method: "GET",
             cache: "no-store"
           });
-          if (!response.ok) return "unconfigured";
+          if (!response.ok) return hasSupabaseConfig() ? "supabase" : "unconfigured";
           const data = await response.json().catch(() => null);
           if (data && data.ok === true && data.mode === "local-secure") {
             detectedLocalServerInfo = data;
             return "local-secure";
           }
-          return "unconfigured";
+          return hasSupabaseConfig() ? "supabase" : "unconfigured";
         } catch {
-          return "unconfigured";
+          return hasSupabaseConfig() ? "supabase" : "unconfigured";
         }
       })();
     }
