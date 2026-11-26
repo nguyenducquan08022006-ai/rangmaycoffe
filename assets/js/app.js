@@ -627,22 +627,163 @@
     });
   }
 
-  // Curated AI Barista & Gift Writer (local deterministic replies under strict CSP)
+  // Smart Real-time Grounded Barista AI & Gift Writer (strict CSP compliant, pure DOM API)
+  const inPageChatHistory = [];
+  const floatingChatHistory = [];
+  const chatLocks = { inPage: false, floating: false };
+
+  function foldViLocal(str) {
+    return String(str || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/[^a-z0-9\s-]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
   function generateLocalBaristaReply(prompt) {
-    const normalized = (prompt || "").toLowerCase();
-    if (normalized.includes("cold brew") || normalized.includes("coldbrew")) {
-      return "Dùng 1 túi phin giấy Rang Mây cho khoảng 180–200ml nước lạnh. Ngâm 8–12 giờ trong tủ lạnh, thêm đá và điều chỉnh ngọt theo khẩu vị.";
+    const q = foldViLocal(prompt);
+    const inStock = liveProduct.is_available && liveProduct.stock_quantity > 0;
+    const actions = [];
+
+    if (["gia", "bao nhieu", "ton kho", "con hang", "1 hop", "2 hop", "mua"].some(k => q.includes(k))) {
+      if (inStock) {
+        actions.push({ type: "add_to_cart", label: "🛒 Thêm vào giỏ (" + fmtPrice(liveProduct.price) + "đ)" });
+      }
+      return {
+        reply:
+          "☕ " + liveProduct.name + " (hộp 10 túi phin giấy × 12g):\n" +
+          "• Giá hiện tại: " + fmtPrice(liveProduct.price) + "đ/hộp (Miễn phí giao hàng toàn quốc).\n" +
+          "• Tồn kho: " + (inStock ? "Còn " + String(liveProduct.stock_quantity) + " hộp sẵn sàng giao ngay." : "Đang tạm hết hàng."),
+        actions,
+        suggestions: ["Cho mình xin mã Voucher", "Cách pha Cà phê Sữa đá", "Cà phê có chua không?"]
+      };
     }
-    if (normalized.includes("âm nhạc") || normalized.includes("món bánh") || normalized.includes("ăn kèm")) {
-      return "Ly cà phê Rang Mây rất hợp với nhạc acoustic nhẹ nhàng, bánh bông lan hoặc bánh sữa. Nên nhâm nhi khi cà phê còn ấm và thưởng thức chậm rãi.";
+
+    if (["voucher", "ma giam", "khuyen mai", "uu dai", "giam gia", "code"].some(k => q.includes(k))) {
+      if (availableVouchers.length > 0) {
+        const lines = availableVouchers.slice(0, 3).map((v) => {
+          const desc = v.discount_type === "percent"
+            ? "giảm " + String(v.discount_value) + "%"
+            : "giảm " + fmtPrice(v.discount_value) + "đ";
+          return "• " + v.code + ": " + desc + " (đơn từ " + fmtPrice(v.min_order_amount) + "đ)";
+        });
+        availableVouchers.slice(0, 2).forEach((v) => {
+          actions.push({ type: "apply_voucher", label: "🏷️ Áp mã " + v.code, code: v.code });
+        });
+        return {
+          reply: "🏷️ Các mã Voucher đang mở:\n" + lines.join("\n") + "\nBấm nút bên dưới để áp mã tự động nhé!",
+          actions,
+          suggestions: ["Giá 1 hộp bao nhiêu?", "Cách pha Sữa đá ngon"]
+        };
+      }
     }
-    if (normalized.includes("chocolate") || normalized.includes("caramel") || normalized.includes("nốt hương")) {
-      return "Các nốt chocolate và caramel trong ly cà phê xuất phát từ quá trình rang chậm và đặc tính Arabica cao nguyên. Hương vị cụ thể còn phụ thuộc lô rang và nhiệt độ nước.";
+
+    if (q.includes("cold brew") || q.includes("coldbrew") || q.includes("u lanh")) {
+      return {
+        reply:
+          "❄️ Công thức Cold Brew thanh mát:\n" +
+          "1. Ngâm 1–2 túi phin giấy Rang Mây với 180–220ml nước lọc mát trong bình kín.\n" +
+          "2. Ủ ngăn mát tủ lạnh 8–12 giờ qua đêm.\n" +
+          "3. Nhấc túi ra, thêm đá và lát cam vàng để mở nốt hương thanh ngọt!",
+        actions: [],
+        suggestions: ["Cách pha Sữa đá đậm đà", "Cho xin mã giảm giá"]
+      };
     }
-    if (normalized.includes("thiệp") || normalized.includes("chúc")) {
-      return "Gửi đến bạn một ly cà phê ấm, một khoảnh khắc đủ bình yên và nhiều điều tốt đẹp đang chờ phía trước.";
+
+    if (q.includes("sua da") || q.includes("bac xiu") || q.includes("pha sua")) {
+      return {
+        reply:
+          "🥛 Bí quyết pha Cà phê Sữa đá đậm đà:\n" +
+          "1. Cho 20–25ml sữa đặc dưới đáy ly.\n" +
+          "2. Ủ phin giấy với 25ml nước nóng 92–95°C trong 25 giây, sau đó rót chậm thêm 70ml nước nóng.\n" +
+          "3. Khuấy tan cốt cà phê nóng cùng sữa đặc rồi thêm đá già đầy ly!",
+        actions: [],
+        suggestions: ["Giá 1 hộp & tồn kho", "Săn mã Voucher giảm giá"]
+      };
     }
-    return "Với cà phê Rang Mây, bạn nên rót nước khoảng 90–95°C và chờ 3–5 phút để hương vị mở ra dịu êm. Bạn có thể thử pha nóng trước hoặc thêm đá tùy thích.";
+
+    return {
+      reply:
+        "☕ Với " + liveProduct.name + " (" + fmtPrice(liveProduct.price) + "đ/hộp 10 gói), bạn nên ủ bột 25 giây với 30ml nước 90–95°C rồi rót chậm thêm 120ml nước nóng để nốt hương chocolate & caramel mở ra êm dịu nhất.",
+      actions: inStock ? [{ type: "add_to_cart", label: "🛒 Thêm vào giỏ (" + fmtPrice(liveProduct.price) + "đ)" }] : [],
+      suggestions: ["Cho mình xin mã Voucher", "Cách pha Cà phê Sữa đá", "Chính sách Freeship & COD"]
+    };
+  }
+
+  async function askBaristaServer(message, history) {
+    if (window.RangMayAuth && typeof window.RangMayAuth.apiRequest === "function") {
+      try {
+        const res = await window.RangMayAuth.apiRequest("barista-ai", {
+          method: "POST",
+          body: {
+            message,
+            history: history.slice(-6)
+          }
+        });
+        if (res && typeof res.reply === "string" && res.reply.trim()) {
+          return {
+            reply: res.reply,
+            actions: Array.isArray(res.actions) ? res.actions : [],
+            suggestions: Array.isArray(res.suggestions) ? res.suggestions : []
+          };
+        }
+      } catch {
+        // Fallback to smart local grounded engine if offline
+      }
+    }
+    return generateLocalBaristaReply(message);
+  }
+
+  function handleChatAction(act) {
+    if (!act || typeof act !== "object") return;
+    if (act.type === "add_to_cart") {
+      addToCart();
+      return;
+    }
+    if (act.type === "apply_voucher" && act.code) {
+      if (!liveProduct.is_available || liveProduct.stock_quantity <= 0) {
+        showToast("⚠️ Sản phẩm hiện tạm hết hàng nên chưa thể áp dụng mã.");
+        return;
+      }
+      const vObj = availableVouchers.find((v) => v.code === act.code);
+      const minOrder = vObj ? Number(vObj.min_order_amount || 0) : 0;
+      const neededQty = minOrder > 0
+        ? Math.min(liveProduct.stock_quantity, Math.max(1, Math.ceil(minOrder / liveProduct.price)))
+        : 1;
+
+      const existing = cart.find((i) => i.id === liveProduct.id);
+      if (existing) {
+        existing.name = liveProduct.name;
+        existing.price = liveProduct.price;
+        existing.qty = Math.max(existing.qty, neededQty);
+      } else {
+        cart.push({
+          id: liveProduct.id,
+          name: liveProduct.name,
+          price: liveProduct.price,
+          qty: neededQty,
+          image: "hinhanh/sanpham1.webp",
+          imageType: "dripPack"
+        });
+      }
+      updateCartUI();
+      floatingChatBox?.classList.remove("open");
+      openCheckout();
+      const vInput = document.getElementById("coVoucherInput");
+      if (vInput) vInput.value = act.code;
+      applyCheckoutVoucher();
+      return;
+    }
+    if (act.type === "scroll_section" && act.target) {
+      floatingChatBox?.classList.remove("open");
+      const targetEl = document.querySelector(act.target);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
   }
 
   function appendChatBubble(containerId, text, sender) {
@@ -650,6 +791,49 @@
     if (!container) return;
     const bubble = createEl("div", "msg-bubble " + sender, text);
     container.appendChild(bubble);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function appendRichAiTurn(containerId, payload, onPickSuggestion) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    // Remove older suggestion chips so the chat thread stays clean
+    container.querySelectorAll(".chat-suggestions-row").forEach((el) => el.remove());
+
+    const bubble = createEl("div", "msg-bubble ai");
+    bubble.appendChild(createEl("div", "msg-text", payload.reply));
+
+    if (Array.isArray(payload.actions) && payload.actions.length > 0) {
+      const actRow = createEl("div", "chat-actions-row");
+      payload.actions.slice(0, 3).forEach((act) => {
+        if (!act || typeof act.label !== "string") return;
+        const btn = createEl("button", "chat-action-btn", act.label);
+        btn.type = "button";
+        btn.addEventListener("click", () => handleChatAction(act));
+        actRow.appendChild(btn);
+      });
+      if (actRow.childNodes.length > 0) {
+        bubble.appendChild(actRow);
+      }
+    }
+
+    container.appendChild(bubble);
+
+    if (Array.isArray(payload.suggestions) && payload.suggestions.length > 0) {
+      const sugRow = createEl("div", "chat-suggestions-row");
+      payload.suggestions.slice(0, 3).forEach((sug) => {
+        if (typeof sug !== "string" || !sug.trim()) return;
+        const chip = createEl("button", "chat-suggest-chip", sug);
+        chip.type = "button";
+        chip.addEventListener("click", () => onPickSuggestion(sug));
+        sugRow.appendChild(chip);
+      });
+      if (sugRow.childNodes.length > 0) {
+        container.appendChild(sugRow);
+      }
+    }
+
     container.scrollTop = container.scrollHeight;
   }
 
@@ -664,44 +848,87 @@
     return bubble;
   }
 
-  function sendInPageChatMessage() {
-    const inputEl = document.getElementById("chatInput");
-    if (!inputEl) return;
-    const text = inputEl.value.trim();
+  async function runChatExchange(opts) {
+    const { containerId, inputEl, sendBtn, history, loadingLabel, textOverride, lockKey } = opts;
+    if (chatLocks[lockKey]) return;
+    const raw = typeof textOverride === "string" ? textOverride : (inputEl ? inputEl.value : "");
+    const text = raw.trim();
     if (!text) return;
 
-    appendChatBubble("chatMessages", text, "user");
-    inputEl.value = "";
-    const loadingEl = appendChatLoading("chatMessages", "Đang dệt hương câu trả lời");
-    window.setTimeout(() => {
+    chatLocks[lockKey] = true;
+    if (inputEl && typeof textOverride !== "string") inputEl.value = "";
+    if (sendBtn) sendBtn.disabled = true;
+
+    appendChatBubble(containerId, text, "user");
+    const loadingEl = appendChatLoading(containerId, loadingLabel);
+
+    try {
+      const result = await askBaristaServer(text, history);
+      history.push({ role: "user", text }, { role: "ai", text: result.reply });
+      if (history.length > 8) history.splice(0, history.length - 8);
       if (loadingEl) loadingEl.remove();
-      appendChatBubble("chatMessages", generateLocalBaristaReply(text), "ai");
-    }, 260);
+      appendRichAiTurn(containerId, result, (pickedQuestion) => {
+        runChatExchange({ ...opts, textOverride: pickedQuestion });
+      });
+    } finally {
+      if (loadingEl && loadingEl.parentNode) loadingEl.remove();
+      if (sendBtn) sendBtn.disabled = false;
+      chatLocks[lockKey] = false;
+    }
   }
 
-  function sendFloatingMessage() {
-    const inputEl = document.getElementById("floatingChatInput");
-    if (!inputEl) return;
-    const text = inputEl.value.trim();
-    if (!text) return;
-
-    appendChatBubble("floatingChatMessages", text, "user");
-    inputEl.value = "";
-    const loadingEl = appendChatLoading("floatingChatMessages", "Đang pha chế câu trả lời");
-    window.setTimeout(() => {
-      if (loadingEl) loadingEl.remove();
-      appendChatBubble("floatingChatMessages", generateLocalBaristaReply(text), "ai");
-    }, 240);
+  function sendInPageChatMessage(presetText) {
+    runChatExchange({
+      containerId: "chatMessages",
+      inputEl: document.getElementById("chatInput"),
+      sendBtn: document.getElementById("sendChatBtn"),
+      history: inPageChatHistory,
+      loadingLabel: "Barista AI đang pha chế câu trả lời",
+      textOverride: typeof presetText === "string" ? presetText : undefined,
+      lockKey: "inPage"
+    });
   }
 
-  function generateGiftCardMessage() {
+  function sendFloatingMessage(presetText) {
+    runChatExchange({
+      containerId: "floatingChatMessages",
+      inputEl: document.getElementById("floatingChatInput"),
+      sendBtn: document.getElementById("floatingChatSendBtn"),
+      history: floatingChatHistory,
+      loadingLabel: "Đang tra cứu & tư vấn",
+      textOverride: typeof presetText === "string" ? presetText : undefined,
+      lockKey: "floating"
+    });
+  }
+
+  async function generateGiftCardMessage() {
     const recipient = (document.getElementById("giftRecipient")?.value || "").trim();
     const occasion = document.getElementById("giftOccasion")?.value || "dịp đặc biệt";
     const style = document.getElementById("giftStyle")?.value || "poetic";
     const outputEl = document.getElementById("aiGiftOutput");
+    const genBtn = document.getElementById("generateAiCardBtn");
     if (!recipient) {
       showToast("⚠️ Nhập tên người nhận!");
       return;
+    }
+
+    if (genBtn) genBtn.disabled = true;
+    try {
+      if (window.RangMayAuth && typeof window.RangMayAuth.apiRequest === "function") {
+        const res = await window.RangMayAuth.apiRequest("barista-ai", {
+          method: "POST",
+          body: { mode: "gift_card", recipient, occasion, style }
+        });
+        if (res && typeof res.giftMessage === "string" && res.giftMessage.trim()) {
+          if (outputEl) outputEl.textContent = res.giftMessage;
+          showToast("✨ Barista AI đã viết xong thiệp chúc mừng!");
+          return;
+        }
+      }
+    } catch {
+      // Fallback to local poetic template below
+    } finally {
+      if (genBtn) genBtn.disabled = false;
     }
 
     let message = "";
@@ -748,17 +975,23 @@
   document.querySelectorAll(".ai-preset-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const preset = btn.dataset.preset;
-      const inputEl = document.getElementById("chatInput");
-      if (inputEl && preset) {
-        inputEl.value = preset;
-        sendInPageChatMessage();
-      }
+      if (preset) sendInPageChatMessage(preset);
     });
   });
 
-  document.getElementById("sendChatBtn")?.addEventListener("click", sendInPageChatMessage);
+  document.querySelectorAll(".floating-chip-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const preset = btn.dataset.floatPreset;
+      if (preset) sendFloatingMessage(preset);
+    });
+  });
+
+  document.getElementById("sendChatBtn")?.addEventListener("click", () => sendInPageChatMessage());
   document.getElementById("chatInput")?.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") sendInPageChatMessage();
+    if (event.key === "Enter") {
+      event.preventDefault();
+      sendInPageChatMessage();
+    }
   });
 
   const floatingChatBox = document.getElementById("floating-chat-box");
@@ -773,9 +1006,12 @@
 
   document.getElementById("floatingChatToggleBtn")?.addEventListener("click", toggleFloatingChat);
   document.getElementById("floatingChatCloseBtn")?.addEventListener("click", toggleFloatingChat);
-  document.getElementById("floatingChatSendBtn")?.addEventListener("click", sendFloatingMessage);
+  document.getElementById("floatingChatSendBtn")?.addEventListener("click", () => sendFloatingMessage());
   document.getElementById("floatingChatInput")?.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") sendFloatingMessage();
+    if (event.key === "Enter") {
+      event.preventDefault();
+      sendFloatingMessage();
+    }
   });
 
   // Intersection Observer for active nav link

@@ -1213,7 +1213,68 @@ async function main() {
     assert.equal(postLogoutTry.status, 401);
     console.log("[20/20 OK] Admin safety guards, 2FA unenroll & Global Logout cookie clear verified");
 
-    console.log("\nALL_20_ORIGINAL_WEBSITE_SECURITY_TESTS_PASSED");
+    // [21/21] Smart Grounded Barista AI: Real-time Price/Stock, Accent-insensitive Vouchers, Combo Math & Zero-PII Order Tracking
+    const aiPriceRes = await httpsReq({
+      path: "/api/functions/barista-ai",
+      method: "POST",
+      headers: sameOriginHeaders,
+      json: { message: "gia 1 hop bao nhieu tien va con hang khong?" }
+    });
+    assert.equal(aiPriceRes.status, 200);
+    assert(aiPriceRes.data.reply.includes("125.000đ"), "Barista AI must reflect live updated price 125.000đ");
+    assert(aiPriceRes.data.reply.includes("25 hộp"), "Barista AI must reflect live stock 25 boxes");
+    assert(aiPriceRes.data.actions.some((a) => a.type === "add_to_cart"));
+
+    const aiVoucherRes = await httpsReq({
+      path: "/api/functions/barista-ai",
+      method: "POST",
+      headers: sameOriginHeaders,
+      json: {
+        message: "cho minh xin ma giam gia voucher hom nay",
+        history: [{ role: "user", text: "gia 1 hop bao nhieu?" }, { role: "ai", text: aiPriceRes.data.reply }]
+      }
+    });
+    assert.equal(aiVoucherRes.status, 200);
+    assert(aiVoucherRes.data.reply.includes("RANGMAY10"));
+    assert(aiVoucherRes.data.reply.includes("MANGDEN20K"));
+    assert(aiVoucherRes.data.actions.some((a) => a.type === "apply_voucher" && a.code === "RANGMAY10"));
+
+    const aiComboRes = await httpsReq({
+      path: "/api/functions/barista-ai",
+      method: "POST",
+      headers: sameOriginHeaders,
+      json: { message: "mua 2 hop co uu dai gi khong?" }
+    });
+    assert.equal(aiComboRes.status, 200);
+    assert(aiComboRes.data.reply.includes("VIP50K"));
+    assert(aiComboRes.data.reply.includes("200.000đ"));
+
+    const aiTrackRes = await httpsReq({
+      path: "/api/functions/barista-ai",
+      method: "POST",
+      headers: sameOriginHeaders,
+      json: { message: `kiem tra don ${orderA.data.orderNumber} giup minh` }
+    });
+    assert.equal(aiTrackRes.status, 200);
+    assert(aiTrackRes.data.reply.includes(orderA.data.orderNumber));
+    assert(aiTrackRes.data.reply.includes("238.000đ"));
+    // Strictly verify ZERO PII leakage on unauthenticated order lookup
+    assert(!aiTrackRes.data.reply.includes("0901234567"), "Order lookup must NEVER leak customer phone");
+    assert(!aiTrackRes.data.reply.includes("custa@example.com"), "Order lookup must NEVER leak customer email");
+    assert(!aiTrackRes.data.reply.includes("123 Lê Lợi"), "Order lookup must NEVER leak shipping address");
+    assert(!aiTrackRes.data.reply.includes("Khách A"), "Order lookup must NEVER leak customer name");
+
+    const aiGiftRes = await httpsReq({
+      path: "/api/functions/barista-ai",
+      method: "POST",
+      headers: sameOriginHeaders,
+      json: { mode: "gift_card", recipient: "Mẹ yêu", occasion: "Sinh nhật", style: "warm" }
+    });
+    assert.equal(aiGiftRes.status, 200);
+    assert(aiGiftRes.data.giftMessage.includes("Mẹ yêu"));
+    console.log("[21/21 OK] Smart Barista AI grounded price/stock/vouchers/combo & zero-PII order lookup verified");
+
+    console.log("\nALL_21_ORIGINAL_WEBSITE_SECURITY_TESTS_PASSED");
   } finally {
     await server.stop();
     fs.rmSync(tmpDir, { recursive: true, force: true });

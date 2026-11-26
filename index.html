@@ -205,12 +205,14 @@
         <div class="ai-barista-intro">
           <div>
             <h3>Nghệ Nhân Rang Mây AI</h3>
-            <p>Được thiết kế dựa trên triết lý thử nếm tinh hoa cà phê vùng cao Măng Đen. Bạn có thể trò chuyện hoặc nhấp chọn câu hỏi gợi ý bên dưới.</p>
+            <p>Kết nối dữ liệu cửa hàng thời gian thực: tư vấn công thức pha chuẩn vị, báo giá & tồn kho mới nhất, săn mã Voucher giảm giá và tra cứu nhanh đơn hàng <strong>RM-...</strong></p>
           </div>
           <div class="ai-presets">
+            <button type="button" class="ai-preset-btn" data-preset="Giá 1 hộp cà phê Rang Mây bao nhiêu tiền và hiện còn hàng không?">💰 Giá 1 hộp & Tồn kho hôm nay</button>
+            <button type="button" class="ai-preset-btn" data-preset="Cho mình xin các mã giảm giá voucher đang áp dụng hôm nay nhé!">🏷️ Săn mã Voucher giảm giá</button>
+            <button type="button" class="ai-preset-btn" data-preset="Hướng dẫn mình pha Cà phê Sữa đá đậm đà bằng phin giấy Rang Mây nhé!">🥛 Bí quyết pha Cà phê Sữa đá</button>
             <button type="button" class="ai-preset-btn" data-preset="Hướng dẫn tôi pha Cold Brew bằng túi phin giấy Rang Mây nhé!">❄️ Cách làm Cold Brew thanh mát</button>
-            <button type="button" class="ai-preset-btn" data-preset="Gợi ý không gian âm nhạc và món ăn kèm lý tưởng với cà phê Rang Mây.">🎵 Bản nhạc & Món bánh ăn kèm</button>
-            <button type="button" class="ai-preset-btn" data-preset="Nốt hương chocolate và caramel trong Rang Mây đến từ đâu?">🍫 Nốt hương vị tự nhiên độc bản</button>
+            <button type="button" class="ai-preset-btn" data-preset="Cà phê Rang Mây có vị gì, có chua gắt hay uống chiều bị mất ngủ không?">🍫 Hương vị có chua hay mất ngủ?</button>
           </div>
         </div>
 
@@ -219,16 +221,15 @@
             <div class="ai-avatar">☁️</div>
             <div class="ai-status-wrap">
               <h4>Nghệ Nhân Pha Chế AI</h4>
-              <span>Đang trực tuyến</span>
+              <span>Đang trực tuyến • Đồng bộ dữ liệu kho & Voucher</span>
             </div>
           </div>
           <div class="ai-chat-messages" id="chatMessages">
-            <div class="msg-bubble ai">
-              Xin chào quý khách yêu cà phê! Tôi là Barista AI của Rang Mây. Tôi có thể hỗ trợ bạn khám phá hương vị cà phê độc bản của Măng Đen mây sương hay bất kỳ công thức pha chế độc đáo nào hôm nay không?
-            </div>
+            <div class="msg-bubble ai">Xin chào quý khách yêu cà phê! ☁️
+Mình là Barista AI của Rang Mây — bạn có thể hỏi mình bất cứ câu gì về giá bán, tồn kho, mã giảm giá (Voucher), bí quyết pha Đen nóng / Sữa đá / Cold Brew hoặc nhắn mã đơn RM-... để kiểm tra tiến độ giao hàng ngay nhé!</div>
           </div>
           <div class="ai-chat-footer">
-            <input type="text" class="ai-chat-input" id="chatInput" placeholder="Nhập câu hỏi của bạn...">
+            <input type="text" class="ai-chat-input" id="chatInput" maxlength="500" placeholder="Hỏi giá, xin mã voucher, cách pha sữa đá, hoặc nhập mã đơn RM-...">
             <button type="button" class="ai-send-btn" id="sendChatBtn">Gửi ✨</button>
           </div>
         </div>
@@ -643,12 +644,18 @@
         <button type="button" class="floating-chat-close" id="floatingChatCloseBtn" aria-label="Đóng chat">✕</button>
       </div>
       <div class="ai-chat-messages floating-chat-messages" id="floatingChatMessages">
-        <div class="msg-bubble ai">
-          Xin chào quý khách! Tôi là Barista AI trực tuyến của Rang Mây. Tôi có thể tư vấn gì về hương vị cà phê Măng Đen cho bạn hôm nay?
-        </div>
+        <div class="msg-bubble ai">Xin chào! Mình là Barista AI trực tuyến của Rang Mây ☁️
+Bạn muốn xem giá & tồn kho, săn mã Voucher giảm giá, hỏi công thức pha ngon hay kiểm tra đơn hàng RM-...?</div>
+      </div>
+      <div class="floating-quick-chips" id="floatingQuickChips">
+        <button type="button" class="floating-chip-btn" data-float-preset="Giá 1 hộp bao nhiêu tiền và còn hàng không?">💰 Giá & Kho</button>
+        <button type="button" class="floating-chip-btn" data-float-preset="Cho mình xin mã giảm giá voucher hôm nay">🏷️ Mã Voucher</button>
+        <button type="button" class="floating-chip-btn" data-float-preset="Hướng dẫn pha Cà phê Sữa đá ngon">🥛 Pha Sữa đá</button>
+        <button type="button" class="floating-chip-btn" data-float-preset="Mua 2 hộp có ưu đãi gì không?">🎁 Ưu đãi 2 hộp</button>
+        <button type="button" class="floating-chip-btn" data-float-preset="Chính sách giao hàng và đổi trả thế nào?">🚚 Freeship</button>
       </div>
       <div class="floating-chat-footer">
-        <input type="text" class="ai-chat-input floating-chat-input" id="floatingChatInput" placeholder="Hỏi gì đó về cà phê...">
+        <input type="text" class="ai-chat-input floating-chat-input" id="floatingChatInput" maxlength="500" placeholder="Hỏi giá, voucher, cách pha, mã đơn RM-...">
         <button type="button" class="ai-send-btn floating-chat-send" id="floatingChatSendBtn">Gửi</button>
       </div>
     </div>

@@ -50,15 +50,19 @@ supabase secrets set REQUIRE_ADMIN_MFA=true
 
 # Tùy chọn: Bật kiểm tra Cloudflare Turnstile cho create-order và create-contact
 supabase secrets set TURNSTILE_SECRET_KEY=<CLOUDFLARE_TURNSTILE_SECRET>
+
+# Tùy chọn: Kết nối thêm Gemini 2.5 Flash cho trợ lý Barista AI (nếu bỏ trống vẫn chạy động cơ NLU tiếng Việt nối CSDL trực tiếp)
+supabase secrets set GEMINI_API_KEY=<GEMINI_API_KEY>
 ```
 
 > **Lưu ý:** Nếu dùng custom domain hoặc chạy test local (ví dụ `http://127.0.0.1:5500`), liệt kê các origin hợp lệ cách nhau bằng dấu phẩy trong `ALLOWED_ORIGINS`. Không dùng `*`.
 
-Deploy toàn bộ 8 Edge Functions:
+Deploy toàn bộ 9 Edge Functions:
 
 ```powershell
 supabase functions deploy store-catalog
 supabase functions deploy validate-voucher
+supabase functions deploy barista-ai --no-verify-jwt
 supabase functions deploy create-order
 supabase functions deploy create-contact
 supabase functions deploy account-api
