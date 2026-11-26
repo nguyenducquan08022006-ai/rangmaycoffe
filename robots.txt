@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /manager.html
+Disallow: /staff.html
+Disallow: /account.html
+Disallow: /login.html
+
+Sitemap: https://nguyenducquan08022006-ai.github.io/rangmaycoffe/sitemap.xml

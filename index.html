@@ -1,1139 +1,50 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Khám phá cà phê phin giấy Rang Mây từ Măng Đen. Hộp 10 gói tiện lợi, dễ pha tại nhà, văn phòng và trên mọi hành trình.">
+  <meta name="keywords" content="Rang Mây Coffee, cà phê phin giấy, cà phê Măng Đen, drip coffee">
+  <meta name="theme-color" content="#FAF6F0">
+  <link rel="canonical" href="https://nguyenducquan08022006-ai.github.io/rangmaycoffe/">
+  <link rel="icon" type="image/webp" href="hinhanh/logo.webp">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="vi_VN">
+  <meta property="og:site_name" content="Rang Mây Coffee">
+  <meta property="og:title" content="Rang Mây Coffee – Cà Phê Phin Giấy Tiện Lợi">
+  <meta property="og:description" content="Cà phê phin giấy Rang Mây từ Măng Đen – tiện lợi, đậm vị, dễ pha.">
+  <meta property="og:url" content="https://nguyenducquan08022006-ai.github.io/rangmaycoffe/">
+  <meta property="og:image" content="https://nguyenducquan08022006-ai.github.io/rangmaycoffe/hinhanh/banner1.webp">
+  <meta property="og:image:alt" content="Bộ sản phẩm cà phê phin giấy Rang Mây">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Rang Mây Coffee – Cà Phê Phin Giấy Tiện Lợi">
+  <meta name="twitter:description" content="Cà phê phin giấy Rang Mây từ Măng Đen – tiện lợi, đậm vị, dễ pha.">
+  <meta name="twitter:image" content="https://nguyenducquan08022006-ai.github.io/rangmaycoffe/hinhanh/banner1.webp">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Rang Mây Coffee",
+      "url": "https://nguyenducquan08022006-ai.github.io/rangmaycoffe/",
+      "logo": "https://nguyenducquan08022006-ai.github.io/rangmaycoffe/hinhanh/logo.webp",
+      "email": "hello@rangmaycoffee.vn",
+      "telephone": "+84383505924"
+    }
+  </script>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
   <title>Rang Mây Coffee – Cà Phê Phin Giấy Tiện Lợi</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link 
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap" 
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap"
     rel="stylesheet"
   >
-
-  <style>
-    :root {
-      /* Bảng màu cao cấp */
-      --cream: #FAF6F0; /* Đồng bộ hoàn hảo với màu nền của logo */
-      --cream-light: #fffcf7;
-      --beige: #ead8c0;
-      --gold-beige: #d4b28c; 
-      --brown: #7a4821;
-      --brown-dark: #3a2415;
-      --green: #1f3d2b;
-      --green-soft: #31543b;
-      --text: #332116;
-      --muted: #6b5544;
-      --white: #ffffff;
-      --line: #e3d2c1;
-      --shadow: 0 16px 40px rgba(58, 36, 21, 0.08);
-      --container: 1200px;
-
-      /* Hệ thống Font chữ hiện đại mới */
-      --font-heading: 'Fraunces', Georgia, serif;
-      --font-body: 'Plus Jakarta Sans', sans-serif;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: var(--font-body);
-      background: var(--cream);
-      color: var(--text);
-      line-height: 1.6;
-      letter-spacing: -0.01em;
-    }
-
-    img {
-      width: 100%;
-      display: block;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button,
-    input,
-    textarea,
-    select {
-      font-family: inherit;
-    }
-
-    .container {
-      width: min(var(--container), calc(100% - 40px));
-      margin: 0 auto;
-    }
-
-    /* HEADER */
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(250, 246, 240, 0.95);
-      border-bottom: 1px solid #eadccd;
-      backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
-    }
-
-    .nav-wrap {
-      min-height: 88px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .logo img {
-      width: 240px; 
-      height: auto;
-      object-fit: contain;
-      transition: width 0.3s ease;
-    }
-
-    .navbar {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-
-    .navbar a {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--brown-dark);
-      position: relative;
-      padding: 8px 0;
-      white-space: nowrap; 
-      transition: color 0.25s ease;
-    }
-
-    .navbar a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -9px;
-      width: 0;
-      height: 2px;
-      background: var(--brown);
-      transition: 0.25s;
-    }
-
-    .navbar a:hover::after,
-    .navbar a.active::after {
-      width: 100%;
-    }
-
-    .navbar a:hover,
-    .navbar a.active {
-      color: var(--brown);
-    }
-
-    .nav-icons {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-shrink: 0;
-    }
-
-    .nav-icons button {
-      background: transparent;
-      border: none;
-      color: var(--brown-dark);
-      font-size: 22px;
-      cursor: pointer;
-      padding: 4px;
-      transition: transform 0.2s;
-    }
-
-    .nav-icons button:hover {
-      transform: scale(1.05);
-    }
-
-    .cart-btn {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(122, 72, 33, 0.08) !important;
-      padding: 10px 20px !important;
-      border-radius: 20px !important;
-      font-size: 14px !important;
-      font-weight: 700;
-      color: var(--brown-dark);
-      border: 1px solid rgba(122, 72, 33, 0.15) !important;
-      white-space: nowrap;
-    }
-
-    .cart-btn span {
-      background: var(--brown);
-      color: white;
-      font-size: 11px;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-weight: bold;
-    }
-
-    .menu-toggle {
-      display: none;
-      font-size: 24px;
-    }
-
-    /* BUTTONS */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 160px;
-      padding: 14px 28px;
-      border-radius: 10px;
-      border: 2px solid transparent;
-      font-size: 14px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: 0.25s;
-    }
-
-    .btn-primary {
-      background: var(--brown-dark);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: var(--brown);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(58, 36, 21, 0.15);
-    }
-
-    .btn-outline {
-      border-color: var(--brown-dark);
-      color: var(--brown-dark);
-      background: transparent;
-    }
-
-    .btn-outline:hover {
-      background: var(--brown-dark);
-      color: white;
-    }
-
-    /* HERO */
-    .hero {
-      background:
-        radial-gradient(circle at 86% 24%, rgba(212, 178, 140, 0.22), transparent 32%),
-        linear-gradient(90deg, #fff8ed 0%, #fbf0e1 46%, #ead7bf 100%);
-      min-height: 0;
-      padding: 56px 0 42px;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.02fr) minmax(440px, 0.98fr);
-      align-items: center;
-      gap: 36px;
-    }
-
-    .hero-content {
-      max-width: 640px;
-      padding: 8px 0 0;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-label {
-      display: inline-block;
-      background: rgba(250, 246, 240, 0.88);
-      color: var(--green);
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 20px;
-    }
-
-    .hero-content h1 {
-      font-family: var(--font-heading);
-      font-size: clamp(34px, 3.9vw, 56px);
-      line-height: 1.02;
-      font-weight: 600;
-      color: var(--brown-dark);
-      margin-bottom: 18px;
-      letter-spacing: -0.015em;
-    }
-
-    .hero-content h3 {
-      font-size: clamp(18px, 1.8vw, 24px);
-      font-weight: 600;
-      font-style: italic;
-      color: #a4662f;
-      margin-bottom: 14px;
-    }
-
-    .hero-desc {
-      font-size: 16px;
-      line-height: 1.75;
-      color: #4d3828;
-      max-width: 620px;
-      margin-bottom: 22px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-bottom: 22px;
-    }
-
-    .hero .btn-primary {
-      background: var(--brown-dark);
-      color: white;
-      border-color: var(--brown-dark);
-    }
-
-    .hero .btn-primary:hover {
-      background: var(--brown);
-      color: white;
-    }
-
-    .hero .btn-outline {
-      color: var(--brown-dark);
-      border-color: var(--brown-dark);
-      background: rgba(255, 248, 237, 0.44);
-    }
-
-    .hero .btn-outline:hover {
-      background: var(--brown-dark);
-      color: white;
-      border-color: var(--brown-dark);
-    }
-
-    .hero-features {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      padding-top: 18px;
-      gap: 0;
-      max-width: 760px;
-    }
-
-    .feature-item {
-      position: relative;
-      min-height: 96px;
-      padding: 0 20px;
-      border-right: 1px solid rgba(122, 72, 33, 0.22);
-      overflow: visible;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-    }
-
-    .feature-item::before { display: none; }
-    .feature-item:first-child { padding-left: 0; }
-    .feature-item:last-child { border-right: none; padding-right: 0; }
-
-    .feature-item:hover {
-      transform: translateY(-4px);
-      box-shadow: none;
-    }
-
-    .feature-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 10px;
-      color: var(--brown-dark);
-      background: transparent;
-      border: none;
-    }
-
-    .feature-icon svg {
-      width: 32px;
-      height: 32px;
-      stroke: currentColor;
-      stroke-width: 1.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      fill: none;
-    }
-
-    .feature-item:nth-child(2) .feature-icon { color: var(--brown-dark); background: transparent; border-color: transparent; }
-    .feature-item:nth-child(3) .feature-icon { color: var(--brown-dark); background: transparent; border-color: transparent; }
-    .feature-item:nth-child(4) .feature-icon { color: var(--brown-dark); background: transparent; border-color: transparent; }
-
-    .feature-item h4 {
-      font-size: 15px;
-      margin-bottom: 5px;
-      color: var(--brown-dark);
-      font-weight: 800;
-    }
-
-    .feature-item p {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.45;
-    }
-
-    .hero-image {
-      display: block;
-      min-height: 560px;
-      align-self: stretch;
-      overflow: hidden;
-      background: linear-gradient(145deg, #f8efe2, #ead7bf);
-      border-radius: 24px;
-      box-shadow: 0 16px 34px rgba(58, 36, 21, 0.10);
-      padding: 12px;
-    }
-
-    .hero-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      object-position: center center;
-    }
-
-    /* SECTION GENERAL */
-    .section {
-      padding: 80px 0;
-    }
-
-    .section-title {
-      text-align: center;
-      max-width: 760px;
-      margin: 0 auto 42px;
-    }
-
-    .section-title span,
-    .section-subtitle {
-      display: inline-block;
-      color: var(--brown);
-      font-size: 13px;
-      letter-spacing: 1.8px;
-      font-weight: 800;
-      margin-bottom: 12px;
-    }
-
-    .section-title h2 {
-      font-family: var(--font-heading);
-      font-size: clamp(28px, 3.2vw, 40px);
-      color: var(--brown-dark);
-      margin-bottom: 12px;
-      letter-spacing: -0.015em;
-    }
-
-    .section-title p {
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    /* PRODUCT GALLERY */
-    .product-section {
-      background: var(--cream-light);
-    }
-
-    .product-box {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      background: #fffdf8;
-      border: 1px solid #eadccd;
-      border-radius: 24px;
-      padding: 30px;
-      box-shadow: var(--shadow);
-    }
-
-    .product-gallery-container {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .gallery-main-view {
-      border-radius: 16px;
-      overflow: hidden;
-      background: linear-gradient(145deg, #f8efe5, #fff8ed);
-      aspect-ratio: 4/3;
-      box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
-    }
-
-    .gallery-main-view img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      transition: transform 0.5s ease;
-    }
-
-    .gallery-main-view img:hover {
-      transform: scale(1.03);
-    }
-
-    .gallery-thumbnails-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-
-    .thumb-btn {
-      border-radius: 10px;
-      overflow: hidden;
-      border: 2px solid transparent;
-      cursor: pointer;
-      aspect-ratio: 1;
-      padding: 0;
-      background: var(--white);
-      transition: all 0.25s ease;
-    }
-
-    .thumb-btn.active {
-      border-color: var(--brown);
-      box-shadow: 0 4px 10px rgba(122, 72, 33, 0.15);
-    }
-
-    .thumb-btn img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      background: #fff8ed;
-    }
-
-    .product-detail {
-      padding: 10px 5px;
-    }
-
-    .product-badge {
-      display: inline-block;
-      background: var(--green);
-      color: white;
-      padding: 6px 14px;
-      border-radius: 99px;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 18px;
-    }
-
-    .product-detail h3 {
-      font-family: var(--font-heading);
-      font-size: clamp(26px, 3vw, 36px);
-      color: var(--brown-dark);
-      margin-bottom: 14px;
-      letter-spacing: -0.015em;
-    }
-
-    .product-text {
-      color: var(--muted);
-      line-height: 1.8;
-      margin-bottom: 18px;
-    }
-
-    .price {
-      font-size: 32px;
-      font-weight: 800;
-      color: var(--brown);
-      margin-bottom: 20px;
-    }
-
-    .product-info-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .product-info-grid div {
-      background: #f8efe5;
-      border: 1px solid #eadccd;
-      border-radius: 12px;
-      padding: 12px;
-    }
-
-    .product-info-grid strong {
-      display: block;
-      margin-bottom: 4px;
-      color: var(--brown-dark);
-      font-size: 14px;
-    }
-
-    .product-info-grid p {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .product-list {
-      list-style: none;
-      margin-bottom: 24px;
-    }
-
-    .product-list li {
-      margin-bottom: 8px;
-      color: #4f3828;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    /* INTERACTIVE AI BARISTA SECTION */
-    .ai-barista-section {
-      background: var(--cream);
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .ai-barista-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 40px;
-      background: var(--white);
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      border: 1px solid #eadccd;
-    }
-
-    .ai-barista-intro {
-      background: linear-gradient(135deg, var(--brown-dark), #1c1109);
-      color: var(--white);
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .ai-barista-intro h3 {
-      font-family: var(--font-heading);
-      font-size: clamp(24px, 3vw, 32px);
-      color: var(--beige);
-      margin-bottom: 15px;
-      letter-spacing: -0.01em;
-    }
-
-    .ai-barista-intro p {
-      color: #e5d4c3;
-      font-size: 15px;
-      line-height: 1.7;
-      margin-bottom: 30px;
-    }
-
-    .ai-presets {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .ai-preset-btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(234, 216, 192, 0.2);
-      color: #fff;
-      padding: 12px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      text-align: left;
-      font-size: 13.5px;
-      transition: all 0.25s ease;
-    }
-
-    .ai-preset-btn:hover {
-      background: var(--brown);
-      border-color: var(--beige);
-      transform: translateX(4px);
-    }
-
-    .ai-chat-container {
-      display: flex;
-      flex-direction: column;
-      height: 480px;
-      background: var(--cream-light);
-    }
-
-    .ai-chat-header {
-      padding: 18px 24px;
-      border-bottom: 1px solid var(--line);
-      background: var(--white);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .ai-avatar {
-      font-size: 20px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--brown);
-      display: grid;
-      place-items: center;
-      color: white;
-    }
-
-    .ai-status-wrap h4 {
-      font-size: 15px;
-      color: var(--brown-dark);
-    }
-
-    .ai-status-wrap span {
-      font-size: 12px;
-      color: #27ae60;
-      font-weight: 600;
-    }
-
-    .ai-chat-messages {
-      flex: 1;
-      padding: 24px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .ai-chat-footer {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      padding: 16px 18px 18px;
-      border-top: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(250,246,240,0.98));
-    }
-
-    .ai-chat-input {
-      flex: 1;
-      min-width: 0;
-      border: 1px solid #d9c6b1;
-      border-radius: 14px;
-      background: #fffdfa;
-      color: var(--text);
-      padding: 14px 16px;
-      font-size: 14px;
-      line-height: 1.4;
-      outline: none;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-    }
-
-    .ai-chat-input::placeholder { color: #9a8573; }
-    .ai-chat-input:focus {
-      border-color: var(--brown);
-      box-shadow: 0 0 0 4px rgba(122, 72, 33, 0.12);
-      transform: translateY(-1px);
-    }
-
-    .ai-send-btn {
-      border: none;
-      border-radius: 14px;
-      padding: 0 18px;
-      min-height: 48px;
-      background: var(--brown-dark);
-      color: white;
-      font-size: 14px;
-      font-weight: 800;
-      cursor: pointer;
-      white-space: nowrap;
-      box-shadow: 0 10px 20px rgba(58, 36, 21, 0.16);
-      transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .ai-send-btn:hover {
-      transform: translateY(-1px);
-      background: var(--brown);
-      box-shadow: 0 12px 24px rgba(58, 36, 21, 0.2);
-    }
-
-    .ai-send-btn:active { transform: translateY(0); }
-
-    .msg-bubble {
-      max-width: 85%;
-      padding: 12px 18px;
-      border-radius: 16px;
-      font-size: 14.5px;
-      line-height: 1.6;
-      white-space: pre-line;
-    }
-
-    .msg-bubble.ai {
-      background: var(--white);
-      color: var(--text);
-      align-self: flex-start;
-      border-bottom-left-radius: 4px;
-      border: 1px solid var(--line);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-    }
-
-    .msg-bubble.user {
-      background: var(--brown);
-      color: var(--white);
-      align-self: flex-end;
-      border-bottom-right-radius: 4px;
-    }
-
-    .msg-bubble.loading {
-      background: rgba(122, 72, 33, 0.05);
-      color: var(--muted);
-      align-self: flex-start;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* STORY */
-    .story-section { background: #f5eadc; }
-    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: center; }
-
-    .story-image {
-      position: relative;
-      border-radius: 26px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      background: #efe1d1;
-      aspect-ratio: 1.1;
-    }
-
-    .story-image img { width: 100%; height: 100%; object-fit: cover; }
-    .story-image img.story-slide {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transform: scale(1.04);
-      animation: storyImageFade 30s infinite;
-    }
-
-    .story-image img.story-slide:nth-child(1) { animation-delay: 0s; }
-    .story-image img.story-slide:nth-child(2) { animation-delay: 6s; }
-    .story-image img.story-slide:nth-child(3) { animation-delay: 12s; }
-    .story-image img.story-slide:nth-child(4) { animation-delay: 18s; }
-    .story-image img.story-slide:nth-child(5) { animation-delay: 24s; }
-
-    @keyframes storyImageFade {
-      0% { opacity: 0; transform: scale(1.04); }
-      5% { opacity: 1; }
-      18% { opacity: 1; }
-      24% { opacity: 0; transform: scale(1); }
-      100% { opacity: 0; transform: scale(1); }
-    }
-
-    .story-content h2 {
-      font-family: var(--font-heading);
-      font-size: clamp(30px, 3.4vw, 46px);
-      line-height: 1.22;
-      color: var(--brown-dark);
-      margin-bottom: 18px;
-      letter-spacing: -0.015em;
-    }
-
-    .story-content p { color: #563f2e; line-height: 1.85; margin-bottom: 16px; }
-    .story-values { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
-    .story-values div { background: #fff9f2; border: 1px solid #e4d4c4; padding: 11px 16px; border-radius: 999px; font-weight: 700; color: var(--green); }
-
-    /* BREW */
-    .brew-section {
-      background: linear-gradient(180deg, #fbf5eb 0%, #fffaf3 100%);
-      border-top: 1px solid #eadccd;
-      border-bottom: 1px solid #eadccd;
-    }
-
-    .brew-main { display: grid; grid-template-columns: minmax(360px, 0.86fr) minmax(0, 1.14fr); gap: 36px; align-items: center; }
-
-    .brew-image {
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: 0 18px 40px rgba(58, 36, 21, 0.10);
-      background: #efe0cf;
-      aspect-ratio: 0.9;
-      border: 1px solid #eadccd;
-    }
-
-    .brew-image img { width: 100%; height: 100%; object-fit: cover; }
-    .brew-steps { display: grid; grid-template-columns: 1fr; gap: 14px; }
-
-    .step-card {
-      background: rgba(255, 252, 247, 0.96);
-      border-radius: 20px;
-      overflow: hidden;
-      border: 1px solid #eadccd;
-      box-shadow: 0 10px 24px rgba(58, 36, 21, 0.06);
-      position: relative;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      padding: 18px;
-    }
-
-    .step-card:hover {
-      transform: translateY(-3px);
-      border-color: #dfc8af;
-      box-shadow: 0 14px 28px rgba(58, 36, 21, 0.08);
-    }
-
-    .step-icon-fallback { display: none; }
-
-    .step-number {
-      position: static;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: var(--brown-dark);
-      color: white;
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-      border: none;
-      flex-shrink: 0;
-      margin-top: 2px;
-      box-shadow: 0 8px 16px rgba(58, 36, 21, 0.18);
-    }
-
-    .step-card h3 { font-size: 17px; color: var(--brown-dark); margin: 0 0 6px; font-weight: 800; }
-    .step-card p { color: var(--muted); line-height: 1.6; font-size: 14px; margin: 0; max-width: 420px; }
-
-    /* NEWS */
-    .news-section { background: #f5eadc; }
-    .news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
-
-    .news-card { background: white; border-radius: 22px; overflow: hidden; box-shadow: var(--shadow); transition: 0.25s; }
-    .news-card:hover { transform: translateY(-6px); }
-
-    .news-image { aspect-ratio: 16 / 10; background: #e3d2c1; overflow: hidden; }
-    .news-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.45s ease; }
-    .news-card:hover .news-image img { transform: scale(1.04); }
-
-    .news-content { padding: 20px; }
-    .news-content span { color: var(--brown); font-size: 13px; font-weight: 700; }
-    .news-content h3 { font-size: 19px; line-height: 1.45; margin: 10px 0; color: var(--brown-dark); }
-    .news-content p { color: var(--muted); line-height: 1.7; font-size: 14px; margin-bottom: 14px; }
-    .news-content a { color: var(--brown); font-weight: 800; }
-
-    /* TRUST / PROOF */
-    .trust-section { background: var(--cream-light); }
-    .trust-panel { background: linear-gradient(180deg, #fffdf8 0%, #f8efe5 100%); border: 1px solid #eadccd; border-radius: 26px; padding: 28px; box-shadow: var(--shadow); }
-    .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 20px; }
-    .trust-card { background: rgba(255, 255, 255, 0.72); border: 1px solid rgba(122, 72, 33, 0.12); border-radius: 18px; padding: 18px; }
-    .trust-card strong { display: block; color: var(--brown-dark); margin-bottom: 8px; font-size: 15px; }
-    .trust-card p { color: var(--muted); font-size: 14px; line-height: 1.65; margin: 0; }
-
-    .evidence-strip { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
-    .evidence-pill { background: rgba(31, 61, 43, 0.08); color: var(--green); border: 1px solid rgba(31, 61, 43, 0.16); border-radius: 999px; padding: 8px 12px; font-size: 13px; font-weight: 700; }
-
-    .review-grid, .faq-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px; }
-    .review-card, .faq-item { background: white; border: 1px solid #eadccd; border-radius: 18px; padding: 18px; box-shadow: 0 10px 28px rgba(58, 36, 21, 0.06); }
-    .review-card p, .faq-item p { color: var(--muted); line-height: 1.7; margin: 0; font-size: 14px; }
-    .review-card strong, .faq-item strong { display: block; color: var(--brown-dark); margin-bottom: 8px; font-size: 15px; }
-    .faq-item .faq-q { color: var(--brown-dark); font-weight: 800; margin-bottom: 8px; font-size: 15px; }
-    .trust-note { margin-top: 18px; color: var(--muted); font-size: 14px; line-height: 1.7; }
-
-    /* CONTACT */
-    .contact-section { background: var(--cream-light); }
-    .contact-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 36px; align-items: start; }
-    .contact-info h2 { font-family: var(--font-heading); font-size: clamp(30px, 3.2vw, 44px); margin-bottom: 16px; color: var(--brown-dark); letter-spacing: -0.015em; }
-    .contact-info p { color: var(--muted); line-height: 1.8; margin-bottom: 22px; }
-    .contact-info ul { list-style: none; }
-    .contact-info li { margin-bottom: 14px; color: #4f3828; }
-
-    .contact-form { background: white; border-radius: 24px; padding: 30px; box-shadow: var(--shadow); }
-    .contact-form input, .contact-form textarea { width: 100%; border: 1px solid #decdbb; background: #fffdf8; border-radius: 14px; padding: 15px 16px; margin-bottom: 15px; outline: none; font-size: 15px; }
-    .contact-form input:focus, .contact-form textarea:focus { border-color: var(--brown); }
-    .contact-form .btn { width: 100%; }
-
-    /* FOOTER */
-    .footer { background: var(--brown-dark); color: #f7efe5; padding-top: 50px; }
-    .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 28px; padding-bottom: 32px; }
-    .footer-brand img { width: 180px; height: auto; margin-bottom: 12px; }
-    .footer p { color: #d9c7b7; line-height: 1.7; }
-    .footer h4 { margin-bottom: 15px; color: white; }
-    .footer a { display: block; color: #d9c7b7; margin-bottom: 9px; }
-    .footer a:hover { color: white; }
-
-    .footer-policy { padding: 0 0 28px; }
-    .policy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .policy-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 18px; padding: 18px; backdrop-filter: blur(6px); }
-    .policy-card h5 { color: white; font-size: 15px; margin-bottom: 8px; font-weight: 800; }
-    .policy-card p { color: #d9c7b7; font-size: 13px; line-height: 1.6; margin: 0; }
-
-    .copyright { border-top: 1px solid rgba(255,255,255,0.12); text-align: center; padding: 20px; color: #d9c7b7; font-size: 14px; }
-
-    /* SIDEBAR CART DRAWER */
-    #cart-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
-    #cart-overlay.open { opacity: 1; pointer-events: all; }
-
-    #cart-sidebar {
-      position: fixed; top: 0; right: 0; bottom: 0; width: 440px; max-width: 90vw; background: var(--white); z-index: 2001;
-      box-shadow: -10px 0 40px rgba(0,0,0,0.15); transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex; flex-direction: column;
-    }
-    #cart-sidebar.open { transform: translateX(0); }
-
-    .cart-header { padding: 24px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; }
-    .cart-header h3 { font-family: var(--font-heading); font-size: 20px; color: var(--brown-dark); }
-    .cart-close-btn { background: transparent; border: none; font-size: 24px; cursor: pointer; color: var(--muted); }
-
-    .cart-body { flex: 1; padding: 24px; overflow-y: auto; }
-    .cart-empty-state { text-align: center; padding: 40px 0; color: var(--muted); }
-
-    .cart-item-row { display: flex; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
-    .cart-item-img-mini { width: 70px; height: 70px; border-radius: 8px; overflow: hidden; background: #f8efe5; }
-    .cart-item-img-mini img { width: 100%; height: 100%; object-fit: cover; }
-    .cart-item-info { flex: 1; }
-    .cart-item-info h4 { font-size: 15px; color: var(--brown-dark); margin-bottom: 4px; }
-    .cart-item-info p { font-size: 13px; color: var(--muted); }
-
-    .cart-qty-control { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
-    .qty-btn { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--line); background: var(--cream-light); cursor: pointer; font-weight: bold; display: grid; place-items: center; font-size: 12px; }
-    .qty-val { font-size: 14px; font-weight: 600; }
-    .cart-item-remove { background: transparent; border: none; color: #c0392b; cursor: pointer; font-size: 13px; margin-top: 8px; display: inline-block; }
-
-    .cart-footer { padding: 24px; border-top: 1px solid var(--line); background: var(--cream-light); }
-    .cart-summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; }
-    .cart-summary-row.total { font-size: 18px; font-weight: 800; color: var(--brown-dark); border-top: 1px dashed var(--line); padding-top: 12px; }
-    .cart-checkout-btn { width: 100%; margin-top: 8px; }
-
-    /* CHECKOUT MODAL */
-    #checkout-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(6px); z-index: 3000; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; padding: 20px; }
-    #checkout-overlay.open { opacity: 1; pointer-events: all; }
-
-    #checkout-modal {
-      background: var(--white); border-radius: 20px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.3); transform: scale(0.95); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    #checkout-overlay.open #checkout-modal { transform: scale(1); }
-
-    .checkout-header { padding: 24px 30px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; }
-    .checkout-header h3 { font-family: var(--font-heading); font-size: 22px; color: var(--brown-dark); }
-    .checkout-close-btn { background: transparent; border: none; font-size: 24px; cursor: pointer; color: var(--muted); }
-
-    .checkout-body { padding: 30px; }
-    .checkout-section-title { font-size: 14px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--brown); margin-bottom: 18px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
-
-    .checkout-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-    .checkout-field { display: flex; flex-direction: column; gap: 6px; }
-    .checkout-field.full-width { grid-column: 1 / -1; }
-    .checkout-field label { font-size: 13px; font-weight: 700; color: var(--brown-dark); }
-    .checkout-field input, .checkout-field select, .checkout-field textarea { border: 1px solid #decdbb; background: #fffdf8; border-radius: 10px; padding: 12px 14px; outline: none; font-size: 14.5px; }
-    .checkout-field input:focus, .checkout-field select:focus, .checkout-field textarea:focus { border-color: var(--brown); }
-
-    /* AI GIFT WRITER */
-    .ai-gift-card-box { border: 1px dashed var(--gold-beige); background: rgba(200, 169, 126, 0.05); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
-    .ai-gift-toggle-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-    .ai-gift-toggle-wrap input { width: 18px; height: 18px; cursor: pointer; }
-    .ai-gift-toggle-wrap span { font-weight: 700; font-size: 14.5px; color: var(--brown-dark); }
-    .ai-gift-card-generator { display: none; flex-direction: column; gap: 14px; margin-top: 15px; }
-    .ai-gift-card-generator.active { display: flex; }
-    .ai-gift-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-    .ai-gift-btn-sparkle {
-      background: var(--brown); color: var(--white); border: none; padding: 10px 18px; border-radius: 8px; font-weight: 700; font-size: 13px;
-      cursor: pointer; align-self: flex-start; display: flex; align-items: center; gap: 6px; transition: background 0.25s;
-    }
-    .ai-gift-btn-sparkle:hover { background: var(--brown-dark); }
-    .ai-gift-output-card { background: var(--white); border: 1px solid var(--line); border-radius: 8px; padding: 16px; font-style: italic; color: #5a4a45; font-size: 14px; line-height: 1.6; min-height: 70px; white-space: pre-line; }
-
-    .payment-methods-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
-    .pay-method-card { border: 1px solid var(--line); border-radius: 10px; padding: 12px; text-align: center; cursor: pointer; font-size: 13.5px; font-weight: 700; color: var(--muted); transition: all 0.25s; }
-    .pay-method-card.selected { border-color: var(--brown); background: rgba(122, 72, 33, 0.05); color: var(--brown-dark); }
-
-    .checkout-order-summary { background: #f8efe5; border-radius: 12px; padding: 16px; margin-bottom: 24px; }
-    .summary-item { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; color: var(--muted); }
-    .summary-item.grand-total { font-size: 16px; font-weight: 800; color: var(--brown-dark); border-top: 1px solid var(--line); padding-top: 8px; margin-bottom: 0; }
-
-    /* POPUP SUCCESS */
-    #success-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(6px); z-index: 3500; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; padding: 20px; }
-    #success-overlay.open { opacity: 1; pointer-events: all; }
-
-    .success-modal { background: var(--white); border-radius: 20px; width: 100%; max-width: 480px; padding: 40px 30px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); transform: scale(0.95); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-    #success-overlay.open .success-modal { transform: scale(1); }
-    .success-icon { font-size: 50px; margin-bottom: 20px; animation: popIn 0.5s ease-out; }
-    .order-id-box { background: #f8efe5; border: 1px dashed var(--brown); padding: 12px; border-radius: 10px; font-size: 15px; color: var(--brown-dark); margin: 20px 0; }
-    .success-gift-card { background: #fffdfa; border: 1px solid var(--line); padding: 16px; border-radius: 10px; text-align: left; margin-bottom: 20px; font-size: 13.5px; }
-    .success-gift-card strong { color: var(--brown); }
-
-    @keyframes popIn {
-      0% { transform: scale(0.5); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    /* TOAST */
-    #toast-box {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--brown-dark); color: var(--white);
-      padding: 14px 28px; border-radius: 30px; font-size: 14px; font-weight: 600; z-index: 4000; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25); display: flex; align-items: center; gap: 8px; white-space: nowrap;
-    }
-    #toast-box.show { transform: translateX(-50%) translateY(0); }
-
-    /* CHAT BOX RESETS */
-    .chat-btn { position: fixed; right: 24px; bottom: 24px; width: 60px; height: 60px; border-radius: 50%; border: none; background: var(--brown); color: white; font-size: 26px; box-shadow: 0 12px 24px rgba(0,0,0,0.2); cursor: pointer; z-index: 999; transition: transform 0.25s; }
-    .chat-btn:hover { transform: scale(1.1); }
-
-    /* RESPONSIVE LAYOUTS */
-    @media (max-width: 1100px) {
-      .hero {
-        background:
-          radial-gradient(circle at 84% 18%, rgba(212, 178, 140, 0.2), transparent 34%),
-          linear-gradient(90deg, #fff8ed 0%, #fbf0e1 52%, #ead7bf 100%);
-        min-height: auto; padding: 64px 0 56px;
-      }
-      .hero-grid, .product-box, .story-grid, .brew-main, .contact-grid, .ai-barista-grid { grid-template-columns: 1fr; }
-      .hero-image, .hero-image img { height: 390px; }
-      .hero-image { min-height: 0; margin-right: 0; border-radius: 22px; padding: 10px; }
-      .hero-image img { height: 100%; object-position: center center; }
-      .product-image img, .story-image img, .brew-image img { height: auto; min-height: auto; }
-      .news-grid { grid-template-columns: 1fr; }
-      .trust-grid, .review-grid, .faq-grid { grid-template-columns: repeat(2, 1fr); }
-      .footer-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 900px) {
-      .navbar { position: absolute; top: 88px; left: 0; width: 100%; background: var(--cream-light); flex-direction: column; align-items: flex-start; padding: 22px; display: none; border-bottom: 1px solid var(--line); }
-      .navbar.show { display: flex; }
-      .menu-toggle { display: inline-block; }
-      .hero-features { grid-template-columns: repeat(2, 1fr); gap: 0; }
-      .feature-item { min-height: 110px; padding: 0 20px 18px; }
-      .feature-item:nth-child(2) { border-right: none; }
-      .feature-item:nth-child(n + 3) { padding-top: 18px; border-top: 1px solid rgba(122, 72, 33, 0.16); }
-      .product-info-grid, .brew-steps, .ai-gift-inputs { grid-template-columns: 1fr; }
-      .ai-chat-footer { flex-direction: column; align-items: stretch; }
-      .ai-send-btn { width: 100%; }
-    }
-
-    @media (max-width: 600px) {
-      .hero { padding: 52px 0 48px; background: radial-gradient(circle at 82% 12%, rgba(212, 178, 140, 0.18), transparent 34%), linear-gradient(180deg, #fff8ed 0%, #fbf0e1 58%, #ead7bf 100%); }
-      .container { width: min(100% - 28px, var(--container)); }
-      .nav-wrap { min-height: 78px; }
-      .logo img { width: 160px; }
-      .nav-icons button { font-size: 21px; }
-      .hero-content h1 { font-size: 36px; }
-      .hero-content h3 { font-size: 18px; }
-      .hero-desc { font-size: 15px; }
-      .hero-buttons { flex-direction: column; }
-      .btn { width: 100%; }
-      .hero-features { grid-template-columns: 1fr; gap: 0; }
-
-      .feature-item { min-height: 92px; display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 14px; padding: 14px 0; border-right: none; border-top: 1px solid rgba(122, 72, 33, 0.16); }
-      .feature-icon { grid-row: span 2; margin-bottom: 0; }
-      .hero-image { height: 280px; min-height: 0; border-radius: 18px; padding: 10px; }
-      .section { padding: 62px 0; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .chat-btn { width: 56px; height: 56px; right: 16px; bottom: 16px; }
-      .payment-methods-grid { grid-template-columns: 1fr; }
-      .trust-grid, .review-grid, .faq-grid { grid-template-columns: 1fr; }
-      .policy-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body>
@@ -1141,7 +52,7 @@
   <header class="header">
     <div class="container nav-wrap">
       <a href="#home" class="logo">
-        <img src="hinhanh/logongang.png" alt="Logo Rang Mây" onerror="handleImgError(this, 'logo')">
+        <img src="hinhanh/logongang.webp" alt="Logo Rang Mây" decoding="async" width="210" data-fallback="logo">
       </a>
       <nav class="navbar" id="navbar">
         <a href="#home" class="active">Trang chủ</a>
@@ -1153,10 +64,13 @@
         <a href="#contact">Liên hệ</a>
       </nav>
       <div class="nav-icons">
-        <button class="cart-btn" onclick="openCart()" title="Giỏ hàng">
+        <div class="auth-nav-group" id="headerAuthArea">
+          <a href="login.html" class="auth-pill-btn">Đăng nhập</a>
+        </div>
+        <button type="button" class="cart-btn" id="cartOpenBtn" title="Giỏ hàng">
           🛒 Giỏ Hàng <span id="cartCount">0</span>
         </button>
-        <button class="menu-toggle" id="menuToggle">☰</button>
+        <button type="button" class="menu-toggle" id="menuToggle" aria-label="Mở menu">☰</button>
       </div>
     </div>
   </header>
@@ -1208,7 +122,7 @@
         </div>
       </div>
       <div class="hero-image">
-        <img src="hinhanh/banner1.png?v=2" alt="Cà phê phin giấy Rang Mây" onerror="handleImgError(this, 'banner')">
+        <img src="hinhanh/banner1.webp" alt="Bộ sản phẩm cà phê phin giấy Rang Mây" fetchpriority="high" decoding="async" data-fallback="banner">
       </div>
     </div>
   </section>
@@ -1225,31 +139,32 @@
       <div class="product-box">
         <div class="product-gallery-container">
           <div class="gallery-main-view">
-            <img id="mainProductImg" src="hinhanh/sanpham1.png" alt="Sản phẩm cà phê phin giấy Rang Mây" onerror="handleImgError(this, 'dripPack')">
+            <img id="mainProductImg" src="hinhanh/sanpham1.webp" alt="Sản phẩm cà phê phin giấy Rang Mây" loading="lazy" decoding="async" data-fallback="dripPack">
           </div>
           <div class="gallery-thumbnails-row">
-            <button class="thumb-btn active" onclick="switchProductImage('hinhanh/sanpham1.png', this, 'dripPack')">
-              <img src="hinhanh/sanpham1.png" alt="Bao bì Rang Mây" onerror="handleImgError(this, 'dripPack')">
+            <button type="button" class="thumb-btn active" data-thumb-src="hinhanh/sanpham1.webp" data-fallback="dripPack">
+              <img src="hinhanh/sanpham1.webp" alt="Bao bì Rang Mây" loading="lazy" decoding="async" data-fallback="dripPack">
             </button>
-            <button class="thumb-btn" onclick="switchProductImage('hinhanh/drip-brew.png', this, 'dripBrew')">
-              <img src="hinhanh/drip-brew.png" alt="Cách pha phin giấy" onerror="handleImgError(this, 'dripBrew')">
+            <button type="button" class="thumb-btn" data-thumb-src="hinhanh/drip-brew.webp" data-fallback="dripBrew">
+              <img src="hinhanh/drip-brew.webp" alt="Cách pha phin giấy" loading="lazy" decoding="async" data-fallback="dripBrew">
             </button>
-            <button class="thumb-btn" onclick="switchProductImage('hinhanh/coffee-ice.png', this, 'coffeeIce')">
-              <img src="hinhanh/coffee-ice.png" alt="Cà phê đá mát lạnh" onerror="handleImgError(this, 'coffeeIce')">
+            <button type="button" class="thumb-btn" data-thumb-src="hinhanh/coffee-ice.webp" data-fallback="coffeeIce">
+              <img src="hinhanh/coffee-ice.webp" alt="Cà phê đá mát lạnh" loading="lazy" decoding="async" data-fallback="coffeeIce">
             </button>
-            <button class="thumb-btn" onclick="switchProductImage('hinhanh/banner1.png?v=2', this, 'story')">
-              <img src="hinhanh/banner1.png?v=2" alt="Banner cà phê phin giấy Rang Mây" onerror="handleImgError(this, 'story')">
+            <button type="button" class="thumb-btn" data-thumb-src="hinhanh/banner1.webp" data-fallback="story">
+              <img src="hinhanh/banner1.webp" alt="Banner cà phê phin giấy Rang Mây" loading="lazy" decoding="async" data-fallback="story">
             </button>
           </div>
         </div>
 
         <div class="product-detail">
-          <div class="product-badge">Phin giấy tiện lợi, minh bạch lô sản xuất</div>
+          <div class="product-badge" id="productBadge">Phin giấy tiện lợi, minh bạch lô sản xuất</div>
           <h3>Cà phê phin giấy Rang Mây</h3>
           <p class="product-text">
             Sản phẩm cà phê phin giấy tiện lợi, phù hợp cho người bận rộn, sinh viên, dân văn phòng hoặc những chuyến đi xa. Chỉ cần mở gói, đặt lên ly và rót nước nóng là có ngay một ly cà phê thơm ngon, trọn vị.
           </p>
-          <div class="price">119.000đ</div>
+          <div class="price" id="productPrice">119.000đ</div>
+          <div class="product-stock-note" id="productStockInfo"></div>
 
           <div class="product-info-grid">
             <div><strong>Quy cách</strong><p>Hộp 10 gói tiện lợi</p></div>
@@ -1271,7 +186,7 @@
             <span class="evidence-pill">Báo cáo kiểm nghiệm</span>
             <span class="evidence-pill">Chính sách đổi trả rõ</span>
           </div>
-          <button class="btn btn-primary buy-btn" onclick="addToCart()" style="margin-top: 20px;">MUA NGAY</button>
+          <button type="button" class="btn btn-primary buy-btn buy-btn-spaced" id="addToCartBtn">MUA NGAY</button>
         </div>
       </div>
     </div>
@@ -1293,9 +208,9 @@
             <p>Được thiết kế dựa trên triết lý thử nếm tinh hoa cà phê vùng cao Măng Đen. Bạn có thể trò chuyện hoặc nhấp chọn câu hỏi gợi ý bên dưới.</p>
           </div>
           <div class="ai-presets">
-            <button class="ai-preset-btn" onclick="sendPreset('Hướng dẫn tôi pha Cold Brew bằng túi phin giấy Rang Mây nhé!')">❄️ Cách làm Cold Brew thanh mát</button>
-            <button class="ai-preset-btn" onclick="sendPreset('Gợi ý không gian âm nhạc và món ăn kèm lý tưởng với cà phê Rang Mây.')">🎵 Bản nhạc & Món bánh ăn kèm</button>
-            <button class="ai-preset-btn" onclick="sendPreset('Nốt hương chocolate và caramel trong Rang Mây đến từ đâu?')">🍫 Nốt hương vị tự nhiên độc bản</button>
+            <button type="button" class="ai-preset-btn" data-preset="Hướng dẫn tôi pha Cold Brew bằng túi phin giấy Rang Mây nhé!">❄️ Cách làm Cold Brew thanh mát</button>
+            <button type="button" class="ai-preset-btn" data-preset="Gợi ý không gian âm nhạc và món ăn kèm lý tưởng với cà phê Rang Mây.">🎵 Bản nhạc & Món bánh ăn kèm</button>
+            <button type="button" class="ai-preset-btn" data-preset="Nốt hương chocolate và caramel trong Rang Mây đến từ đâu?">🍫 Nốt hương vị tự nhiên độc bản</button>
           </div>
         </div>
 
@@ -1313,8 +228,8 @@
             </div>
           </div>
           <div class="ai-chat-footer">
-            <input type="text" class="ai-chat-input" id="chatInput" placeholder="Nhập câu hỏi của bạn..." onkeydown="if(event.key === 'Enter') sendChatMessage()">
-            <button class="ai-send-btn" onclick="sendChatMessage()">Gửi ✨</button>
+            <input type="text" class="ai-chat-input" id="chatInput" placeholder="Nhập câu hỏi của bạn...">
+            <button type="button" class="ai-send-btn" id="sendChatBtn">Gửi ✨</button>
           </div>
         </div>
       </div>
@@ -1325,11 +240,11 @@
   <section class="section story-section" id="story">
     <div class="container story-grid">
       <div class="story-image">
-        <img class="story-slide" src="hinhanh/mangden.jpg" alt="Bình minh và biển mây Măng Đen" onerror="handleImgError(this, 'story')">
-        <img class="story-slide" src="hinhanh/banner1.png" alt="Mây sớm phủ thung lũng Măng Đen" onerror="handleImgError(this, 'story')">
-        <img class="story-slide" src="hinhanh/product.png" alt="Rừng thông Măng Đen trong nắng sớm" onerror="handleImgError(this, 'story')">
-        <img class="story-slide" src="hinhanh/drip-brew.png" alt="Sương mù giữa rừng thông Măng Đen" onerror="handleImgError(this, 'story')">
-        <img class="story-slide" src="hinhanh/coffee-ice.png" alt="Cung đường rừng thông Măng Đen" onerror="handleImgError(this, 'story')">
+        <img class="story-slide" src="hinhanh/mangden.jpg" alt="Bình minh và biển mây Măng Đen" loading="lazy" decoding="async" data-fallback="story">
+        <img class="story-slide" src="hinhanh/banner1.webp" alt="Bộ sản phẩm cà phê phin giấy Rang Mây" loading="lazy" decoding="async" data-fallback="story">
+        <img class="story-slide" src="hinhanh/product.webp" alt="Hộp cà phê phin giấy Rang Mây" loading="lazy" decoding="async" data-fallback="story">
+        <img class="story-slide" src="hinhanh/sanpham1.webp" alt="Gói cà phê phin giấy Rang Mây" loading="lazy" decoding="async" data-fallback="story">
+        <img class="story-slide" src="hinhanh/drip-brew.webp" alt="Cách pha cà phê phin giấy Rang Mây" loading="lazy" decoding="async" data-fallback="story">
       </div>
       <div class="story-content">
         <span class="section-subtitle">CÂU CHUYỆN THƯƠNG HIỆU</span>
@@ -1359,7 +274,7 @@
       </div>
       <div class="brew-main">
         <div class="brew-image">
-          <img src="hinhanh/cachpha.jpg" alt="Cách pha cà phê phin giấy Rang Mây" onerror="handleImgError(this, 'dripBrew')">
+          <img src="hinhanh/drip-brew.webp" alt="Cách pha cà phê phin giấy Rang Mây" loading="lazy" decoding="async" data-fallback="dripBrew">
         </div>
         <div class="brew-steps">
           <div class="step-card">
@@ -1392,7 +307,7 @@
       </div>
       <div class="news-grid">
         <article class="news-card">
-          <div class="news-image"><img src="hinhanh/cachpha.jpg" alt="Cà phê phin giấy" onerror="handleImgError(this, 'dripBrew')"></div>
+          <div class="news-image"><img src="hinhanh/sanpham1.webp" alt="Gói cà phê phin giấy Rang Mây" loading="lazy" decoding="async" data-fallback="dripPack"></div>
           <div class="news-content">
             <span>01/06/2026</span>
             <h3>Vì sao cà phê phin giấy phù hợp với người bận rộn?</h3>
@@ -1401,7 +316,7 @@
           </div>
         </article>
         <article class="news-card">
-          <div class="news-image"><img src="hinhanh/mangden.jpg" alt="Măng Đen" onerror="handleImgError(this, 'story')"></div>
+          <div class="news-image"><img src="hinhanh/mangden.jpg" alt="Măng Đen" loading="lazy" decoding="async" data-fallback="story"></div>
           <div class="news-content">
             <span>03/06/2026</span>
             <h3>Măng Đen – nguồn cảm hứng của Rang Mây Coffee</h3>
@@ -1410,7 +325,7 @@
           </div>
         </article>
         <article class="news-card">
-          <div class="news-image"><img src="hinhanh/banner1.png" alt="Sống xanh" onerror="handleImgError(this, 'dripBrew')"></div>
+          <div class="news-image"><img src="hinhanh/coffee-ice.webp" alt="Cà phê Rang Mây thưởng thức đá" loading="lazy" decoding="async" data-fallback="coffeeIce"></div>
           <div class="news-content">
             <span>06/06/2026</span>
             <h3>Sống xanh hơn với cà phê phin giấy</h3>
@@ -1421,7 +336,57 @@
       </div>
     </div>
   </section>
-  
+
+  <!-- TRUST SECTION -->
+  <section class="section trust-section" id="trust">
+    <div class="container trust-panel">
+      <div class="section-title section-title-compact">
+        <span>CAM KẾT RÕ RÀNG</span>
+        <h2>Mua cà phê ngon, an tâm hơn</h2>
+        <p>Thông tin sản phẩm được trình bày minh bạch để khách hàng dễ kiểm tra trước khi đặt hàng.</p>
+      </div>
+
+      <div class="trust-grid">
+        <div class="trust-card">
+          <strong>Kiểm tra trước khi rang</strong>
+          <p>Ưu tiên cà phê Arabica có nguồn gốc rõ, quy trình chế biến và tiêu chuẩn nhập kho được ghi nhận.</p>
+        </div>
+        <div class="trust-card">
+          <strong>Rang theo lô nhỏ</strong>
+          <p>Mỗi lô sản phẩm được theo dõi thời gian rang để ổn định hương vị và hạn chế tồn kho lâu.</p>
+        </div>
+        <div class="trust-card">
+          <strong>Hỗ trợ đổi trả</strong>
+          <p>Liên hệ ngay khi bao bì móp méo, tem rách hoặc sản phẩm không đúng mô tả trên đơn hàng.</p>
+        </div>
+        <div class="trust-card">
+          <strong>Đóng gói cẩn thận</strong>
+          <p>Đơn hàng được kiểm tra, niêm phong và gửi toàn quốc. Tiết kiệm chi phí giao hàng trong từng đơn.</p>
+        </div>
+      </div>
+
+      <div class="review-grid" aria-label="Thông tin đánh giá khách hàng">
+        <p class="review-disclaimer">Rang Mây chưa đăng đánh giá khách hàng. Phần nhận xét sẽ được cập nhật khi có phản hồi thật và được khách hàng đồng ý chia sẻ.</p>
+      </div>
+
+      <div class="faq-grid faq-grid-spaced">
+        <div class="faq-item">
+          <strong class="faq-q">Một hộp có bao nhiêu gói?</strong>
+          <p>Mỗi hộp có 10 gói phin giấy, khối lượng 12g cho mỗi gói.</p>
+        </div>
+        <div class="faq-item">
+          <strong class="faq-q">Cần dụng cụ gì để pha?</strong>
+          <p>Chỉ cần ly chịu nhiệt và nước nóng khoảng 90–95°C. Không cần phin kim loại riêng.</p>
+        </div>
+        <div class="faq-item">
+          <strong class="faq-q">Bao lâu nên dùng sau khi mở hộp?</strong>
+          <p>Nên bảo quản khô ráo, tránh nắng và dùng trong thời gian ghi trên bao bì lô sản phẩm.</p>
+        </div>
+      </div>
+      <p class="trust-note">Các thông tin kiểm nghiệm, ngày rang và truy xuất nguồn gốc sẽ được cập nhật theo từng lô sản phẩm công bố trên bao bì.</p>
+    </div>
+  </section>
+
   <!-- CONTACT SECTION -->
   <section class="section contact-section" id="contact">
     <div class="container contact-grid">
@@ -1436,13 +401,95 @@
           <li>🌐 Facebook / TikTok: Rang Mây Coffee</li>
         </ul>
       </div>
-      <form class="contact-form" id="contactForm" onsubmit="handleContactSubmit(event)">
-        <input type="text" id="contactName" placeholder="Họ và tên" required>
-        <input type="email" id="contactEmail" placeholder="Email" required>
-        <input type="tel" id="contactPhone" placeholder="Số điện thoại">
-        <textarea id="contactMsg" rows="5" placeholder="Nội dung liên hệ"></textarea>
+      <form class="contact-form" id="contactForm">
+        <div class="hp-field" aria-hidden="true">
+          <label for="contactWebsite">Website</label>
+          <input type="text" id="contactWebsite" name="website" tabindex="-1" autocomplete="off">
+        </div>
+        <input type="text" id="contactName" placeholder="Họ và tên" maxlength="100" autocomplete="name" required>
+        <input type="email" id="contactEmail" placeholder="Email" maxlength="254" autocomplete="email" required>
+        <input type="tel" id="contactPhone" placeholder="Số điện thoại" maxlength="16" autocomplete="tel">
+        <textarea id="contactMsg" rows="5" placeholder="Nội dung liên hệ" maxlength="2000" required></textarea>
+        <p class="contact-privacy-note">Thông tin chỉ dùng để phản hồi yêu cầu của bạn. <a href="#policy-privacy">Xem chính sách quyền riêng tư</a>.</p>
         <button type="submit" class="btn btn-primary">GỬI LIÊN HỆ</button>
       </form>
+    </div>
+  </section>
+
+  <section class="section policy-section" id="policies">
+    <div class="container">
+      <div class="section-title">
+        <span>THÔNG TIN MUA HÀNG</span>
+        <h2>Chính sách giao dịch và quyền riêng tư</h2>
+        <p>Vui lòng xem điều kiện giao hàng, đổi trả, thanh toán và cách sử dụng dữ liệu trước khi gửi yêu cầu.</p>
+      </div>
+      <div class="policy-detail-grid">
+        <article class="policy-detail" id="policy-delivery">
+          <h3>Giao hàng</h3>
+          <ul>
+            <li>Giao hàng toàn quốc; trang hiện hiển thị miễn phí vận chuyển trong checkout.</li>
+            <li>Đơn được xử lý mục tiêu trong 24 giờ; thời gian giao thực tế tùy địa chỉ và đơn vị vận chuyển.</li>
+            <li>Kiểm tra tình trạng gói hàng khi nhận. Nếu kiện hàng có dấu hiệu hư hỏng, hãy chụp ảnh và liên hệ cửa hàng.</li>
+          </ul>
+        </article>
+        <article class="policy-detail" id="policy-return">
+          <h3>Đổi trả và hoàn tiền</h3>
+          <ul>
+            <li>Nếu giao sai sản phẩm, thiếu hàng hoặc hàng bị hư hỏng, vui lòng liên hệ sớm qua hotline/email và cung cấp mã đơn cùng hình ảnh liên quan.</li>
+            <li>Cửa hàng sẽ xác nhận phương án đổi hàng hoặc hoàn tiền trước khi bạn gửi hàng lại; với lỗi giao hàng/sản phẩm từ phía cửa hàng, cửa hàng chịu phí gửi trả.</li>
+            <li>Yêu cầu đổi trả khác được xem xét theo tình trạng hàng và quy định pháp luật hiện hành. Chính sách này không hạn chế quyền hợp pháp của người tiêu dùng.</li>
+          </ul>
+        </article>
+        <article class="policy-detail" id="policy-payment">
+          <h3>Thanh toán</h3>
+          <ul>
+            <li>Hiện chỉ hỗ trợ COD (thanh toán khi nhận hàng). MoMo/VNPay đang tắt và chưa nhận thanh toán trực tuyến.</li>
+            <li>Đơn chỉ được xem là đã ghi nhận khi website trả mã đơn hàng từ backend. Nếu trang báo lỗi, đơn chưa được xác nhận.</li>
+            <li>Website không yêu cầu hoặc lưu số thẻ, mã CVV hay mật khẩu ngân hàng.</li>
+          </ul>
+        </article>
+        <article class="policy-detail" id="policy-privacy">
+          <h3>Quyền riêng tư</h3>
+          <ul>
+            <li>Thông tin có thể gồm họ tên, số điện thoại, địa chỉ giao hàng, email, nội dung liên hệ, mặt hàng/số lượng và lời nhắn thiệp.</li>
+            <li>Dữ liệu chỉ dùng để xử lý đơn, giao hàng và phản hồi yêu cầu. Tài khoản thành viên hỗ trợ xác thực hai yếu tố (2FA) và phân quyền truy cập dữ liệu.</li>
+            <li>Không nhập thông tin thẻ hoặc dữ liệu nhạy cảm vào biểu mẫu. Có thể yêu cầu xem, sửa hoặc xóa dữ liệu qua hello@rangmaycoffee.vn; một số hồ sơ giao dịch có thể cần lưu theo quy định pháp luật.</li>
+            <li>Giỏ hàng được lưu trên thiết bị của bạn; nếu đăng nhập tài khoản trước khi đặt hàng, đơn mới sẽ được liên kết để bạn tra cứu trong trang Tài khoản.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="security-trust-strip" id="security-standards">
+        <div class="security-strip-head">
+          <div>
+            <h3>5 Lớp Bảo Mật Đang Bảo Vệ Website Rang Mây</h3>
+            <p>Áp dụng đồng bộ cho phiên bán hàng HTTPS cục bộ và triển khai Cloud Production.</p>
+          </div>
+          <a href="login.html" class="btn btn-outline security-strip-btn">Cổng Đăng Nhập &amp; 2FA</a>
+        </div>
+        <div class="security-strip-grid">
+          <div class="security-strip-item">
+            <strong>1. Mật khẩu mạnh &amp; 2FA</strong>
+            <span>Tối thiểu 10 ký tự, khóa chống dò mật khẩu &amp; xác thực TOTP QR.</span>
+          </div>
+          <div class="security-strip-item">
+            <strong>2. Mã hóa HTTPS &amp; Header</strong>
+            <span>SSL/TLS, HSTS, X-Frame-Options DENY, strict CSP chặn script lạ.</span>
+          </div>
+          <div class="security-strip-item">
+            <strong>3. Phân quyền RBAC &amp; RLS</strong>
+            <span>Tách biệt Khách hàng, Nhân viên, Quản trị theo đặc quyền tối thiểu.</span>
+          </div>
+          <div class="security-strip-item">
+            <strong>4. Sao lưu 3-2-1 SHA-256</strong>
+            <span>Xuất Snapshot JSON đã kiểm tra toàn vẹn, loại bỏ trường mật khẩu.</span>
+          </div>
+          <div class="security-strip-item">
+            <strong>5. Checklist &amp; Audit Log</strong>
+            <span>Lưu dấu mọi thao tác đăng nhập, đổi quyền và kiểm tra định kỳ.</span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1450,8 +497,7 @@
   <footer class="footer">
     <div class="container footer-grid">
       <div class="footer-brand">
-        <!-- ĐÃ FIX ĐƯỜNG DẪN LOGO FOOTER CHUẨN Ở ĐÂY -->
-        <img src="hinhanh/logongang.png" alt="Logo Rang Mây" style="filter: brightness(0) invert(1);" onerror="handleImgError(this, 'logo'); this.style.filter='none';">
+        <img src="hinhanh/logongang.webp" alt="Logo Rang Mây" class="footer-logo-img" loading="lazy" decoding="async" data-fallback="logo" data-no-filter-on-error="true">
         <p>Rang đậm vị – Êm vị mây</p>
       </div>
       <div>
@@ -1460,11 +506,13 @@
         <a href="#product">Sản phẩm</a>
         <a href="#story">Câu chuyện</a>
         <a href="#brew">Cách pha</a>
+        <a href="login.html">Tài khoản / Đăng nhập</a>
       </div>
       <div>
         <h4>Chính sách</h4>
         <a href="#policy-delivery">Chính sách giao hàng</a>
         <a href="#policy-return">Chính sách đổi trả</a>
+        <a href="#policy-payment">Chính sách thanh toán</a>
         <a href="#policy-privacy">Chính sách bảo mật</a>
       </div>
       <div>
@@ -1474,53 +522,51 @@
       </div>
     </div>
 
-    <div class="container footer-policy" id="policy">
-      <div class="policy-grid">
-        <div class="policy-card" id="policy-delivery"><h5>Giao hàng nhanh</h5><p>Đơn hàng được xử lý trong 24 giờ và giao toàn quốc, ưu tiên đóng gói sạch đẹp.</p></div>
-        <div class="policy-card" id="policy-return"><h5>Đổi trả linh hoạt</h5><p>Hỗ trợ đổi trả khi sản phẩm bị lỗi, móp méo hoặc không đúng mô tả.</p></div>
-        <div class="policy-card" id="policy-privacy"><h5>Bảo mật thông tin</h5><p>Thông tin khách hàng chỉ dùng cho việc xử lý đơn hàng và chăm sóc sau bán.</p></div>
-      </div>
-    </div>
     <div class="copyright">© 2026 Rang Mây Coffee. All rights reserved.</div>
   </footer>
 
   <!-- SIDEBAR GIỎ HÀNG -->
-  <div id="cart-overlay" onclick="closeCart()"></div>
+  <div id="cart-overlay"></div>
   <div id="cart-sidebar">
-    <div class="cart-header"><h3>Giỏ Hàng</h3><button class="cart-close-btn" onclick="closeCart()">✕</button></div>
+    <div class="cart-header"><h3>Giỏ Hàng</h3><button type="button" class="cart-close-btn" id="cartCloseBtn" aria-label="Đóng giỏ hàng">✕</button></div>
     <div class="cart-body" id="cartBody"></div>
-    <div class="cart-footer" id="cartFooter" style="display: none;">
+    <div class="cart-footer" id="cartFooter" hidden>
       <div class="cart-summary-row"><span>Tạm tính</span><span id="cartSubtotal">0đ</span></div>
-      <div class="cart-summary-row"><span>Giao hàng toàn quốc</span><span style="color: #27ae60; font-weight: 700;">Miễn phí 🎉</span></div>
+      <div class="cart-summary-row"><span>Giao hàng toàn quốc</span><span class="cart-free-shipping">Miễn phí 🎉</span></div>
       <div class="cart-summary-row total"><span>Tổng cộng</span><span id="cartTotal">0đ</span></div>
-      <button class="btn btn-primary cart-checkout-btn" onclick="openCheckout()">🔒 Tiến Hành Thanh Toán</button>
+      <button type="button" class="btn btn-primary cart-checkout-btn" id="openCheckoutBtn">🔒 Tiến Hành Thanh Toán</button>
     </div>
   </div>
 
   <!-- MODAL THANH TOÁN -->
-  <div id="checkout-overlay" onclick="handleOverlayClick(event, 'checkout-overlay')">
+  <div id="checkout-overlay">
     <div id="checkout-modal">
-      <div class="checkout-header"><h3>Thông Tin Giao Hàng</h3><button class="checkout-close-btn" onclick="closeCheckout()">✕</button></div>
+      <div class="checkout-header"><h3>Thông Tin Giao Hàng</h3><button type="button" class="checkout-close-btn" id="checkoutCloseBtn" aria-label="Đóng thanh toán">✕</button></div>
       <div class="checkout-body">
+        <div class="checkout-auth-banner" id="checkoutAuthBanner"></div>
+        <div class="hp-field" aria-hidden="true">
+          <label for="coWebsite">Website</label>
+          <input type="text" id="coWebsite" name="website" tabindex="-1" autocomplete="off">
+        </div>
         <p class="checkout-section-title">Địa chỉ nhận hàng</p>
         <div class="checkout-form-grid">
-          <div class="checkout-field"><label>Họ và Tên *</label><input type="text" id="coName" placeholder="Nguyễn Văn A" required></div>
-          <div class="checkout-field"><label>Số điện thoại *</label><input type="tel" id="coPhone" placeholder="0383xxxxxx" required></div>
-          <div class="checkout-field full-width"><label>Địa chỉ email</label><input type="email" id="coEmail" placeholder="khachhang@gmail.com"></div>
-          <div class="checkout-field full-width"><label>Địa chỉ chi tiết *</label><input type="text" id="coAddress" placeholder="Số nhà, tên đường..." required></div>
+          <div class="checkout-field"><label for="coName">Họ và Tên *</label><input type="text" id="coName" placeholder="Nguyễn Văn A" maxlength="100" autocomplete="name" required></div>
+          <div class="checkout-field"><label for="coPhone">Số điện thoại *</label><input type="tel" id="coPhone" placeholder="0383xxxxxx" maxlength="16" autocomplete="tel" required></div>
+          <div class="checkout-field full-width"><label for="coEmail">Địa chỉ email</label><input type="email" id="coEmail" placeholder="khachhang@gmail.com" maxlength="254" autocomplete="email"></div>
+          <div class="checkout-field full-width"><label for="coAddress">Địa chỉ chi tiết *</label><input type="text" id="coAddress" placeholder="Số nhà, tên đường..." maxlength="500" autocomplete="street-address" required></div>
         </div>
 
         <p class="checkout-section-title">Quà Tặng Thơ Mộng</p>
         <div class="ai-gift-card-box">
-          <div class="ai-gift-toggle-wrap" onclick="toggleAiGiftCard()">
-            <input type="checkbox" id="aiGiftToggle" style="pointer-events: none;">
+          <div class="ai-gift-toggle-wrap" id="aiGiftToggleWrap">
+            <input type="checkbox" id="aiGiftToggle">
             <span>Gửi kèm thiệp chúc mừng viết bằng AI ☁️</span>
           </div>
           <div class="ai-gift-card-generator" id="aiGiftGenerator">
             <div class="ai-gift-inputs">
-              <div class="checkout-field"><label>Tên người nhận *</label><input type="text" id="giftRecipient" placeholder="Ví dụ: Hoàng Lan"></div>
+              <div class="checkout-field"><label for="giftRecipient">Tên người nhận *</label><input type="text" id="giftRecipient" placeholder="Ví dụ: Hoàng Lan"></div>
               <div class="checkout-field">
-                <label>Dịp đặc biệt *</label>
+                <label for="giftOccasion">Dịp đặc biệt *</label>
                 <select id="giftOccasion">
                   <option>Sinh nhật đáng nhớ</option>
                   <option>Lời chúc bình minh ngày mới</option>
@@ -1531,365 +577,86 @@
               </div>
             </div>
             <div class="checkout-field">
-              <label>Phong cách lời chúc</label>
+              <label for="giftStyle">Phong cách lời chúc</label>
               <select id="giftStyle">
                 <option value="poetic">Bay bổng, ngập tràn chất thơ & mây núi Măng Đen</option>
                 <option value="warm">Ấm áp, mộc mạc và chân thành sâu sắc</option>
                 <option value="gentle">Tinh tế, ý nghĩa và dịu êm như ly cà phê</option>
               </select>
             </div>
-            <button type="button" class="ai-gift-btn-sparkle" onclick="generateAiCardText()">✨ Viết thiệp bằng AI</button>
+            <button type="button" class="ai-gift-btn-sparkle" id="generateAiCardBtn">✨ Viết thiệp bằng AI</button>
             <div class="ai-gift-output-card" id="aiGiftOutput">Lời chúc của bạn từ đại ngàn sương mù sẽ được dệt viết tại đây...</div>
           </div>
         </div>
 
         <p class="checkout-section-title">Phương thức thanh toán</p>
         <div class="payment-methods-grid">
-          <div class="pay-method-card selected" onclick="selectPaymentMethod(this)" data-method="COD">💵 COD (Khi nhận hàng)</div>
-          <div class="pay-method-card" onclick="selectPaymentMethod(this)" data-method="MOMO">📱 Ví MoMo</div>
-          <div class="pay-method-card" onclick="selectPaymentMethod(this)" data-method="VNPAY">💳 Thẻ ATM / VNPay</div>
+          <div class="pay-method-card selected" data-method="COD">💵 COD (Khi nhận hàng)</div>
         </div>
+
+        <p class="checkout-section-title">Mã giảm giá / Voucher</p>
+        <div class="voucher-box">
+          <div class="voucher-input-row">
+            <input type="text" id="coVoucherInput" maxlength="24" autocomplete="off" placeholder="Nhập mã ưu đãi (VD: RANGMAY10)">
+            <button type="button" class="voucher-apply-btn" id="applyVoucherBtn">Áp dụng</button>
+            <button type="button" class="voucher-clear-btn" id="clearVoucherBtn" hidden>Gỡ mã</button>
+          </div>
+          <div class="voucher-status-msg" id="voucherStatusMsg" hidden></div>
+          <div class="voucher-hints-row" id="voucherHintsRow" hidden></div>
+        </div>
+
         <div class="checkout-order-summary" id="checkoutOrderSummary"></div>
-        <button class="checkout-submit-btn btn btn-primary" onclick="submitOrder()">XÁC NHẬN ĐẶT HÀNG</button>
+        <button type="button" class="checkout-submit-btn btn btn-primary" id="submitOrderBtn">XÁC NHẬN ĐẶT HÀNG</button>
       </div>
     </div>
   </div>
 
   <!-- POPUP ĐẶT HÀNG THÀNH CÔNG -->
-  <div id="success-overlay" onclick="handleOverlayClick(event, 'success-overlay')">
+  <div id="success-overlay">
     <div class="success-modal">
       <div class="success-icon">🎉</div>
       <h3>Đặt Hàng Thành Công!</h3>
-      <p style="color: var(--muted); margin-bottom: 12px; font-size: 14.5px;">Cảm ơn bạn đã lựa chọn hương vị sương mây từ Măng Đen.</p>
+      <p class="success-lead">Cảm ơn bạn đã lựa chọn hương vị sương mây từ Măng Đen.</p>
       <div class="order-id-box">Mã đơn hàng: <strong id="order-id"></strong></div>
-      <div id="success-gift-card" class="success-gift-card" style="display: none;">
+      <div id="success-voucher-note" class="order-voucher-note" hidden></div>
+      <div id="success-gift-card" class="success-gift-card" hidden>
         <strong>✉️ Thiệp quà tặng kèm theo:</strong>
-        <p id="success-gift-text" style="font-style: italic; margin-top: 8px; color: #5a4a45; line-height: 1.5;"></p>
+        <p id="success-gift-text" class="success-gift-text"></p>
       </div>
-      <button class="btn btn-primary" onclick="closeSuccess()">TIẾP TUK KHÁM PHÁ</button>
+      <button type="button" class="btn btn-primary" id="closeSuccessBtn">TIẾP TỤC KHÁM PHÁ</button>
     </div>
   </div>
 
   <div id="toast-box"></div>
 
-  <!-- BỘ WIDGET CHAT BOX NỔI GÓC MÀN HÌNH CHUẨN UI/UX -->
-  <div id="chat-widget-wrapper" style="position: fixed; bottom: 24px; right: 24px; z-index: 2500; display: flex; flex-direction: column; align-items: flex-end;">
-    <div id="floating-chat-box" style="display: none; width: 360px; height: 480px; background: var(--white); border-radius: 16px; box-shadow: 0 12px 36px rgba(58, 36, 21, 0.15); border: 1px solid var(--line); flex-direction: column; overflow: hidden; margin-bottom: 14px; transition: all 0.3s ease;">
-      <div style="background: var(--brown-dark); color: white; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <div style="font-size: 18px; width: 34px; height: 34px; background: rgba(255,255,255,0.15); border-radius: 50%; display: grid; place-items: center;">☁️</div>
+  <!-- WIDGET CHAT BOX NỔI -->
+  <div id="chat-widget-wrapper" class="chat-widget-wrapper">
+    <div id="floating-chat-box" class="floating-chat-box">
+      <div class="floating-chat-header">
+        <div class="floating-chat-brand">
+          <div class="floating-chat-avatar">☁️</div>
           <div>
-            <h4 style="margin: 0; font-size: 14px; font-weight: 700;">Barista AI Rang Mây</h4>
-            <span style="font-size: 11px; color: #2ecc71; font-weight: 600;">● Đang trực tuyến</span>
+            <h4>Barista AI Rang Mây</h4>
+            <span class="floating-chat-status">● Đang trực tuyến</span>
           </div>
         </div>
-        <button onclick="toggleFloatingChat()" style="background: transparent; border: none; color: rgba(255,255,255,0.7); font-size: 18px; cursor: pointer; padding: 4px;">✕</button>
+        <button type="button" class="floating-chat-close" id="floatingChatCloseBtn" aria-label="Đóng chat">✕</button>
       </div>
-      <div class="ai-chat-messages" id="floatingChatMessages" style="flex: 1; padding: 18px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: var(--cream-light);">
+      <div class="ai-chat-messages floating-chat-messages" id="floatingChatMessages">
         <div class="msg-bubble ai">
           Xin chào quý khách! Tôi là Barista AI trực tuyến của Rang Mây. Tôi có thể tư vấn gì về hương vị cà phê Măng Đen cho bạn hôm nay?
         </div>
       </div>
-      <div style="padding: 12px; border-top: 1px solid var(--line); display: flex; gap: 8px; background: var(--white);">
-        <input type="text" class="ai-chat-input" id="floatingChatInput" placeholder="Hỏi gì đó về cà phê..." style="flex: 1; padding: 10px 14px; margin-bottom: 0;" onkeydown="if(event.key === 'Enter') sendFloatingMessage()">
-        <button class="ai-send-btn" onclick="sendFloatingMessage()" style="min-height: 40px; padding: 0 14px; border-radius: 10px;">Gửi</button>
+      <div class="floating-chat-footer">
+        <input type="text" class="ai-chat-input floating-chat-input" id="floatingChatInput" placeholder="Hỏi gì đó về cà phê...">
+        <button type="button" class="ai-send-btn floating-chat-send" id="floatingChatSendBtn">Gửi</button>
       </div>
     </div>
-    <button class="chat-btn" onclick="toggleFloatingChat()" style="position: static; width: 60px; height: 60px; display: grid; place-items: center; margin-top: auto;">💬</button>
+    <button type="button" class="chat-btn" id="floatingChatToggleBtn" aria-label="Mở trợ lý Barista AI">💬</button>
   </div>
 
-  <script>
-    // Global State
-    let cart = [];
-    let selectedPayment = 'COD';
-    let currentGalleryImage = 'hinhanh/sanpham1.png';
-
-    // Fallback images
-    function handleImgError(imgElement, type) {
-      imgElement.onerror = null; 
-      const fallbacks = {
-        logo: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='360' height='80' viewBox='0 0 360 80'><rect width='360' height='80' fill='%23FAF6F0'/><text x='180' y='45' font-family='Fraunces, Georgia, serif' font-size='26' font-weight='bold' fill='%233a2415' text-anchor='middle'>RANG MÂY COFFEE</text><text x='180' y='65' font-family='Plus Jakarta Sans' font-size='11' font-weight='600' letter-spacing='2' fill='%237a4821' text-anchor='middle'>RANG ĐẬM VỊ - ÊM VỊ MÂY</text></svg>",
-        banner: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=1200&auto=format&fit=crop",
-        dripPack: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=800&auto=format&fit=crop",
-        dripBrew: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=800&auto=format&fit=crop",
-        coffeeIce: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=800&auto=format&fit=crop",
-        story: "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=800&auto=format&fit=crop"
-      };
-      imgElement.src = fallbacks[type] || fallbacks.dripBrew;
-    }
-
-    // Switch image gallery
-    function switchProductImage(imageName, btnElement, type) {
-      currentGalleryImage = imageName;
-      const mainImg = document.getElementById('mainProductImg');
-      mainImg.src = imageName;
-      mainImg.onerror = function() { handleImgError(mainImg, type); };
-      document.querySelectorAll('.thumb-btn').forEach(btn => btn.classList.remove('active'));
-      btnElement.classList.add('active');
-    }
-
-    // Mobile Navbar Toggle
-    const menuToggle = document.getElementById("menuToggle");
-    const navbar = document.getElementById("navbar");
-    const navLinks = document.querySelectorAll(".navbar a");
-
-    menuToggle.addEventListener("click", function () { navbar.classList.toggle("show"); });
-    navLinks.forEach(function (link) {
-      link.addEventListener("click", function () {
-        navLinks.forEach(item => item.classList.remove("active"));
-        link.classList.add("active");
-        navbar.classList.remove("show");
-      });
-    });
-
-    // Cart Actions (Đồng bộ ảnh sang sanpham1.png)
-    function addToCart() {
-      const item = {
-        id: 'drip-pack-001',
-        name: 'Cà phê phin giấy Rang Mây',
-        price: 119000, 
-        qty: 1,
-        image: 'hinhanh/sanpham1.png', 
-        imageType: 'dripPack'
-      };
-      
-      const existing = cart.find(i => i.id === item.id);
-      if (existing) { existing.qty++; } else { cart.push(item); }
-      
-      updateCartUI();
-      openCart();
-      showToast("🛒 Đã thêm cà phê Rang Mây vào giỏ hàng!");
-    }
-
-    function updateCartItemQty(id, change) {
-      const item = cart.find(i => i.id === id);
-      if (item) {
-        item.qty += change;
-        if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
-      }
-      updateCartUI();
-    }
-
-    function removeCartItem(id) {
-      cart = cart.filter(i => i.id !== id);
-      updateCartUI();
-      showToast("🗑️ Đã xóa sản phẩm khỏi giỏ hàng.");
-    }
-
-    function updateCartUI() {
-      const count = cart.reduce((acc, item) => acc + item.qty, 0);
-      document.getElementById("cartCount").textContent = count;
-      
-      const cartBody = document.getElementById("cartBody");
-      const cartFooter = document.getElementById("cartFooter");
-      
-      if (cart.length === 0) {
-        cartBody.innerHTML = `
-          <div class="cart-empty-state">
-            <span style="font-size: 3rem; display: block; margin-bottom: 12px;">☕</span>
-            <p>Giỏ hàng của bạn đang trống</p>
-          </div>
-        `;
-        cartFooter.style.display = "none";
-      } else {
-        let subtotal = 0;
-        cartBody.innerHTML = cart.map(item => {
-          const itemTotal = item.price * item.qty;
-          subtotal += itemTotal;
-          return `
-            <div class="cart-item-row">
-              <div class="cart-item-img-mini"><img src="${item.image}" alt="${item.name}" onerror="handleImgError(this, '${item.imageType}')"></div>
-              <div class="cart-item-info">
-                <h4>${item.name}</h4>
-                <p>${fmtPrice(item.price)}đ</p>
-                <div class="cart-qty-control">
-                  <button class="qty-btn" onclick="updateCartItemQty('${item.id}', -1)">−</button>
-                  <span class="qty-val">${item.qty}</span>
-                  <button class="qty-btn" onclick="updateCartItemQty('${item.id}', 1)">+</button>
-                </div>
-                <button class="cart-item-remove" onclick="removeCartItem('${item.id}')">Xóa khỏi giỏ</button>
-              </div>
-              <div style="font-weight: 700; font-size: 14px; color: var(--brown-dark);">${fmtPrice(itemTotal)}đ</div>
-            </div>
-          `;
-        }).join('');
-        
-        document.getElementById("cartSubtotal").textContent = fmtPrice(subtotal) + "đ";
-        document.getElementById("cartTotal").textContent = fmtPrice(subtotal) + "đ";
-        cartFooter.style.display = "block";
-      }
-    }
-
-    function openCart() { document.getElementById("cart-overlay").classList.add("open"); document.getElementById("cart-sidebar").classList.add("open"); }
-    function closeCart() { document.getElementById("cart-overlay").classList.remove("open"); document.getElementById("cart-sidebar").classList.remove("open"); }
-
-    function handleContactSubmit(event) {
-      event.preventDefault();
-      const name = document.getElementById("contactName").value;
-      showToast("📝 Cảm ơn bạn " + name + "! Rang Mây đã nhận thông tin.");
-      document.getElementById("contactForm").reset();
-    }
-
-    function showToast(msg) {
-      const toast = document.getElementById("toast-box");
-      toast.textContent = msg; toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 3000);
-    }
-
-    function fmtPrice(num) { return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
-
-    function openCheckout() {
-      if (cart.length === 0) { showToast("⚠️ Giỏ hàng trống!"); return; }
-      closeCart();
-      document.getElementById("checkout-overlay").classList.add("open");
-      updateCheckoutSummary();
-    }
-
-    function closeCheckout() { document.getElementById("checkout-overlay").classList.remove("open"); }
-    function handleOverlayClick(e, id) { if (e.target.id === id) { if (id === 'checkout-overlay') closeCheckout(); if (id === 'success-overlay') closeSuccess(); } }
-    function selectPaymentMethod(element) { document.querySelectorAll('.pay-method-card').forEach(card => card.classList.remove('selected')); element.classList.add('selected'); selectedPayment = element.dataset.method; }
-
-    function updateCheckoutSummary() {
-      const summaryEl = document.getElementById("checkoutOrderSummary");
-      const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-      summaryEl.innerHTML = `
-        <div class="summary-item"><span>Tạm tính:</span><span>${fmtPrice(subtotal)}đ</span></div>
-        <div class="summary-item"><span>Giao hàng:</span><span style="color: #27ae60; font-weight: 700;">Miễn phí 🎉</span></div>
-        <div class="summary-item grand-total"><span>Tổng thanh toán:</span><span>${fmtPrice(subtotal)}đ</span></div>
-      `;
-    }
-
-    function toggleAiGiftCard() {
-      const toggle = document.getElementById("aiGiftToggle");
-      toggle.checked = !toggle.checked;
-      const genBox = document.getElementById("aiGiftGenerator");
-      if (toggle.checked) genBox.classList.add("active"); else genBox.classList.remove("active");
-    }
-
-    function submitOrder() {
-      const name = document.getElementById("coName").value.trim();
-      const phone = document.getElementById("coPhone").value.trim();
-      const address = document.getElementById("coAddress").value.trim();
-      if (!name || !phone || !address) { showToast("⚠️ Vui lòng điền đủ thông tin!"); return; }
-      
-      const giftToggle = document.getElementById("aiGiftToggle").checked;
-      const giftText = document.getElementById("aiGiftOutput").innerHTML;
-      closeCheckout();
-      
-      document.getElementById("order-id").textContent = 'RM-2026-' + String(Math.floor(Math.random() * 9000) + 1000);
-      const successGiftCard = document.getElementById("success-gift-card");
-      if (giftToggle && giftText && giftText !== "Lời chúc của bạn từ đại ngàn sương mù sẽ được dệt viết tại đây...") {
-        successGiftCard.style.display = "block";
-        document.getElementById("success-gift-text").innerHTML = giftText;
-      } else {
-        successGiftCard.style.display = "none";
-      }
-
-      cart = []; updateCartUI();
-      document.getElementById("coName").value = ""; document.getElementById("coPhone").value = ""; document.getElementById("coEmail").value = ""; document.getElementById("coAddress").value = "";
-      document.getElementById("aiGiftToggle").checked = false; document.getElementById("aiGiftGenerator").classList.remove("active");
-      document.getElementById("aiGiftOutput").textContent = "Lời chúc của bạn từ đại ngàn sương mù sẽ được dệt viết tại đây...";
-      
-      setTimeout(() => document.getElementById("success-overlay").classList.add("open"), 400);
-    }
-
-    function closeSuccess() { document.getElementById("success-overlay").classList.remove("open"); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-
-    // --- GEMINI API CORE ---
-    const apiKey = ""; 
-
-    async function callGemini(prompt, systemInstruction) {
-      const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + apiKey;
-      const payload = { contents: [{ parts: [{ text: prompt }] }] };
-      if (systemInstruction) payload.systemInstruction = { parts: [{ text: systemInstruction }] };
-
-      let delay = 1000;
-      for (let i = 0; i < 5; i++) {
-        try {
-          const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-          if (response.ok) {
-            const data = await response.json();
-            return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
-          }
-        } catch (e) {}
-        await new Promise(r => setTimeout(r, delay));
-        delay *= 2;
-      }
-      throw new Error("Mạng lỗi!");
-    }
-
-    // In-page Chat Section
-    async function sendChatMessage() {
-      const inputEl = document.getElementById("chatInput");
-      const text = inputEl.value.trim(); if (!text) return;
-
-      appendMessage(text, "user"); inputEl.value = "";
-      const loadId = appendLoading();
-      const systemPrompt = "Bạn là Nghệ Nhân Pha Chế AI của Rang Mây Coffee đến từ Măng Đen - Kon Tum. Hãy nói chuyện lịch thiệp, sâu sắc, thơ mộng.";
-
-      try {
-        const reply = await callGemini(text, systemPrompt);
-        removeLoading(loadId); appendMessage(reply, "ai");
-      } catch (err) {
-        removeLoading(loadId); appendMessage("Kết nối gián đoạn. Thử lại nhé! ☁️", "ai");
-      }
-    }
-
-    function sendPreset(presetText) { document.getElementById("chatInput").value = presetText; sendChatMessage(); }
-    function appendMessage(text, sender) { const msgContainer = document.getElementById("chatMessages"); const bubble = document.createElement("div"); bubble.className = "msg-bubble " + sender; bubble.innerHTML = text.replace(/\n/g, "<br>"); msgContainer.appendChild(bubble); msgContainer.scrollTop = msgContainer.scrollHeight; }
-    function appendLoading() { const container = document.getElementById("chatMessages"); const id = "loading-" + Date.now(); const bubble = document.createElement("div"); bubble.id = id; bubble.className = "msg-bubble loading"; bubble.innerHTML = `<span>Đang dệt hương câu trả lời</span><div class="dot"></div><div class="dot"></div><div class="dot"></div>`; container.appendChild(bubble); container.scrollTop = container.scrollHeight; return id; }
-    function removeLoading(id) { const el = document.getElementById(id); if (el) el.remove(); }
-
-    // Write Gift Card Card Text
-    async function generateAiCardText() {
-      const recipient = document.getElementById("giftRecipient").value.trim();
-      const occasion = document.getElementById("giftOccasion").value;
-      const style = document.getElementById("giftStyle").value;
-      const outputEl = document.getElementById("aiGiftOutput");
-      if (!recipient) { showToast("⚠️ Nhập tên người nhận!"); return; }
-
-      outputEl.textContent = "Nghệ nhân AI đang dệt bút viết lời chúc...";
-      const systemPrompt = "Bạn viết thiệp quà tặng của Rang Mây Coffee. Viết ngắn gọn 3-4 câu ý nghĩa sâu sắc.";
-      const prompt = 'Viết lời chúc tặng quà cho "' + recipient + '" vào dịp "' + occasion + '" theo phong cách "' + (style === 'poetic' ? 'Thơ mộng, mây núi cà phê' : style === 'warm' ? 'Ấm áp, chân thành' : 'Tinh tế') + '"';
-
-      try {
-        const result = await callGemini(prompt, systemPrompt);
-        outputEl.innerHTML = result.replace(/\n/g, "<br>");
-        showToast("✨ Viết thiệp hoàn tất!");
-      } catch (e) { outputEl.textContent = "Lỗi kết nối dệt lời chúc."; }
-    }
-
-    // --- FLOATING CHAT BOX ACTIONS ---
-    function toggleFloatingChat() {
-      const chatBox = document.getElementById("floating-chat-box");
-      if (chatBox.style.display === "none" || chatBox.style.display === "") {
-        chatBox.style.display = "flex";
-        const msgContainer = document.getElementById("floatingChatMessages");
-        msgContainer.scrollTop = msgContainer.scrollHeight;
-      } else {
-        chatBox.style.display = "none";
-      }
-    }
-
-    async function sendFloatingMessage() {
-      const inputEl = document.getElementById("floatingChatInput");
-      const text = inputEl.value.trim(); if (!text) return;
-
-      appendFloatingMsg(text, "user"); inputEl.value = "";
-      const loadId = appendFloatingLoading();
-      const systemPrompt = "Bạn là Nghệ Nhân Pha Chế AI của Rang Mây Coffee. Trả lời cực kỳ ngắn gọn, cô đọng trong vòng 2-3 câu để vừa vặn khung chat box nhỏ góc màn hình.";
-
-      try {
-        const reply = await callGemini(text, systemPrompt);
-        removeFloatingLoading(loadId); appendFloatingMsg(reply, "ai");
-      } catch (err) {
-        removeFloatingLoading(loadId); appendFloatingMsg("Đại ngàn mây mù làm gián đoạn kết nối rồi. Thử lại nhé! ☁️", "ai");
-      }
-    }
-
-    function appendFloatingMsg(text, sender) { const container = document.getElementById("floatingChatMessages"); const bubble = document.createElement("div"); bubble.className = "msg-bubble " + sender; bubble.innerHTML = text.replace(/\n/g, "<br>"); container.appendChild(bubble); container.scrollTop = container.scrollHeight; }
-    function appendFloatingLoading() { const container = document.getElementById("floatingChatMessages"); const id = "f-load-" + Date.now(); const bubble = document.createElement("div"); bubble.id = id; bubble.className = "msg-bubble loading"; bubble.innerHTML = `<span>Đang pha chế câu trả lời</span><div class="dot"></div><div class="dot"></div><div class="dot"></div>`; container.appendChild(bubble); container.scrollTop = container.scrollHeight; return id; }
-    function removeFloatingLoading(id) { const el = document.getElementById(id); if (el) el.remove(); }
-  </script>
+  <script src="assets/js/config.js" defer></script>
+  <script src="assets/js/auth.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
 </body>
 </html>

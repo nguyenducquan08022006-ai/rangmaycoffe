@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+  <title>Quản lý cửa hàng – Doanh thu, Sản phẩm &amp; Đơn hàng – Rang Mây Coffee</title>
+  <link rel="icon" type="image/webp" href="hinhanh/logo.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/portal.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="logo">
+        <img src="hinhanh/logongang.webp" alt="Logo Rang Mây" decoding="async" width="210">
+      </a>
+      <nav class="navbar" id="navbar">
+        <a href="index.html">Cửa hàng</a>
+        <a href="manager.html" class="active">Quản lý cửa hàng</a>
+        <a href="staff.html">Bàn nhân viên</a>
+        <a href="account.html">Tài khoản</a>
+      </nav>
+      <div class="nav-icons">
+        <div class="auth-nav-group" id="headerAuthArea"></div>
+        <button type="button" class="menu-toggle" id="menuToggle" aria-label="Mở menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="portal-main">
+    <div class="container portal-stack">
+      <div id="managerBanner" class="portal-banner info" hidden></div>
+
+      <section id="routeGuardLoader" class="portal-card route-guard-loader">
+        Đang xác minh phiên đăng nhập, quyền Quản lý cửa hàng và 2FA...
+      </section>
+
+      <!-- KHU VỰC TỪ CHỐI TRUY CẬP / YÊU CẦU 2FA -->
+      <section class="portal-card" id="managerGateCard" hidden>
+        <h2 id="managerGateTitle">Kiểm tra quyền truy cập</h2>
+        <p class="portal-card-lead" id="managerGateMessage"></p>
+        <div class="portal-header-actions">
+          <a href="account.html" id="managerGatePrimaryBtn" class="btn-sm">Đi tới Tài khoản &amp; Bảo mật 2FA</a>
+          <a href="index.html" class="btn-sm outline">Quay lại cửa hàng</a>
+        </div>
+      </section>
+
+      <!-- HEADER QUẢN LÝ CỬA HÀNG -->
+      <section class="portal-header-card" id="managerHeaderCard" hidden>
+        <div>
+          <h1>Quản lý cửa hàng – Kinh doanh &amp; Vận hành</h1>
+          <div class="portal-header-meta">
+            <span id="managerActorEmail"></span>
+            <span id="managerRoleBadge" class="badge role-manager">Quản lý cửa hàng</span>
+            <span id="managerPricePermBadge" class="badge status-warn">Quyền sửa giá: Đang khóa</span>
+            <span id="managerAalBadge" class="badge aal-1">Phiên AAL1</span>
+          </div>
+        </div>
+        <div class="portal-header-actions">
+          <a href="staff.html" class="btn-sm outline">Bàn Nhân viên</a>
+          <a href="admin.html" class="btn-sm outline" id="ownerPortalShortcut" hidden>Trang Chủ cửa hàng</a>
+          <button type="button" class="btn-sm outline" id="managerRefreshBtn">Làm mới dữ liệu</button>
+          <a href="account.html" class="btn-sm outline">Cài đặt 2FA</a>
+          <button type="button" class="btn-sm danger" id="managerLogoutBtn">Đăng xuất</button>
+        </div>
+      </section>
+
+      <!-- KPI KINH DOANH -->
+      <section class="kpi-grid" id="managerKpiGrid" hidden>
+        <div class="kpi-card">
+          <div class="kpi-label">Doanh thu dự kiến</div>
+          <div class="kpi-value" id="kpiRevenue">0đ</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Tổng đơn hàng</div>
+          <div class="kpi-value" id="kpiTotalOrders">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Đơn chờ xác nhận</div>
+          <div class="kpi-value" id="kpiPendingOrders">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Tồn kho hiện tại</div>
+          <div class="kpi-value" id="kpiProductStock">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Liên hệ mới</div>
+          <div class="kpi-value" id="kpiNewContacts">0</div>
+        </div>
+      </section>
+
+      <!-- TABS QUẢN LÝ CỬA HÀNG -->
+      <section class="portal-card" id="managerWorkspaceCard" hidden>
+        <div class="tab-strip" id="managerTabs">
+          <button type="button" class="tab-btn active" data-manager-tab="orders">Quản lý Đơn hàng &amp; Hoàn hủy</button>
+          <button type="button" class="tab-btn" data-manager-tab="catalog">Sản phẩm, Giá bán &amp; Tồn kho</button>
+          <button type="button" class="tab-btn" data-manager-tab="vouchers">Mã giảm giá (Voucher)</button>
+          <button type="button" class="tab-btn" data-manager-tab="contacts">Liên hệ khách hàng</button>
+          <button type="button" class="tab-btn" data-manager-tab="team">Nhân viên xử lý đơn</button>
+        </div>
+
+        <!-- PANEL ĐƠN HÀNG & XUẤT BÁO CÁO -->
+        <div id="panelOrders" class="admin-panel-spaced">
+          <div class="toolbar-row">
+            <div class="toolbar-controls">
+              <input type="text" id="orderSearchInput" placeholder="Tìm theo mã đơn, tên hoặc SĐT khách hàng...">
+              <select id="orderStatusFilter">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="pending">Chờ xác nhận</option>
+                <option value="confirmed">Đã xác nhận</option>
+                <option value="shipped">Đang giao</option>
+                <option value="completed">Hoàn tất</option>
+                <option value="cancelled">Đã hủy</option>
+              </select>
+            </div>
+            <button type="button" class="btn-sm outline" id="exportOrdersCsvBtn">Xuất báo cáo CSV</button>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Đơn hàng</th>
+                  <th>Khách hàng</th>
+                  <th>Chi tiết &amp; Giá</th>
+                  <th>Trạng thái hiện tại</th>
+                  <th>Cập nhật / Hủy đơn</th>
+                </tr>
+              </thead>
+              <tbody id="managerOrdersBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PANEL SẢN PHẨM & TỒN KHO -->
+        <div id="panelCatalog" class="admin-panel-spaced" hidden>
+          <div id="pricePermNotice" class="portal-banner info">
+            <div id="pricePermNoticeText">
+              Đang kiểm tra phân quyền sửa giá bán...
+            </div>
+          </div>
+          <form class="onboarding-box" id="productForm">
+            <h3>Cập nhật Sản phẩm kinh doanh</h3>
+            <input type="hidden" id="prodId" value="drip-pack-001">
+            <div class="catalog-grid">
+              <div class="field-group">
+                <label for="prodName">Tên sản phẩm</label>
+                <input type="text" id="prodName" value="Cà phê phin giấy Rang Mây" readonly>
+              </div>
+              <div class="field-group">
+                <label for="prodPrice">Giá bán niêm yết (VND) *</label>
+                <input type="number" id="prodPrice" min="10000" max="5000000" step="1000" required>
+              </div>
+              <div class="field-group">
+                <label for="prodStock">Số lượng tồn kho (hộp) *</label>
+                <input type="number" id="prodStock" min="0" max="10000" step="1" required>
+              </div>
+            </div>
+            <div class="catalog-grid admin-panel-spaced">
+              <div class="field-group">
+                <label for="prodBadge">Nhãn giới thiệu sản phẩm *</label>
+                <input type="text" id="prodBadge" maxlength="120" required>
+              </div>
+              <div class="field-group">
+                <label class="catalog-checkbox-label" for="prodAvailable">
+                  <input type="checkbox" id="prodAvailable">
+                  <span>Cho phép khách hàng đặt mua trên website</span>
+                </label>
+              </div>
+              <div class="field-group">
+                <button type="submit" class="btn-sm" id="saveProductBtn">Lưu &amp; Đồng bộ Cửa hàng</button>
+              </div>
+            </div>
+            <div class="catalog-preview-box" id="catalogLivePreview">Đang tải thông tin sản phẩm...</div>
+          </form>
+        </div>
+
+        <!-- PANEL MÃ GIẢM GIÁ / VOUCHER -->
+        <div id="panelVouchers" class="admin-panel-spaced" hidden>
+          <div class="portal-banner info">
+            <div>
+              <strong>Quản lý Mã giảm giá (Voucher):</strong> Tạo mới, sửa mức ưu đãi, giới hạn lượt dùng hoặc tạm tắt mã giảm giá. Toàn bộ mức giảm và điều kiện đơn tối thiểu được kiểm tra nghiêm ngặt trên máy chủ khi khách đặt hàng.
+            </div>
+          </div>
+          <form class="onboarding-box" id="voucherForm">
+            <h3>Tạo mới / Cập nhật Mã Voucher</h3>
+            <div class="catalog-grid">
+              <div class="field-group">
+                <label for="vchCode">Mã Voucher (A–Z, 0–9, 3–24 ký tự) *</label>
+                <input type="text" id="vchCode" minlength="3" maxlength="24" placeholder="VD: TET2027" required>
+              </div>
+              <div class="field-group">
+                <label for="vchType">Loại ưu đãi *</label>
+                <select id="vchType">
+                  <option value="percent">Giảm theo phần trăm (%)</option>
+                  <option value="fixed">Giảm số tiền cố định (VND)</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="vchValue">Giá trị giảm (% hoặc VND) *</label>
+                <input type="number" id="vchValue" min="1" max="2000000" step="1" placeholder="VD: 10 hoặc 20000" required>
+              </div>
+            </div>
+            <div class="catalog-grid admin-panel-spaced">
+              <div class="field-group">
+                <label for="vchMinOrder">Đơn tối thiểu (VND) *</label>
+                <input type="number" id="vchMinOrder" min="0" max="10000000" step="1000" value="100000" required>
+              </div>
+              <div class="field-group">
+                <label for="vchMaxDiscount">Giảm tối đa (VND, dành cho %)</label>
+                <input type="number" id="vchMaxDiscount" min="1000" max="2000000" step="1000" placeholder="VD: 50000 (bỏ trống nếu cố định)">
+              </div>
+              <div class="field-group">
+                <label for="vchLimit">Tổng số lượt sử dụng *</label>
+                <input type="number" id="vchLimit" min="1" max="100000" step="1" value="100" required>
+              </div>
+            </div>
+            <div class="catalog-grid admin-panel-spaced">
+              <div class="field-group">
+                <label for="vchDesc">Mô tả ngắn cho khách hàng</label>
+                <input type="text" id="vchDesc" maxlength="160" placeholder="VD: Giảm 10% cho đơn từ 100.000đ">
+              </div>
+              <div class="field-group">
+                <label class="catalog-checkbox-label" for="vchActive">
+                  <input type="checkbox" id="vchActive" checked>
+                  <span>Kích hoạt cho phép áp dụng ngay</span>
+                </label>
+              </div>
+              <div class="field-group">
+                <div class="portal-header-actions">
+                  <button type="submit" class="btn-sm" id="saveVoucherBtn">Lưu Mã Voucher</button>
+                  <button type="button" class="btn-sm outline" id="resetVoucherFormBtn">Làm mới ô nhập</button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Mã Voucher</th>
+                  <th>Mức ưu đãi</th>
+                  <th>Đơn tối thiểu</th>
+                  <th>Lượt đã dùng</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="managerVouchersBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PANEL LIÊN HỆ -->
+        <div id="panelContacts" class="admin-panel-spaced" hidden>
+          <div class="toolbar-row">
+            <div class="toolbar-controls">
+              <select id="contactStatusFilter">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="new">Mới tiếp nhận</option>
+                <option value="in_progress">Đang xử lý</option>
+                <option value="resolved">Đã phản hồi</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Người gửi</th>
+                  <th>Nội dung liên hệ</th>
+                  <th>Thời gian</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="managerContactsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PANEL NHÂN VIÊN XỬ LÝ ĐƠN (CHỈ XEM) -->
+        <div id="panelTeam" class="admin-panel-spaced" hidden>
+          <div class="portal-banner info">
+            <div>
+              <strong>Phạm vi phân quyền Quản lý:</strong> Bạn có quyền theo dõi danh sách và trạng thái bảo mật 2FA của đội ngũ Nhân viên xử lý đơn. Việc cấp tài khoản mới, đổi vai trò hoặc khóa/mở khóa tài khoản thuộc thẩm quyền của Chủ cửa hàng (<code>admin.html</code>).
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Họ tên &amp; Email nhân viên</th>
+                  <th>Trạng thái hoạt động</th>
+                  <th>Xác thực 2FA</th>
+                </tr>
+              </thead>
+              <tbody id="managerTeamBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="copyright">© 2026 Rang Mây Coffee. Khu vực Quản lý cửa hàng tự động khóa sau 30 phút không thao tác.</div>
+  </footer>
+
+  <script src="assets/js/config.js" defer></script>
+  <script src="assets/js/auth.js" defer></script>
+  <script src="assets/js/manager.js" defer></script>
+</body>
+</html>

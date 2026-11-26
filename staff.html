@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+  <title>Bàn làm việc Nhân viên – Xử lý Đơn hàng – Rang Mây Coffee</title>
+  <link rel="icon" type="image/webp" href="hinhanh/logo.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/portal.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="logo">
+        <img src="hinhanh/logongang.webp" alt="Logo Rang Mây" decoding="async" width="210">
+      </a>
+      <nav class="navbar" id="navbar">
+        <a href="index.html">Cửa hàng</a>
+        <a href="staff.html" class="active">Bàn nhân viên</a>
+        <a href="account.html">Tài khoản</a>
+      </nav>
+      <div class="nav-icons">
+        <div class="auth-nav-group" id="headerAuthArea"></div>
+        <button type="button" class="menu-toggle" id="menuToggle" aria-label="Mở menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="portal-main">
+    <div class="container portal-stack">
+      <div id="staffBanner" class="portal-banner info" hidden></div>
+
+      <section id="routeGuardLoader" class="portal-card route-guard-loader">
+        Đang xác minh phiên làm việc Nhân viên và trạng thái 2FA...
+      </section>
+
+      <!-- KHU VỰC TỪ CHỐI TRUY CẬP / YÊU CẦU 2FA -->
+      <section class="portal-card" id="staffGateCard" hidden>
+        <h2 id="staffGateTitle">Kiểm tra quyền truy cập</h2>
+        <p class="portal-card-lead" id="staffGateMessage"></p>
+        <div class="portal-header-actions">
+          <a href="account.html" id="staffGatePrimaryBtn" class="btn-sm">Đi tới Tài khoản &amp; Bảo mật 2FA</a>
+          <a href="index.html" class="btn-sm outline">Quay lại cửa hàng</a>
+        </div>
+      </section>
+
+      <!-- HEADER NHÂN VIÊN -->
+      <section class="portal-header-card" id="staffHeaderCard" hidden>
+        <div>
+          <h1>Bàn làm việc Nhân viên – Xử lý Đơn hàng</h1>
+          <div class="portal-header-meta">
+            <span id="staffActorEmail"></span>
+            <span id="staffRoleBadge" class="badge role-staff">Nhân viên</span>
+            <span id="staffAalBadge" class="badge aal-1">Phiên AAL1</span>
+          </div>
+        </div>
+        <div class="portal-header-actions">
+          <a href="manager.html" class="btn-sm outline" id="staffToManagerBtn" hidden>Trang Quản lý</a>
+          <a href="admin.html" class="btn-sm outline" id="staffToAdminBtn" hidden>Trang Chủ cửa hàng</a>
+          <button type="button" class="btn-sm outline" id="staffRefreshBtn">Làm mới hàng đợi</button>
+          <a href="account.html" class="btn-sm outline">Cài đặt 2FA</a>
+          <button type="button" class="btn-sm danger" id="staffLogoutBtn">Đăng xuất</button>
+        </div>
+      </section>
+
+      <!-- KPI XỬ LÝ ĐƠN (KHÔNG HIỂN THỊ DOANH THU THEO RBAC) -->
+      <section class="kpi-grid" id="staffKpiGrid" hidden>
+        <div class="kpi-card">
+          <div class="kpi-label">Chờ xác nhận</div>
+          <div class="kpi-value" id="kpiPendingOrders">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Đã xác nhận (chờ gói)</div>
+          <div class="kpi-value" id="kpiConfirmedOrders">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Đang giao hàng</div>
+          <div class="kpi-value" id="kpiShippedOrders">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Liên hệ mới</div>
+          <div class="kpi-value" id="kpiNewContacts">0</div>
+        </div>
+      </section>
+
+      <!-- TABS NHÂN VIÊN -->
+      <section class="portal-card" id="staffWorkspaceCard" hidden>
+        <div class="tab-strip" id="staffTabs">
+          <button type="button" class="tab-btn active" data-staff-tab="orders">Hàng đợi Đơn hàng</button>
+          <button type="button" class="tab-btn" data-staff-tab="contacts">Hỗ trợ Liên hệ</button>
+        </div>
+
+        <!-- PANEL HÀNG ĐỢI ĐƠN HÀNG -->
+        <div id="panelOrders" class="admin-panel-spaced">
+          <div class="portal-banner info">
+            <div>
+              <strong>Phân quyền Nhân viên xử lý đơn:</strong> Tiếp nhận, xác nhận đơn, cập nhật trạng thái đóng gói/giao hàng/hoàn tất và ghi chú đóng gói. Thao tác <strong>Hủy đơn</strong> hoặc mở lại đơn đã hủy chỉ dành cho Quản lý cửa hàng hoặc Chủ cửa hàng.
+            </div>
+          </div>
+          <div class="toolbar-row">
+            <div class="toolbar-controls">
+              <input type="text" id="orderSearchInput" placeholder="Tìm theo mã đơn, tên hoặc SĐT khách hàng...">
+              <select id="orderStatusFilter">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="pending">Chờ xác nhận</option>
+                <option value="confirmed">Đã xác nhận</option>
+                <option value="shipped">Đang giao</option>
+                <option value="completed">Hoàn tất</option>
+                <option value="cancelled">Đã hủy</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Đơn hàng</th>
+                  <th>Khách hàng &amp; Địa chỉ</th>
+                  <th>Sản phẩm &amp; Giá thu</th>
+                  <th>Trạng thái</th>
+                  <th>Cập nhật xử lý</th>
+                </tr>
+              </thead>
+              <tbody id="staffOrdersBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PANEL LIÊN HỆ -->
+        <div id="panelContacts" class="admin-panel-spaced" hidden>
+          <div class="toolbar-row">
+            <div class="toolbar-controls">
+              <select id="contactStatusFilter">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="new">Mới tiếp nhận</option>
+                <option value="in_progress">Đang xử lý</option>
+                <option value="resolved">Đã phản hồi</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Người gửi</th>
+                  <th>Nội dung liên hệ</th>
+                  <th>Thời gian</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="staffContactsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="copyright">© 2026 Rang Mây Coffee. Bàn làm việc Nhân viên tự động khóa sau 30 phút không thao tác.</div>
+  </footer>
+
+  <script src="assets/js/config.js" defer></script>
+  <script src="assets/js/auth.js" defer></script>
+  <script src="assets/js/staff.js" defer></script>
+</body>
+</html>

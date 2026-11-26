@@ -1,0 +1,9 @@
+.env
+.env.*
+!.env.example
+node_modules/
+supabase/.temp/
+server/certs/
+server/data/
+server/backups/
+

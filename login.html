@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+  <title>Đăng nhập & Bảo mật tài khoản – Rang Mây Coffee</title>
+  <link rel="icon" type="image/webp" href="hinhanh/logo.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/portal.css">
+</head>
+
+<body>
+  <header class="header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="logo">
+        <img src="hinhanh/logongang.webp" alt="Logo Rang Mây" decoding="async" width="210">
+      </a>
+      <nav class="navbar" id="navbar">
+        <a href="index.html">Trang chủ</a>
+        <a href="index.html#product">Sản phẩm</a>
+        <a href="index.html#contact">Liên hệ</a>
+        <a href="login.html" class="active">Đăng nhập</a>
+      </nav>
+      <div class="nav-icons">
+        <div class="auth-nav-group" id="headerAuthArea">
+          <a href="index.html" class="auth-pill-btn secondary">Về cửa hàng</a>
+        </div>
+        <button type="button" class="menu-toggle" id="menuToggle" aria-label="Mở menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="portal-main">
+    <div class="container portal-stack">
+      <div id="backendNotice" class="portal-banner warning" hidden>
+        <div>
+          <strong>Chưa cấu hình kết nối Supabase:</strong>
+          Điền <code>supabaseUrl</code> và <code>supabaseAnonKey</code> trong <code>assets/js/config.js</code> hoặc khởi
+          chạy máy chủ bảo mật cục bộ (<code>npm start</code> &rarr; <code>https://localhost:3443/</code>).
+        </div>
+        <a href="index.html" class="btn-sm outline">Quay lại cửa hàng</a>
+      </div>
+
+      <div id="statusBanner" class="portal-banner info" hidden></div>
+
+      <div class="auth-layout auth-layout-single">
+        <section class="auth-card">
+          <div class="tab-strip" id="authTabs">
+            <button type="button" class="tab-btn active" data-auth-tab="login">Đăng nhập</button>
+            <button type="button" class="tab-btn" data-auth-tab="register">Đăng ký</button>
+            <button type="button" class="tab-btn" data-auth-tab="forgot">Quên mật khẩu</button>
+          </div>
+
+          <!-- ĐĂNG NHẬP -->
+          <form id="loginForm" class="portal-form">
+            <div class="field-group">
+              <label for="loginEmail">Email</label>
+              <input type="email" id="loginEmail" autocomplete="email" maxlength="254" placeholder="ban@example.com"
+                required>
+            </div>
+            <div class="field-group">
+              <label for="loginPassword">Mật khẩu</label>
+              <div class="password-input-wrap">
+                <input type="password" id="loginPassword" autocomplete="current-password" maxlength="128"
+                  placeholder="Nhập mật khẩu" required>
+                <button type="button" class="toggle-password-btn" data-toggle-target="loginPassword">Hiện</button>
+              </div>
+            </div>
+            <div class="checkbox-row">
+              <label class="checkbox-label">
+                <input type="checkbox" id="rememberLogin">
+                <span>Ghi nhớ đăng nhập (chỉ dành cho khách hàng trên thiết bị cá nhân)</span>
+              </label>
+              <button type="button" class="text-link-btn" id="goForgotBtn">Quên mật khẩu?</button>
+            </div>
+            <button type="submit" class="btn btn-primary" id="loginSubmitBtn">ĐĂNG NHẬP</button>
+          </form>
+
+          <!-- BƯỚC XÁC THỰC 2FA (KHI ĐÃ BẬT TOTP) -->
+          <form id="mfaChallengeForm" class="portal-form" hidden>
+            <div class="portal-banner info">
+              <div>
+                <strong>Yêu cầu xác thực 2 yếu tố (2FA):</strong>
+                <span id="mfaPromptLead">Mở ứng dụng Authenticator trên điện thoại và nhập mã 6 chữ số để hoàn tất đăng
+                  nhập.</span>
+              </div>
+            </div>
+            <div class="field-group" id="mfaFactorGroup" hidden>
+              <label for="mfaFactorSelect">Thiết bị xác thực</label>
+              <select id="mfaFactorSelect"></select>
+            </div>
+            <div class="field-group" id="mfaTotpCodeGroup">
+              <label for="mfaChallengeCode">Mã xác thực 6 chữ số</label>
+              <input type="text" id="mfaChallengeCode" inputmode="numeric" pattern="[0-9]{6}" maxlength="6"
+                autocomplete="one-time-code" placeholder="123456">
+            </div>
+            <div class="field-group" id="mfaRecoveryCodeGroup" hidden>
+              <label for="mfaRecoveryCodeInput">Mã khôi phục dự phòng (8 ký tự)</label>
+              <input type="text" id="mfaRecoveryCodeInput" maxlength="12" autocomplete="off" placeholder="ABCD-EFGH">
+            </div>
+            <div class="portal-header-actions">
+              <button type="submit" class="btn btn-primary" id="mfaVerifyBtn">XÁC MINH 2FA</button>
+              <button type="button" class="btn-sm outline" id="toggleRecoveryModeBtn">Dùng mã khôi phục dự
+                phòng</button>
+              <button type="button" class="btn btn-outline" id="mfaCancelBtn">Hủy</button>
+            </div>
+          </form>
+
+          <!-- ĐĂNG KÝ -->
+          <form id="registerForm" class="portal-form" hidden>
+            <div class="hp-field" aria-hidden="true">
+              <label for="regWebsite">Website</label>
+              <input type="text" id="regWebsite" name="website" tabindex="-1" autocomplete="off">
+            </div>
+            <div class="field-group">
+              <label for="regName">Họ và tên</label>
+              <input type="text" id="regName" autocomplete="name" minlength="2" maxlength="100"
+                placeholder="Nguyễn Văn A" required>
+            </div>
+            <div class="field-group">
+              <label for="regEmail">Email</label>
+              <input type="email" id="regEmail" autocomplete="email" maxlength="254" placeholder="ban@example.com"
+                required>
+            </div>
+            <div class="field-group">
+              <label for="regPassword">Mật khẩu mạnh</label>
+              <div class="password-input-wrap">
+                <input type="password" id="regPassword" autocomplete="new-password" maxlength="128"
+                  placeholder="Tối thiểu 10 ký tự" required>
+                <button type="button" class="toggle-password-btn" data-toggle-target="regPassword">Hiện</button>
+              </div>
+            </div>
+            <div class="strength-box">
+              <div class="strength-header">
+                <span>Độ mạnh mật khẩu</span>
+                <span id="regStrengthLabel">Chưa nhập</span>
+              </div>
+              <div class="strength-bars" id="regStrengthBars">
+                <div class="strength-bar"></div>
+                <div class="strength-bar"></div>
+                <div class="strength-bar"></div>
+                <div class="strength-bar"></div>
+              </div>
+              <ul class="strength-checklist" id="regStrengthChecklist">
+                <li data-rule="minLength">✗ Từ 10 ký tự trở lên</li>
+                <li data-rule="hasUpper">✗ Có chữ in hoa (A–Z)</li>
+                <li data-rule="hasLower">✗ Có chữ thường (a–z)</li>
+                <li data-rule="hasNumber">✗ Có chữ số (0–9)</li>
+                <li data-rule="hasSpecial">✗ Có ký tự đặc biệt (!@#$...)</li>
+                <li data-rule="notCommon">✗ Không trùng email / từ dễ đoán</li>
+              </ul>
+            </div>
+            <div class="field-group">
+              <label for="regPasswordConfirm">Nhập lại mật khẩu</label>
+              <div class="password-input-wrap">
+                <input type="password" id="regPasswordConfirm" autocomplete="new-password" maxlength="128"
+                  placeholder="Nhập lại mật khẩu" required>
+                <button type="button" class="toggle-password-btn" data-toggle-target="regPasswordConfirm">Hiện</button>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="registerSubmitBtn">TẠO TÀI KHOẢN</button>
+          </form>
+
+          <!-- QUÊN MẬT KHẨU -->
+          <form id="forgotForm" class="portal-form" hidden>
+            <div class="field-group">
+              <label for="forgotEmail">Email đã đăng ký</label>
+              <input type="email" id="forgotEmail" autocomplete="email" maxlength="254" placeholder="ban@example.com"
+                required>
+            </div>
+            <button type="submit" class="btn btn-primary" id="forgotSubmitBtn">GỬI LIÊN KẾT ĐẶT LẠI MẬT KHẨU</button>
+          </form>
+
+          <!-- ĐẶT MẬT KHẨU MỚI SAU KHI BẤM LINK KHÔI PHỤC -->
+          <form id="recoveryForm" class="portal-form" hidden>
+            <div class="portal-banner info">
+              <div>
+                <strong>Khôi phục mật khẩu:</strong>
+                Vui lòng đặt mật khẩu mới đáp ứng đầy đủ tiêu chuẩn bảo mật bên dưới.
+              </div>
+            </div>
+            <div class="field-group">
+              <label for="recoveryPassword">Mật khẩu mới</label>
+              <div class="password-input-wrap">
+                <input type="password" id="recoveryPassword" autocomplete="new-password" maxlength="128"
+                  placeholder="Tối thiểu 10 ký tự" required>
+                <button type="button" class="toggle-password-btn" data-toggle-target="recoveryPassword">Hiện</button>
+              </div>
+            </div>
+            <div class="strength-box">
+              <div class="strength-header">
+                <span>Độ mạnh mật khẩu mới</span>
+                <span id="recoveryStrengthLabel">Chưa nhập</span>
+              </div>
+              <div class="strength-bars" id="recoveryStrengthBars">
+                <div class="strength-bar"></div>
+                <div class="strength-bar"></div>
+                <div class="strength-bar"></div>
+                <div class="strength-bar"></div>
+              </div>
+              <ul class="strength-checklist" id="recoveryStrengthChecklist">
+                <li data-rule="minLength">✗ Từ 10 ký tự trở lên</li>
+                <li data-rule="hasUpper">✗ Có chữ in hoa (A–Z)</li>
+                <li data-rule="hasLower">✗ Có chữ thường (a–z)</li>
+                <li data-rule="hasNumber">✗ Có chữ số (0–9)</li>
+                <li data-rule="hasSpecial">✗ Có ký tự đặc biệt (!@#$...)</li>
+                <li data-rule="notCommon">✗ Không trùng email / từ dễ đoán</li>
+              </ul>
+            </div>
+            <div class="field-group">
+              <label for="recoveryPasswordConfirm">Xác nhận mật khẩu mới</label>
+              <div class="password-input-wrap">
+                <input type="password" id="recoveryPasswordConfirm" autocomplete="new-password" maxlength="128"
+                  placeholder="Nhập lại mật khẩu mới" required>
+                <button type="button" class="toggle-password-btn"
+                  data-toggle-target="recoveryPasswordConfirm">Hiện</button>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="recoverySubmitBtn">CẬP NHẬT MẬT KHẨU MỚI</button>
+          </form>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="copyright">© 2026 Rang Mây Coffee. Bảo mật tài khoản theo nguyên tắc đặc quyền tối thiểu.</div>
+  </footer>
+
+  <script src="assets/js/config.js" defer></script>
+  <script src="assets/js/auth.js" defer></script>
+  <script src="assets/js/login.js" defer></script>
+</body>
+
+</html>

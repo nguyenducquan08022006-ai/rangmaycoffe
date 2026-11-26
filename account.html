@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+  <title>Tài khoản & Bảo mật 2FA – Rang Mây Coffee</title>
+  <link rel="icon" type="image/webp" href="hinhanh/logo.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/portal.css">
+</head>
+
+<body>
+  <header class="header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="logo">
+        <img src="hinhanh/logongang.webp" alt="Logo Rang Mây" decoding="async" width="210">
+      </a>
+      <nav class="navbar" id="navbar">
+        <a href="index.html">Trang chủ</a>
+        <a href="index.html#product">Sản phẩm</a>
+        <a href="account.html" class="active">Tài khoản</a>
+      </nav>
+      <div class="nav-icons">
+        <div class="auth-nav-group" id="headerAuthArea"></div>
+        <button type="button" class="menu-toggle" id="menuToggle" aria-label="Mở menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="portal-main">
+    <div class="container portal-stack">
+      <div id="accountBanner" class="portal-banner info" hidden></div>
+
+      <section id="routeGuardLoader" class="portal-card route-guard-loader">
+        Đang xác minh phiên đăng nhập và quyền truy cập tài khoản...
+      </section>
+
+      <section class="portal-header-card" id="accountHeaderCard" hidden>
+        <div>
+          <h1 id="accHeading">Tài khoản của bạn</h1>
+          <div class="portal-header-meta">
+            <span id="accEmailText"></span>
+            <span id="accRoleBadge" class="badge role-customer">Khách hàng</span>
+            <span id="accAalBadge" class="badge aal-1">Phiên AAL1</span>
+          </div>
+        </div>
+        <div class="portal-header-actions">
+          <a href="admin.html" class="btn-sm" id="adminShortcutBtn" hidden>Mở trang Quản trị</a>
+          <a href="index.html#product" class="btn-sm outline">Đặt mua cà phê</a>
+          <button type="button" class="btn-sm danger" id="logoutBtn">Đăng xuất</button>
+        </div>
+      </section>
+
+      <div class="portal-two-col" id="accountContentGrid" hidden>
+        <!-- HỒ SƠ & ĐỊA CHỈ -->
+        <section class="portal-card">
+          <h2>Thông tin cá nhân & Giao hàng</h2>
+          <p class="portal-card-lead">Lưu thông tin mặc định để tự động điền nhanh khi đặt hàng COD.</p>
+          <form id="profileForm" class="portal-form">
+            <div class="field-group">
+              <label for="profName">Họ và tên *</label>
+              <input type="text" id="profName" minlength="2" maxlength="100" required>
+            </div>
+            <div class="field-group">
+              <label for="profPhone">Số điện thoại (Việt Nam)</label>
+              <input type="tel" id="profPhone" maxlength="16" placeholder="0383xxxxxx">
+            </div>
+            <div class="field-group">
+              <label for="profAddress">Địa chỉ giao hàng mặc định</label>
+              <textarea id="profAddress" rows="3" maxlength="500"
+                placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" id="saveProfileBtn">LƯU THÔNG TIN</button>
+          </form>
+        </section>
+
+        <!-- BẢO MẬT & 2FA -->
+        <section class="portal-card">
+          <h2>Bảo mật & Xác thực 2 yếu tố (2FA)</h2>
+          <p class="portal-card-lead">Kích hoạt TOTP bằng Google Authenticator hoặc Authy để chống chiếm đoạt tài khoản.
+          </p>
+
+          <div class="mfa-setup-box" id="mfaSectionBox">
+            <div id="mfaStatusText">Đang kiểm tra trạng thái 2FA...</div>
+
+            <div class="portal-header-actions">
+              <button type="button" class="btn-sm" id="startEnrollMfaBtn" hidden>Bật 2FA (Quét mã QR)</button>
+              <button type="button" class="btn-sm outline" id="regenRecoveryCodesBtn" hidden>Tạo lại 8 mã khôi
+                phục</button>
+              <button type="button" class="btn-sm danger" id="startDisableMfaBtn" hidden>Tắt 2FA</button>
+            </div>
+
+            <!-- KHU VỰC HIỂN THỊ 8 MÃ KHÔI PHỤC DỰ PHÒNG 2FA -->
+            <div id="mfaRecoveryBox" class="recovery-box" hidden>
+              <p><strong>Mã khôi phục dự phòng (chỉ hiển thị một lần):</strong> Lưu 8 mã dưới đây vào trình quản lý mật
+                khẩu để dùng khi mất điện thoại Authenticator.</p>
+              <div class="recovery-codes-grid" id="mfaRecoveryGrid"></div>
+              <div class="portal-header-actions">
+                <button type="button" class="btn-sm" id="downloadRecoveryCodesBtn">Tải xuống (.txt)</button>
+                <button type="button" class="btn-sm outline" id="hideRecoveryCodesBtn">Đã lưu xong</button>
+              </div>
+            </div>
+
+            <!-- KHU VỰC QUÉT QR KÍCH HOẠT 2FA -->
+            <div id="mfaEnrollArea" hidden>
+              <div class="mfa-qr-row">
+                <img id="mfaQrImg" class="mfa-qr-img" alt="Mã QR thiết lập 2FA">
+                <div>
+                  <p><strong>Bước 1:</strong> Quét mã QR bằng ứng dụng Authenticator hoặc nhập khóa bí mật thủ công:</p>
+                  <div class="mfa-secret-code" id="mfaSecretText"></div>
+                </div>
+              </div>
+              <form id="verifyEnrollMfaForm" class="portal-form">
+                <div class="field-group">
+                  <label for="mfaEnrollCode">Bước 2: Nhập mã 6 chữ số để kích hoạt</label>
+                  <input type="text" id="mfaEnrollCode" inputmode="numeric" pattern="[0-9]{6}" maxlength="6"
+                    autocomplete="one-time-code" placeholder="123456" required>
+                </div>
+                <div class="portal-header-actions">
+                  <button type="submit" class="btn-sm" id="confirmEnrollMfaBtn">Xác nhận kích hoạt 2FA</button>
+                  <button type="button" class="btn-sm outline" id="cancelEnrollMfaBtn">Hủy</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- XÁC MINH TẮT 2FA (KHI ĐANG Ở AAL1) -->
+            <form id="disableMfaForm" class="portal-form" hidden>
+              <div class="field-group">
+                <label for="disableMfaCode">Nhập mã 2FA hiện tại để xác nhận tắt bảo vệ 2 lớp</label>
+                <input type="text" id="disableMfaCode" inputmode="numeric" pattern="[0-9]{6}" maxlength="6"
+                  autocomplete="one-time-code" placeholder="123456" required>
+              </div>
+              <div class="portal-header-actions">
+                <button type="submit" class="btn-sm danger" id="confirmDisableMfaBtn">Xác nhận tắt 2FA</button>
+                <button type="button" class="btn-sm outline" id="cancelDisableMfaBtn">Hủy</button>
+              </div>
+            </form>
+          </div>
+
+          <form id="changePasswordForm" class="portal-form portal-form-spaced">
+            <div class="field-group">
+              <label for="newAccountPassword" id="changePwdLabel">Đổi mật khẩu mới (tối thiểu 10 ký tự)</label>
+              <input type="password" id="newAccountPassword" autocomplete="new-password" maxlength="128"
+                placeholder="Chữ hoa, chữ thường, số & ký tự đặc biệt" required>
+            </div>
+            <div class="field-group">
+              <label for="confirmAccountPassword">Nhập lại mật khẩu mới</label>
+              <input type="password" id="confirmAccountPassword" autocomplete="new-password" maxlength="128"
+                placeholder="Nhập lại mật khẩu mới" required>
+            </div>
+            <div class="portal-header-actions">
+              <button type="submit" class="btn-sm" id="changePwdBtn">Cập nhật mật khẩu</button>
+              <button type="button" class="btn-sm outline" id="logoutAllBtn">Đăng xuất tất cả thiết bị</button>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <!-- LỊCH SỬ ĐƠN HÀNG -->
+      <section class="portal-card" id="ordersHistoryCard" hidden>
+        <h2>Lịch sử đơn hàng của bạn</h2>
+        <p class="portal-card-lead">Hiển thị tối đa 50 đơn hàng gần nhất được đặt khi đăng nhập tài khoản này.</p>
+        <div id="ordersEmptyState" class="empty-state" hidden>Bạn chưa có đơn hàng nào gắn với tài khoản này.</div>
+        <div class="table-scroll" id="ordersTableWrap" hidden>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Mã đơn</th>
+                <th>Ngày đặt</th>
+                <th>Sản phẩm</th>
+                <th>Tổng tiền</th>
+                <th>Thanh toán</th>
+                <th>Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="copyright">© 2026 Rang Mây Coffee. Dữ liệu cá nhân được bảo vệ bằng phân quyền RLS và JWT.</div>
+  </footer>
+
+  <script src="assets/js/config.js" defer></script>
+  <script src="assets/js/auth.js" defer></script>
+  <script src="assets/js/account.js" defer></script>
+</body>
+
+</html>

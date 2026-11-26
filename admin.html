@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+  <title>Chủ cửa hàng – Quản trị & An ninh Hệ thống – Rang Mây Coffee</title>
+  <link rel="icon" type="image/webp" href="hinhanh/logo.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/portal.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="logo">
+        <img src="hinhanh/logongang.webp" alt="Logo Rang Mây" decoding="async" width="210">
+      </a>
+      <nav class="navbar" id="navbar">
+        <a href="index.html">Cửa hàng</a>
+        <a href="admin.html" class="active">Chủ cửa hàng</a>
+        <a href="manager.html">Quản lý</a>
+        <a href="staff.html">Nhân viên</a>
+        <a href="account.html">Tài khoản</a>
+      </nav>
+      <div class="nav-icons">
+        <div class="auth-nav-group" id="headerAuthArea"></div>
+        <button type="button" class="menu-toggle" id="menuToggle" aria-label="Mở menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="portal-main">
+    <div class="container portal-stack">
+      <div id="adminBanner" class="portal-banner info" hidden></div>
+
+      <section id="routeGuardLoader" class="portal-card route-guard-loader">
+        Đang xác minh phiên đăng nhập, vai trò và trạng thái 2FA...
+      </section>
+
+      <!-- KHU VỰC TỪ CHỐI TRUY CẬP / YÊU CẦU 2FA -->
+      <section class="portal-card" id="adminGateCard" hidden>
+        <h2 id="adminGateTitle">Kiểm tra quyền truy cập</h2>
+        <p class="portal-card-lead" id="adminGateMessage"></p>
+        <div class="portal-header-actions">
+          <a href="account.html" id="adminGatePrimaryBtn" class="btn-sm">Đi tới Tài khoản & Bảo mật 2FA</a>
+          <a href="index.html" class="btn-sm outline">Quay lại trang chủ</a>
+        </div>
+      </section>
+
+      <!-- HEADER CHỦ CỬA HÀNG -->
+      <section class="portal-header-card" id="adminHeaderCard" hidden>
+        <div>
+          <h1>Chủ cửa hàng – Quản trị &amp; An ninh Hệ thống</h1>
+          <div class="portal-header-meta">
+            <span id="adminActorEmail"></span>
+            <span id="adminRoleBadge" class="badge role-admin">Chủ cửa hàng</span>
+            <span id="adminAalBadge" class="badge aal-1">Phiên AAL1</span>
+          </div>
+        </div>
+        <div class="portal-header-actions">
+          <a href="manager.html" class="btn-sm outline">Trang Quản lý</a>
+          <a href="staff.html" class="btn-sm outline">Bàn Nhân viên</a>
+          <button type="button" class="btn-sm outline" id="adminRefreshBtn">Làm mới dữ liệu</button>
+          <a href="account.html" class="btn-sm outline">Cài đặt 2FA</a>
+          <button type="button" class="btn-sm danger" id="adminLogoutBtn">Đăng xuất</button>
+        </div>
+      </section>
+
+      <!-- KPI -->
+      <section class="kpi-grid" id="adminKpiGrid" hidden>
+        <div class="kpi-card">
+          <div class="kpi-label">Tổng đơn hàng</div>
+          <div class="kpi-value" id="kpiTotalOrders">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Đơn chờ xác nhận</div>
+          <div class="kpi-value" id="kpiPendingOrders">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Doanh thu dự kiến</div>
+          <div class="kpi-value" id="kpiRevenue">0đ</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Liên hệ mới</div>
+          <div class="kpi-value" id="kpiNewContacts">0</div>
+        </div>
+        <div class="kpi-card" id="kpiUsersCard" hidden>
+          <div class="kpi-label">Tổng tài khoản</div>
+          <div class="kpi-value" id="kpiTotalUsers">0</div>
+        </div>
+      </section>
+
+      <!-- TABS QUẢN TRỊ -->
+      <section class="portal-card" id="adminWorkspaceCard" hidden>
+        <div class="tab-strip" id="adminTabs">
+          <button type="button" class="tab-btn active" data-admin-tab="users" id="tabBtnUsers">Phân quyền &amp; Nhân sự</button>
+          <button type="button" class="tab-btn" data-admin-tab="catalog" id="tabBtnCatalog">Sản phẩm &amp; Giá bán</button>
+          <button type="button" class="tab-btn" data-admin-tab="security" id="tabBtnSecurity">An ninh &amp; Sao lưu 3-2-1</button>
+          <button type="button" class="tab-btn" data-admin-tab="logs" id="tabBtnLogs">Nhật ký Audit</button>
+          <button type="button" class="tab-btn" data-admin-tab="orders">Giám sát Đơn hàng</button>
+          <button type="button" class="tab-btn" data-admin-tab="contacts">Giám sát Liên hệ</button>
+        </div>
+
+        <!-- PANEL ĐƠN HÀNG -->
+        <div id="panelOrders" class="admin-panel-spaced" hidden>
+          <div class="toolbar-row">
+            <div class="toolbar-controls">
+              <input type="text" id="orderSearchInput" placeholder="Tìm theo mã đơn, tên hoặc SĐT khách hàng...">
+              <select id="orderStatusFilter">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="pending">Chờ xác nhận</option>
+                <option value="confirmed">Đã xác nhận</option>
+                <option value="shipped">Đang giao</option>
+                <option value="completed">Hoàn tất</option>
+                <option value="cancelled">Đã hủy</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Đơn hàng</th>
+                  <th>Khách hàng</th>
+                  <th>Chi tiết & Giá</th>
+                  <th>Trạng thái hiện tại</th>
+                  <th>Cập nhật xử lý</th>
+                </tr>
+              </thead>
+              <tbody id="adminOrdersBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PANEL LIÊN HỆ -->
+        <div id="panelContacts" class="admin-panel-spaced" hidden>
+          <div class="toolbar-row">
+            <div class="toolbar-controls">
+              <select id="contactStatusFilter">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="new">Mới tiếp nhận</option>
+                <option value="in_progress">Đang xử lý</option>
+                <option value="resolved">Đã phản hồi</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Người gửi</th>
+                  <th>Nội dung liên hệ</th>
+                  <th>Thời gian</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="adminContactsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PANEL PHÂN QUYỀN TÀI KHOẢN (CHỈ ADMIN) -->
+        <div id="panelUsers" class="admin-panel-spaced">
+          <form class="onboarding-box" id="createUserForm">
+            <h3>Cấp tài khoản nhân sự mới (Onboarding)</h3>
+            <div class="onboarding-grid">
+              <div class="field-group">
+                <label for="newStaffName">Họ và tên *</label>
+                <input type="text" id="newStaffName" minlength="2" maxlength="100" placeholder="Nguyễn Văn B" required>
+              </div>
+              <div class="field-group">
+                <label for="newStaffEmail">Email đăng nhập *</label>
+                <input type="email" id="newStaffEmail" maxlength="254" placeholder="nhanvien@rangmaycoffee.vn" required>
+              </div>
+              <div class="field-group">
+                <label for="newStaffRole">Vai trò RBAC *</label>
+                <select id="newStaffRole">
+                  <option value="staff">Nhân viên xử lý đơn</option>
+                  <option value="manager">Quản lý cửa hàng</option>
+                  <option value="customer">Khách hàng</option>
+                  <option value="admin">Quản trị viên</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="newStaffPassword">Mật khẩu mạnh (&ge;14 ký tự nội bộ) *</label>
+                <input type="password" id="newStaffPassword" maxlength="128" placeholder="Tối thiểu 14 ký tự đủ 4 nhóm" required>
+              </div>
+            </div>
+            <label class="catalog-checkbox-label" for="newStaffCanEditPrice" id="newStaffPricePermWrap" hidden>
+              <input type="checkbox" id="newStaffCanEditPrice">
+              <span>Cấp "Quyền sửa giá bán" cho tài khoản Quản lý cửa hàng này</span>
+            </label>
+            <div class="backup-actions-row">
+              <button type="submit" class="btn-sm" id="createStaffBtn">Tạo tài khoản nhân sự</button>
+            </div>
+          </form>
+
+          <div class="toolbar-row">
+            <div class="toolbar-controls">
+              <input type="text" id="userSearchInput" placeholder="Tìm tài khoản theo email hoặc họ tên...">
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Tài khoản</th>
+                  <th>Vai trò hiện tại</th>
+                  <th>Trạng thái</th>
+                  <th>Phân quyền & Khóa tài khoản</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PANEL SẢN PHẨM & GIÁ BÁN (TOÀN QUYỀN CHỦ CỬA HÀNG) -->
+        <div id="panelCatalog" class="admin-panel-spaced" hidden>
+          <div class="portal-banner info">
+            <div>
+              <strong>Toàn quyền định giá của Chủ cửa hàng:</strong> Chủ cửa hàng luôn có quyền thay đổi đơn giá niêm yết, tồn kho và trạng thái mở bán. Bạn cũng có thể bật/tắt <strong>Quyền sửa giá</strong> cho từng tài khoản Quản lý cửa hàng ngay tại tab <em>Phân quyền &amp; Nhân sự</em>.
+            </div>
+          </div>
+          <form class="onboarding-box" id="ownerProductForm">
+            <h3>Điều chỉnh Giá bán &amp; Tồn kho sản phẩm</h3>
+            <input type="hidden" id="ownerProdId" value="drip-pack-001">
+            <div class="catalog-grid">
+              <div class="field-group">
+                <label for="ownerProdName">Tên sản phẩm</label>
+                <input type="text" id="ownerProdName" value="Cà phê phin giấy Rang Mây" readonly>
+              </div>
+              <div class="field-group">
+                <label for="ownerProdPrice">Giá bán niêm yết (VND) *</label>
+                <input type="number" id="ownerProdPrice" min="10000" max="5000000" step="1000" required>
+              </div>
+              <div class="field-group">
+                <label for="ownerProdStock">Số lượng tồn kho (hộp) *</label>
+                <input type="number" id="ownerProdStock" min="0" max="10000" step="1" required>
+              </div>
+            </div>
+            <div class="catalog-grid admin-panel-spaced">
+              <div class="field-group">
+                <label for="ownerProdBadge">Nhãn giới thiệu sản phẩm *</label>
+                <input type="text" id="ownerProdBadge" maxlength="120" required>
+              </div>
+              <div class="field-group">
+                <label class="catalog-checkbox-label" for="ownerProdAvailable">
+                  <input type="checkbox" id="ownerProdAvailable">
+                  <span>Cho phép khách hàng đặt mua trên website</span>
+                </label>
+              </div>
+              <div class="field-group">
+                <button type="submit" class="btn-sm" id="ownerSaveProductBtn">Lưu Giá &amp; Đồng bộ Cửa hàng</button>
+              </div>
+            </div>
+            <div class="catalog-preview-box" id="ownerCatalogLivePreview">Đang tải dữ liệu sản phẩm...</div>
+          </form>
+        </div>
+
+        <!-- PANEL NHẬT KÝ BẢO MẬT (CHỈ ADMIN) -->
+        <div id="panelLogs" class="admin-panel-spaced" hidden>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Thời gian</th>
+                  <th>Người thực hiện</th>
+                  <th>Hành động</th>
+                  <th>Đối tượng</th>
+                  <th>Chi tiết</th>
+                </tr>
+              </thead>
+              <tbody id="adminLogsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PANEL BẢO MẬT & SAO LƯU 3-2-1 (CHỈ ADMIN) -->
+        <div id="panelSecurity" class="admin-panel-spaced" hidden>
+          <div class="security-policy-bar">
+            <div class="policy-bar-group">
+              <strong>Chính sách 2FA Bắt buộc (Admin/Manager/Staff):</strong>
+              <span class="badge status-warn" id="requireMfaStatusBadge">Đang tắt (khuyến nghị)</span>
+              <button type="button" class="btn-sm outline" id="toggleRequireMfaBtn">Bật ép buộc 2FA (AAL2)</button>
+            </div>
+            <div class="policy-bar-group">
+              <span id="activeLockoutsText">Đang khóa tạm thời (Brute-force): 0</span>
+              <button type="button" class="btn-sm outline" id="clearLockoutsBtn">Mở khóa Brute-force</button>
+            </div>
+          </div>
+
+          <div class="security-section-grid">
+            <div class="security-subcard">
+              <h3>Kiểm tra Sức khỏe Bảo mật (Live)</h3>
+              <p class="portal-card-lead">Kiểm tra trực tiếp chứng chỉ HTTPS, Security Headers, Mixed Content, 2FA, băm mật khẩu và RBAC.</p>
+              <div class="table-scroll">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Hạng mục</th>
+                      <th>Trạng thái</th>
+                      <th>Chi tiết</th>
+                    </tr>
+                  </thead>
+                  <tbody id="securityHealthBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="security-subcard">
+              <h3>Thông số Phiên bản &amp; Mã hóa</h3>
+              <p class="portal-card-lead">Thông tin hạ tầng vận hành hiện tại và nguyên tắc quản lý khóa.</p>
+              <ul class="version-list" id="securityVersionList"></ul>
+            </div>
+          </div>
+
+          <div class="security-subcard">
+            <div class="security-subcard-header">
+              <div>
+                <h3>Sao lưu Dữ liệu 3-2-1 Mã hóa AES-256-GCM (Snapshot + SHA-256)</h3>
+                <p class="portal-card-lead">Mã hóa toàn bộ Đơn hàng, Liên hệ, Hồ sơ an toàn, Checklist và Audit Log bằng AES-256-GCM kèm diễn tập khôi phục (Restore Drill).</p>
+              </div>
+              <button type="button" class="btn-sm" id="createBackupBtn">Tạo Snapshot Mã hóa</button>
+            </div>
+            <div id="restoreDrillReport" class="portal-banner info" hidden></div>
+            <div class="table-scroll">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Tệp Snapshot</th>
+                    <th>Thời gian &amp; Mã hóa</th>
+                    <th>Mã kiểm tra SHA-256</th>
+                    <th>Thao tác Khôi phục &amp; Tải</th>
+                  </tr>
+                </thead>
+                <tbody id="adminBackupsBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="security-subcard security-subcard-spaced">
+            <div class="security-subcard-header">
+              <div>
+                <h3>Checklist Bảo mật Định kỳ</h3>
+                <p class="portal-card-lead">Theo dõi rà soát Hàng ngày, Hàng tuần, Hàng tháng và Hàng quý theo chuẩn vận hành TMĐT.</p>
+              </div>
+              <button type="submit" form="securityChecklistForm" class="btn-sm" id="saveChecklistBtn">Lưu trạng thái Checklist</button>
+            </div>
+            <form id="securityChecklistForm">
+              <div class="checklist-list" id="securityChecklistItems"></div>
+            </form>
+            <p class="checklist-meta" id="checklistMetaText"></p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="copyright">© 2026 Rang Mây Coffee. Khu vực quản trị tự động khóa sau 30 phút không thao tác.</div>
+  </footer>
+
+  <script src="assets/js/config.js" defer></script>
+  <script src="assets/js/auth.js" defer></script>
+  <script src="assets/js/admin.js" defer></script>
+</body>
+</html>

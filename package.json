@@ -1,0 +1,14 @@
+{
+  "name": "rangmay-coffee-web",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server/secure-server.mjs",
+    "start:secure": "node server/secure-server.mjs",
+    "test:security": "node server/test-security.mjs"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4",
+    "selfsigned": "^2.4.1"
+  }
+}
