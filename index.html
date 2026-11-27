@@ -44,7 +44,7 @@
     href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Lora:ital,wght@0,600;0,700;1,600&display=swap"
     rel="stylesheet"
   >
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261128">
 </head>
 
 <body>
@@ -576,44 +576,52 @@ Mình là Barista AI của Rang Mây — bạn có thể hỏi mình bất cứ 
     </div>
   </div>
 
-  <!-- MODAL XEM ĐIỀU KHOẢN THANH TOÁN, GIAO DỊCH & BẢO MẬT -->
-  <div id="policy-overlay" class="policy-modal-overlay">
+  <!-- MODAL XEM ĐIỀU KHOẢN THANH TOÁN, GIAO DỊCH & BẢO MẬT (ẨN TRONG MỤC ĐIỀU KHOẢN & CHÍNH SÁCH) -->
+  <div id="policy-overlay" class="policy-modal-overlay" hidden>
     <div class="policy-modal" role="dialog" aria-modal="true" aria-labelledby="policyModalTitle">
       <div class="checkout-header">
-        <h3 id="policyModalTitle">📋 Điều Khoản Thanh Toán, Giao Dịch &amp; Quyền Riêng Tư</h3>
+        <h3 id="policyModalTitle">📋 Điều Khoản &amp; Chính Sách Rang Mây</h3>
         <button type="button" class="checkout-close-btn" id="policyCloseBtn" aria-label="Đóng điều khoản">✕</button>
       </div>
+      <div class="policy-modal-tabs" role="tablist" aria-label="Chọn mục chính sách">
+        <button type="button" class="policy-tab-btn" data-policy-tab="policy-delivery">🚚 Chính sách giao hàng</button>
+        <button type="button" class="policy-tab-btn" data-policy-tab="policy-return">🔄 Chính sách đổi trả</button>
+        <button type="button" class="policy-tab-btn" data-policy-tab="policy-payment">💵 Điều khoản thanh toán</button>
+        <button type="button" class="policy-tab-btn" data-policy-tab="policy-privacy">🔒 Chính sách bảo mật</button>
+        <button type="button" class="policy-tab-btn" data-policy-tab="all">📑 Xem tất cả</button>
+      </div>
       <div class="policy-modal-body">
-        <div class="policy-detail-grid">
-          <article class="policy-detail" id="policy-payment">
-            <h3>💵 Điều khoản Thanh toán</h3>
-            <ul>
-              <li>Hỗ trợ thanh toán tiền mặt khi nhận hàng (COD). Quý khách được kiểm tra ngoại quan hộp cà phê trước khi thanh toán.</li>
-              <li>Đơn chỉ được ghi nhận khi máy chủ trả về mã đơn hàng chính thức (<code>RM-...</code>).</li>
-              <li>Website tuyệt đối không yêu cầu hoặc lưu số thẻ, mã CVV hay mật khẩu ngân hàng.</li>
-            </ul>
-          </article>
+        <div class="policy-detail-grid" id="policyDetailGrid">
           <article class="policy-detail" id="policy-delivery">
             <h3>🚚 Chính sách Giao hàng</h3>
             <ul>
               <li>Miễn phí giao hàng toàn quốc cho mọi đơn hàng hiển thị trong trang Thanh toán.</li>
               <li>Đơn được xử lý trong vòng 24 giờ; thời gian nhận hàng từ 1–2 ngày (TP.HCM) hoặc 2–4 ngày (các tỉnh thành khác).</li>
-              <li>Nếu kiện hàng có dấu hiệu móp rách khi nhận, quý khách vui lòng chụp ảnh và liên hệ hotline 0383.505.924.</li>
+              <li>Quý khách được kiểm tra tình trạng gói hàng khi nhận. Nếu kiện hàng có dấu hiệu móp rách, vui lòng chụp ảnh và liên hệ hotline 0383.505.924.</li>
             </ul>
           </article>
           <article class="policy-detail" id="policy-return">
-            <h3>🔄 Đổi trả và Hoàn tiền</h3>
+            <h3>🔄 Chính sách Đổi trả và Hoàn tiền</h3>
             <ul>
               <li>Hỗ trợ đổi mới 1–1 miễn phí hoặc hoàn tiền trong 7 ngày nếu giao sai dòng sản phẩm, thiếu hàng hoặc hư hỏng bao bì.</li>
-              <li>Với lỗi giao vận hoặc lỗi sản phẩm từ phía cửa hàng, Rang Mây chịu 100% chi phí gửi trả.</li>
+              <li>Cửa hàng xác nhận phương án đổi hàng hoặc hoàn tiền trước khi quý khách gửi hàng lại; với lỗi từ phía cửa hàng/vận chuyển, Rang Mây chịu 100% phí gửi trả.</li>
+              <li>Chính sách này đảm bảo đầy đủ quyền lợi hợp pháp của người tiêu dùng.</li>
+            </ul>
+          </article>
+          <article class="policy-detail" id="policy-payment">
+            <h3>💵 Điều khoản Thanh toán</h3>
+            <ul>
+              <li>Hỗ trợ thanh toán tiền mặt khi nhận hàng (COD). Quý khách kiểm tra ngoại quan hộp cà phê trước khi thanh toán.</li>
+              <li>Đơn hàng chỉ được xác nhận khi máy chủ trả về mã đơn hàng chính thức (<code>RM-...</code>).</li>
+              <li>Website tuyệt đối không yêu cầu hoặc lưu số thẻ, mã CVV hay mật khẩu ngân hàng của khách hàng.</li>
             </ul>
           </article>
           <article class="policy-detail" id="policy-privacy">
-            <h3>🔒 Quyền riêng tư &amp; Bảo vệ Dữ liệu</h3>
+            <h3>🔒 Chính sách Bảo mật &amp; Quyền riêng tư</h3>
             <ul>
-              <li>Họ tên, số điện thoại, địa chỉ nhận hàng và lời nhắn thiệp chỉ dùng để xử lý đơn và giao vận.</li>
-              <li>Tài khoản thành viên được bảo vệ bằng mật khẩu mạnh, xác thực hai yếu tố (2FA TOTP) và phân quyền truy cập dữ liệu (RLS).</li>
-              <li>Quý khách có thể yêu cầu xem, cập nhật hoặc xóa dữ liệu cá nhân qua <code>hello@rangmaycoffee.vn</code>.</li>
+              <li>Thông tin họ tên, số điện thoại, địa chỉ giao hàng, email và lời nhắn thiệp chỉ dùng để xử lý đơn hàng và hỗ trợ khách hàng.</li>
+              <li>Tài khoản thành viên hỗ trợ mật khẩu mạnh, xác thực hai yếu tố (2FA TOTP) và phân quyền truy cập dữ liệu (RLS).</li>
+              <li>Quý khách có thể yêu cầu xem, sửa hoặc xóa dữ liệu cá nhân qua <code>hello@rangmaycoffee.vn</code>.</li>
             </ul>
           </article>
         </div>
@@ -621,7 +629,7 @@ Mình là Barista AI của Rang Mây — bạn có thể hỏi mình bất cứ 
         <div class="security-trust-strip" id="security-standards">
           <div class="security-strip-head">
             <div>
-              <h3>5 Lớp Bảo Mật Đang Bảo Vệ Giao Dịch Của Bạn</h3>
+              <h3>5 Lớp Bảo Mật Đang Bảo Vệ Website Rang Mây</h3>
               <p>Áp dụng đồng bộ trên toàn hệ thống cửa hàng trực tuyến Rang Mây Coffee.</p>
             </div>
             <a href="login.html" class="btn btn-outline security-strip-btn">Cổng Đăng Nhập &amp; 2FA</a>
@@ -703,8 +711,8 @@ Bạn muốn xem giá & tồn kho, săn mã Voucher giảm giá, hỏi công th�
     <button type="button" class="chat-btn" id="floatingChatToggleBtn" aria-label="Mở trợ lý Barista AI">💬</button>
   </div>
 
-  <script src="assets/js/config.js" defer></script>
-  <script src="assets/js/auth.js" defer></script>
-  <script src="assets/js/app.js" defer></script>
+  <script src="assets/js/config.js?v=20261128" defer></script>
+  <script src="assets/js/auth.js?v=20261128" defer></script>
+  <script src="assets/js/app.js?v=20261128" defer></script>
 </body>
 </html>

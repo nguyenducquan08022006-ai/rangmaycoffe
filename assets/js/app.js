@@ -588,22 +588,40 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  function openPolicyModal(focusSectionId) {
-    const overlay = document.getElementById("policy-overlay");
-    if (!overlay) return;
-    overlay.classList.add("open");
-    document.querySelectorAll(".policy-detail.highlighted").forEach((el) => el.classList.remove("highlighted"));
-    if (typeof focusSectionId === "string" && focusSectionId) {
-      const target = document.getElementById(focusSectionId);
-      if (target) {
-        target.classList.add("highlighted");
-        window.setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "nearest" }), 80);
-      }
+  function selectPolicyTab(tabId) {
+    const activeTab = typeof tabId === "string" && tabId ? tabId : "all";
+    const showAll = activeTab === "all";
+    const grid = document.getElementById("policyDetailGrid");
+    if (grid) {
+      grid.classList.toggle("single-tab", !showAll);
+    }
+    document.querySelectorAll("[data-policy-tab]").forEach((btn) => {
+      btn.classList.toggle("active", btn.getAttribute("data-policy-tab") === activeTab);
+    });
+    document.querySelectorAll("#policyDetailGrid .policy-detail").forEach((card) => {
+      const match = showAll || card.id === activeTab;
+      card.hidden = !match;
+      card.classList.toggle("highlighted", !showAll && card.id === activeTab);
+    });
+    const secStrip = document.getElementById("security-standards");
+    if (secStrip) {
+      secStrip.hidden = !(showAll || activeTab === "policy-privacy");
     }
   }
 
+  function openPolicyModal(focusSectionId) {
+    const overlay = document.getElementById("policy-overlay");
+    if (!overlay) return;
+    overlay.hidden = false;
+    overlay.classList.add("open");
+    selectPolicyTab(focusSectionId || "all");
+  }
+
   function closePolicyModal() {
-    document.getElementById("policy-overlay")?.classList.remove("open");
+    const overlay = document.getElementById("policy-overlay");
+    if (!overlay) return;
+    overlay.classList.remove("open");
+    overlay.hidden = true;
   }
 
   function toggleCheckoutTerms() {
@@ -1144,6 +1162,11 @@
     link.addEventListener("click", (event) => {
       event.preventDefault();
       openPolicyModal(link.getAttribute("data-open-policy") || "policy-payment");
+    });
+  });
+  document.querySelectorAll("[data-policy-tab]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      selectPolicyTab(btn.getAttribute("data-policy-tab") || "all");
     });
   });
 
