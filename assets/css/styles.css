@@ -544,9 +544,9 @@ select {
 
 .collection-card-media {
   position: relative;
-  aspect-ratio: 4 / 3;
-  background: linear-gradient(145deg, #f8efe5, #efe0cc);
-  padding: 14px;
+  aspect-ratio: 1 / 1;
+  background: #f4eadb;
+  padding: 8px;
   cursor: pointer;
   overflow: hidden;
 }

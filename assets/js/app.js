@@ -5,6 +5,10 @@
   const IMAGE_FALLBACKS = {
     logo: "hinhanh/logo.webp",
     banner: "hinhanh/product.webp",
+    productBox: "hinhanh/product.webp",
+    daiNgan: "hinhanh/rangmay-dai-ngan.webp",
+    suongSom: "hinhanh/rangmay-suong-som.webp",
+    hopQua: "hinhanh/hop-qua-tinh-hoa.webp",
     dripPack: "hinhanh/sanpham1.webp",
     dripBrew: "hinhanh/drip-brew.webp",
     coffeeIce: "hinhanh/coffee-ice.webp",
@@ -17,8 +21,14 @@
       defaultPrice: 119000,
       defaultStock: 50,
       defaultBadge: "Best Seller • Cân bằng êm dịu",
-      image: "hinhanh/sanpham1.webp",
-      imageType: "dripPack",
+      image: "hinhanh/product.webp",
+      imageType: "productBox",
+      gallery: [
+        { src: "hinhanh/product.webp", fallback: "productBox", alt: "Hộp Rang Mây Bản Giao Hưởng" },
+        { src: "hinhanh/sanpham1.webp", fallback: "dripPack", alt: "Gói phin giấy 12g" },
+        { src: "hinhanh/drip-brew.webp", fallback: "dripBrew", alt: "Pha nóng phin giấy" },
+        { src: "hinhanh/banner1.webp", fallback: "banner", alt: "Không gian thưởng thức Măng Đen" }
+      ],
       subtitle: "Êm dịu hài hòa • Chocolate đen & Caramel ngọt hậu",
       description: "Dòng Signature phối trộn cân bằng từ đại ngàn Măng Đen, nổi bật nốt hương chocolate đen và caramel ngọt hậu, không chua gắt. Phù hợp thưởng thức nóng hoặc đá mỗi sáng.",
       specPack: "Hộp 10 gói tiện lợi",
@@ -31,8 +41,14 @@
       defaultPrice: 109000,
       defaultStock: 45,
       defaultBadge: "Đậm đà • Chuyên Sữa đá & Bạc xỉu",
-      image: "hinhanh/coffee-ice.webp",
-      imageType: "coffeeIce",
+      image: "hinhanh/rangmay-dai-ngan.webp",
+      imageType: "daiNgan",
+      gallery: [
+        { src: "hinhanh/rangmay-dai-ngan.webp", fallback: "daiNgan", alt: "Hộp Rang Mây Đại Ngàn Gu Đậm Sữa Đá" },
+        { src: "hinhanh/rangmay-dam-da.webp", fallback: "daiNgan", alt: "Phiên bản Đậm Đà Bản Sắc" },
+        { src: "hinhanh/coffee-ice.webp", fallback: "coffeeIce", alt: "Ly cà phê đá sánh đậm" },
+        { src: "hinhanh/drip-brew.webp", fallback: "dripBrew", alt: "Chiết xuất phin giấy đậm vị" }
+      ],
       subtitle: "Cốt sánh đậm • Dậy hương bơ cacao khi quyện sữa đặc",
       description: "Tăng cường tỷ lệ hạt Fine Robusta Tây Nguyên chín mọng kết hợp Arabica Măng Đen rang vừa–đậm. Cho cốt cà phê sánh dày, bùng vị mạnh mẽ không bị nhạt khi pha cùng đá và sữa đặc.",
       specPack: "Hộp 10 gói đậm vị",
@@ -45,8 +61,14 @@
       defaultPrice: 145000,
       defaultStock: 35,
       defaultBadge: "Specialty 1.200m • Hợp Cold Brew",
-      image: "hinhanh/drip-brew.webp",
-      imageType: "dripBrew",
+      image: "hinhanh/rangmay-suong-som.webp",
+      imageType: "suongSom",
+      gallery: [
+        { src: "hinhanh/rangmay-suong-som.webp", fallback: "suongSom", alt: "Hộp Rang Mây Sương Sớm 100% Arabica" },
+        { src: "hinhanh/drip-brew.webp", fallback: "dripBrew", alt: "Chiết xuất Pour-over thanh tao" },
+        { src: "hinhanh/sanpham1.webp", fallback: "dripPack", alt: "Túi lọc giấy giữ trọn hương hoa" },
+        { src: "hinhanh/mangden.jpg", fallback: "story", alt: "Sương sớm cao nguyên Măng Đen 1.200m" }
+      ],
       subtitle: "Thanh tao tinh tế • Hương hoa trắng & Trái cây chín",
       description: "Tuyển chọn 100% hạt Arabica vùng cao Măng Đen ở độ cao 1.200m quanh năm mây phủ. Rang vừa sáng giữ trọn hương hoa tinh tế, vị thanh nhẹ, lượng caffeine êm ái cho cả buổi chiều.",
       specPack: "Hộp 10 gói Specialty",
@@ -59,8 +81,14 @@
       defaultPrice: 269000,
       defaultStock: 25,
       defaultBadge: "Quà biếu cao cấp • 24 gói đủ 3 vị",
-      image: "hinhanh/banner1.webp",
-      imageType: "banner",
+      image: "hinhanh/hop-qua-tinh-hoa.webp",
+      imageType: "hopQua",
+      gallery: [
+        { src: "hinhanh/hop-qua-tinh-hoa.webp", fallback: "hopQua", alt: "Hộp Quà Tinh Hoa Măng Đen 24 gói kèm thiệp" },
+        { src: "hinhanh/product.webp", fallback: "productBox", alt: "8 gói Bản Giao Hưởng trong hộp quà" },
+        { src: "hinhanh/rangmay-dai-ngan.webp", fallback: "daiNgan", alt: "8 gói Đại Ngàn trong hộp quà" },
+        { src: "hinhanh/rangmay-suong-som.webp", fallback: "suongSom", alt: "8 gói Sương Sớm trong hộp quà" }
+      ],
       subtitle: "Hộp cứng sang trọng 24 gói (8×3 vị) • Áp ngay mã VIP50K",
       description: "Bộ quà tặng hội tụ trọn vẹn 3 sắc thái hương vị Măng Đen (8 gói Bản Giao Hưởng + 8 gói Đại Ngàn + 8 gói Sương Sớm) kèm thiệp chúc mừng viết riêng bằng AI hoàn toàn miễn phí.",
       specPack: "Hộp quà cứng 24 gói",
@@ -156,20 +184,20 @@
     return el;
   }
 
-  // Product Gallery
-  document.querySelectorAll(".thumb-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const mainImg = document.getElementById("mainProductImg");
-      const thumbSrc = btn.dataset.thumbSrc;
-      const fallback = btn.dataset.fallback || "dripPack";
-      if (mainImg && thumbSrc) {
-        delete mainImg.dataset.fallbackApplied;
-        mainImg.dataset.fallback = fallback;
-        mainImg.src = thumbSrc;
-      }
-      document.querySelectorAll(".thumb-btn").forEach(item => item.classList.remove("active"));
-      btn.classList.add("active");
-    });
+  // Product Gallery (event delegation so dynamic per-SKU thumbnails always work)
+  document.getElementById("productThumbnailsRow")?.addEventListener("click", (event) => {
+    const btn = event.target instanceof Element ? event.target.closest(".thumb-btn") : null;
+    if (!btn) return;
+    const mainImg = document.getElementById("mainProductImg");
+    const thumbSrc = btn.dataset.thumbSrc;
+    const fallback = btn.dataset.fallback || "productBox";
+    if (mainImg && thumbSrc) {
+      delete mainImg.dataset.fallbackApplied;
+      mainImg.dataset.fallback = fallback;
+      mainImg.src = thumbSrc;
+    }
+    document.querySelectorAll("#productThumbnailsRow .thumb-btn").forEach((item) => item.classList.remove("active"));
+    btn.classList.add("active");
   });
 
   // Mobile Navbar Toggle
@@ -1148,9 +1176,24 @@
       mainImg.src = meta.image;
       mainImg.alt = prod.name;
     }
-    document.querySelectorAll(".thumb-btn").forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.thumbSrc === meta.image);
-    });
+    const thumbsRow = document.getElementById("productThumbnailsRow");
+    if (thumbsRow && Array.isArray(meta.gallery)) {
+      thumbsRow.replaceChildren();
+      meta.gallery.forEach((g, idx) => {
+        const tBtn = createEl("button", "thumb-btn" + (idx === 0 ? " active" : ""));
+        tBtn.type = "button";
+        tBtn.dataset.thumbSrc = g.src;
+        tBtn.dataset.fallback = g.fallback;
+        const tImg = document.createElement("img");
+        tImg.src = g.src;
+        tImg.alt = g.alt;
+        tImg.loading = "lazy";
+        tImg.decoding = "async";
+        tImg.dataset.fallback = g.fallback;
+        tBtn.appendChild(tImg);
+        thumbsRow.appendChild(tBtn);
+      });
+    }
 
     const badgeEl = document.getElementById("productBadge");
     if (badgeEl) badgeEl.textContent = prod.badge_text || meta.defaultBadge;
