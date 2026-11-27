@@ -309,7 +309,9 @@ Deno.serve(async (request: Request) => {
     }
 
     if (action === "upsert_voucher") {
-      const code = typeof body.code === "string" ? body.code.trim().toUpperCase() : "";
+      const code = typeof body.code === "string"
+        ? body.code.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[đĐ]/g, "D").toUpperCase().replace(/\s+/g, "")
+        : "";
       const discountType = body.discountType;
       const discountValue = body.discountValue;
       const minOrderAmount = body.minOrderAmount ?? 0;

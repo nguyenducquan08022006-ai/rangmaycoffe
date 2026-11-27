@@ -458,7 +458,13 @@
     const inputEl = document.getElementById("coVoucherInput");
     const applyBtn = document.getElementById("applyVoucherBtn");
     const clearBtn = document.getElementById("clearVoucherBtn");
-    const code = (inputEl?.value || "").trim().toUpperCase();
+    const code = String(inputEl?.value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[đĐ]/g, "D")
+      .toUpperCase()
+      .replace(/\s+/g, "");
+    if (inputEl && code) inputEl.value = code;
     const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
 
     if (!code) {

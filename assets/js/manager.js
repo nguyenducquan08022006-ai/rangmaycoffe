@@ -38,17 +38,41 @@
   let stopIdleGuard = null;
   const banner = document.getElementById("managerBanner");
 
+  function normalizeVoucherCodeInput(raw) {
+    return String(raw || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[đĐ]/g, "D")
+      .toUpperCase()
+      .replace(/\s+/g, "")
+      .replace(/[^A-Z0-9_-]/g, "");
+  }
+
   function showBanner(kind, message) {
-    if (!banner) return;
-    banner.className = "portal-banner " + kind;
-    banner.textContent = message;
-    banner.hidden = false;
+    if (banner) {
+      banner.className = "portal-banner " + kind;
+      banner.textContent = message;
+      banner.hidden = false;
+    }
+    const vchPanel = document.getElementById("panelVouchers");
+    const vchNotice = document.getElementById("voucherFormNotice");
+    if (vchNotice && vchPanel && !vchPanel.hidden) {
+      vchNotice.className = "portal-banner " + kind + " admin-panel-spaced";
+      vchNotice.textContent = message;
+      vchNotice.hidden = false;
+    }
   }
 
   function clearBanner() {
-    if (!banner) return;
-    banner.hidden = true;
-    banner.textContent = "";
+    if (banner) {
+      banner.hidden = true;
+      banner.textContent = "";
+    }
+    const vchNotice = document.getElementById("voucherFormNotice");
+    if (vchNotice) {
+      vchNotice.hidden = true;
+      vchNotice.textContent = "";
+    }
   }
 
   function createEl(tag, className, text) {
@@ -750,11 +774,20 @@
     if (actEl) actEl.checked = true;
   });
 
+  document.getElementById("vchCode")?.addEventListener("blur", (event) => {
+    const el = event.target;
+    if (el && typeof el.value === "string" && el.value.trim()) {
+      el.value = normalizeVoucherCodeInput(el.value);
+    }
+  });
+
   document.getElementById("voucherForm")?.addEventListener("submit", async (event) => {
     event.preventDefault();
     clearBanner();
     const saveBtn = document.getElementById("saveVoucherBtn");
-    const code = (document.getElementById("vchCode")?.value || "").trim().toUpperCase();
+    const codeInputEl = document.getElementById("vchCode");
+    const code = normalizeVoucherCodeInput(codeInputEl?.value || "");
+    if (codeInputEl) codeInputEl.value = code;
     const discountType = document.getElementById("vchType")?.value || "percent";
     const discountValue = Number.parseInt(document.getElementById("vchValue")?.value || "", 10);
     const minOrderAmount = Number.parseInt(document.getElementById("vchMinOrder")?.value || "0", 10);
@@ -765,7 +798,19 @@
     const isActive = Boolean(document.getElementById("vchActive")?.checked);
 
     if (!/^[A-Z0-9_-]{3,24}$/.test(code)) {
-      showBanner("warning", "Mã Voucher phải từ 3–24 ký tự chữ không dấu/số (A-Z, 0-9, -, _).");
+      showBanner("warning", "Mã Voucher phải từ 3–24 ký tự chữ hoặc số (VD: TET2027).");
+      return;
+    }
+    if (discountType === "percent" && (!Number.isInteger(discountValue) || discountValue < 1 || discountValue > 90)) {
+      showBanner("warning", "Mức giảm theo phần trăm (%) phải từ 1% đến 90%.");
+      return;
+    }
+    if (discountType === "fixed" && (!Number.isInteger(discountValue) || discountValue < 1000 || discountValue > 2000000)) {
+      showBanner("warning", "Mức giảm tiền cố định (VND) phải từ 1.000đ đến 2.000.000đ.");
+      return;
+    }
+    if (discountType === "percent" && maxDiscountAmount !== null && (!Number.isInteger(maxDiscountAmount) || maxDiscountAmount < 1000 || maxDiscountAmount > 2000000)) {
+      showBanner("warning", "Mức giảm tối đa (VND) phải từ 1.000đ đến 2.000.000đ (hoặc để trống nếu không giới hạn).");
       return;
     }
 
