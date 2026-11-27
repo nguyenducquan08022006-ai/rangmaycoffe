@@ -131,12 +131,14 @@
   <section class="section product-section" id="product">
     <div class="container">
       <div class="section-title">
-        <span>SẢN PHẨM CHÍNH</span>
-        <h2>Cà phê phin giấy Rang Mây</h2>
-        <p>Sản phẩm cà phê đặc sản được đóng phin giấy tiện lợi để cùng bạn đi đến mọi hành trình.</p>
+        <span>BỘ SƯU TẬP ĐẶC SẢN MĂNG ĐEN</span>
+        <h2>4 Dòng Cà Phê Phin Giấy Rang Mây</h2>
+        <p>Từ vị cân bằng êm dịu mỗi sáng, cốt đậm sánh chuyên pha Sữa đá, 100% Arabica thanh tao đến Hộp Quà biếu tinh tuyển đủ 3 vị.</p>
       </div>
 
-      <div class="product-box">
+      <div class="collection-grid" id="productCollectionGrid" aria-label="Bộ sưu tập 4 dòng cà phê phin giấy Rang Mây"></div>
+
+      <div class="product-box" id="productSpotlightBox">
         <div class="product-gallery-container">
           <div class="gallery-main-view">
             <img id="mainProductImg" src="hinhanh/sanpham1.webp" alt="Sản phẩm cà phê phin giấy Rang Mây" loading="lazy" decoding="async" data-fallback="dripPack">
@@ -158,26 +160,26 @@
         </div>
 
         <div class="product-detail">
-          <div class="product-badge" id="productBadge">Phin giấy tiện lợi, minh bạch lô sản xuất</div>
-          <h3>Cà phê phin giấy Rang Mây</h3>
-          <p class="product-text">
-            Sản phẩm cà phê phin giấy tiện lợi, phù hợp cho người bận rộn, sinh viên, dân văn phòng hoặc những chuyến đi xa. Chỉ cần mở gói, đặt lên ly và rót nước nóng là có ngay một ly cà phê thơm ngon, trọn vị.
+          <div class="product-badge" id="productBadge">Best Seller • Cân bằng êm dịu</div>
+          <h3 id="productTitle">Rang Mây Bản Giao Hưởng</h3>
+          <p class="product-text" id="productDesc">
+            Dòng Signature phối trộn cân bằng từ đại ngàn Măng Đen, nổi bật nốt hương chocolate đen và caramel ngọt hậu. Chỉ cần mở gói, gài lên thành ly và rót nước nóng là có ngay tách cà phê thơm tròn vị.
           </p>
           <div class="price" id="productPrice">119.000đ</div>
           <div class="product-stock-note" id="productStockInfo"></div>
 
           <div class="product-info-grid">
-            <div><strong>Quy cách</strong><p>Hộp 10 gói tiện lợi</p></div>
-            <div><strong>Khối lượng</strong><p>12g/gói phin giấy</p></div>
-            <div><strong>Thành phần</strong><p>Arabica tuyển chọn</p></div>
-            <div><strong>Bao bì</strong><p>Túi giấy kraft phân hủy sinh học</p></div>
+            <div><strong>Quy cách</strong><p id="specPack">Hộp 10 gói tiện lợi</p></div>
+            <div><strong>Khối lượng</strong><p id="specWeight">12g/gói phin giấy</p></div>
+            <div><strong>Thành phần</strong><p id="specBean">Arabica &amp; Fine Robusta</p></div>
+            <div><strong>Nốt hương chủ đạo</strong><p id="specTaste">Chocolate đen, Caramel</p></div>
           </div>
 
           <ul class="product-list">
-            <li>✓ Pha nhanh, gọn và không cần chuẩn bị nhiều dụng cụ</li>
-            <li>✓ Dễ mang theo khi đi học, đi làm, dã ngoại</li>
-            <li>✓ Bao bì giấy kraft, dễ tái chế hơn bao bì nhựa</li>
-            <li>✓ Rang chậm thủ công, mang nốt hương dịu êm của mây núi</li>
+            <li>✓ Pha nhanh trong 3 phút, không cần phin nhôm hay máy pha</li>
+            <li>✓ Gói kín từng phin giữ trọn hương thơm mới rang suốt 12 tháng</li>
+            <li>✓ Bao bì giấy kraft thân thiện môi trường, dễ mang đi làm &amp; du lịch</li>
+            <li>✓ Cam kết 3 KHÔNG: Không hương liệu, không độn bắp đậu, không chất bảo quản</li>
           </ul>
 
           <div class="evidence-strip" aria-label="Bằng chứng cần công khai trước khi mua">
@@ -186,7 +188,7 @@
             <span class="evidence-pill">Báo cáo kiểm nghiệm</span>
             <span class="evidence-pill">Chính sách đổi trả rõ</span>
           </div>
-          <button type="button" class="btn btn-primary buy-btn buy-btn-spaced" id="addToCartBtn">MUA NGAY</button>
+          <button type="button" class="btn btn-primary buy-btn buy-btn-spaced" id="addToCartBtn">THÊM VÀO GIỎ HÀNG</button>
         </div>
       </div>
     </div>
@@ -208,11 +210,11 @@
             <p>Kết nối dữ liệu cửa hàng thời gian thực: tư vấn công thức pha chuẩn vị, báo giá & tồn kho mới nhất, săn mã Voucher giảm giá và tra cứu nhanh đơn hàng <strong>RM-...</strong></p>
           </div>
           <div class="ai-presets">
-            <button type="button" class="ai-preset-btn" data-preset="Giá 1 hộp cà phê Rang Mây bao nhiêu tiền và hiện còn hàng không?">💰 Giá 1 hộp & Tồn kho hôm nay</button>
+            <button type="button" class="ai-preset-btn" data-preset="Tư vấn giúp mình chọn 1 trong 4 dòng cà phê Rang Mây hợp gu nhất nhé!">☕ Tư vấn chọn trong 4 dòng hợp gu</button>
+            <button type="button" class="ai-preset-btn" data-preset="Cho mình xem bảng giá và tồn kho của cả 4 dòng cà phê hôm nay!">💰 Bảng giá &amp; Tồn kho 4 dòng</button>
             <button type="button" class="ai-preset-btn" data-preset="Cho mình xin các mã giảm giá voucher đang áp dụng hôm nay nhé!">🏷️ Săn mã Voucher giảm giá</button>
             <button type="button" class="ai-preset-btn" data-preset="Hướng dẫn mình pha Cà phê Sữa đá đậm đà bằng phin giấy Rang Mây nhé!">🥛 Bí quyết pha Cà phê Sữa đá</button>
             <button type="button" class="ai-preset-btn" data-preset="Hướng dẫn tôi pha Cold Brew bằng túi phin giấy Rang Mây nhé!">❄️ Cách làm Cold Brew thanh mát</button>
-            <button type="button" class="ai-preset-btn" data-preset="Cà phê Rang Mây có vị gì, có chua gắt hay uống chiều bị mất ngủ không?">🍫 Hương vị có chua hay mất ngủ?</button>
           </div>
         </div>
 

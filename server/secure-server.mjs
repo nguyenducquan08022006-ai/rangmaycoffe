@@ -15,11 +15,44 @@ const DEFAULT_CATALOG = [
   {
     id: "drip-pack-001",
     sku: "RM-DRIP-001",
-    name: "Cà phê phin giấy Rang Mây",
+    name: "Rang Mây Bản Giao Hưởng",
     price: 119000,
     stock_quantity: 50,
     is_available: true,
-    badge_text: "Phin giấy tiện lợi, minh bạch lô sản xuất",
+    badge_text: "Best Seller • Cân bằng êm dịu",
+    updated_at: new Date().toISOString(),
+    updated_by: "system"
+  },
+  {
+    id: "drip-pack-002",
+    sku: "RM-DRIP-002",
+    name: "Rang Mây Đại Ngàn (Gu Đậm Sữa Đá)",
+    price: 109000,
+    stock_quantity: 45,
+    is_available: true,
+    badge_text: "Đậm đà • Chuyên Sữa đá & Bạc xỉu",
+    updated_at: new Date().toISOString(),
+    updated_by: "system"
+  },
+  {
+    id: "drip-pack-003",
+    sku: "RM-DRIP-003",
+    name: "Rang Mây Sương Sớm (100% Arabica)",
+    price: 145000,
+    stock_quantity: 35,
+    is_available: true,
+    badge_text: "Specialty 1.200m • Hợp Cold Brew",
+    updated_at: new Date().toISOString(),
+    updated_by: "system"
+  },
+  {
+    id: "gift-box-004",
+    sku: "RM-GIFT-004",
+    name: "Hộp Quà Tinh Hoa Măng Đen (Mix 3 Vị)",
+    price: 269000,
+    stock_quantity: 25,
+    is_available: true,
+    badge_text: "Quà biếu cao cấp • 24 gói đủ 3 vị",
     updated_at: new Date().toISOString(),
     updated_by: "system"
   }
@@ -117,11 +150,14 @@ function calcVoucherSavingChat(v, subtotal) {
   return Math.min(subtotal, Math.max(0, Number(v.discount_value || 0)));
 }
 
-function buildGroundedBaristaResponse(rawMessage, product, vouchers, orderMatch, askedOrderCode) {
+function buildGroundedBaristaResponse(rawMessage, products, vouchers, orderMatch, askedOrderCode) {
   const q = foldViChat(rawMessage);
   const actions = [];
-  const pricePerCup = Math.round(product.price / 10);
-  const inStock = product.is_available && product.stock_quantity > 0;
+  const list = Array.isArray(products) && products.length > 0 ? products : DEFAULT_CATALOG;
+  const pSignature = list.find((p) => p.id === "drip-pack-001") || list[0];
+  const pStrong = list.find((p) => p.id === "drip-pack-002") || pSignature;
+  const pArabica = list.find((p) => p.id === "drip-pack-003") || pSignature;
+  const pGift = list.find((p) => p.id === "gift-box-004") || pSignature;
 
   if (askedOrderCode) {
     if (orderMatch) {
@@ -137,14 +173,14 @@ function buildGroundedBaristaResponse(rawMessage, product, vouchers, orderMatch,
           `• Thời gian đặt: ${new Date(orderMatch.created_at).toLocaleString("vi-VN")}\n` +
           `Nếu cần đổi giờ nhận hàng, bạn có thể nhắn tại mục Liên hệ hoặc gọi 0383.505.924 nhé!`,
         actions: [{ type: "scroll_section", label: "📞 Tới mục Liên hệ", target: "#contact" }],
-        suggestions: ["Mã giảm giá hôm nay", "Cách pha Sữa đá ngon", "Chính sách đổi trả"]
+        suggestions: ["Xem 4 dòng sản phẩm", "Mã giảm giá hôm nay", "Chính sách đổi trả"]
       };
     }
     return {
       reply:
         `Mình chưa tìm thấy mã đơn "${askedOrderCode}" trên hệ thống. Bạn kiểm tra lại đúng định dạng mã đơn (ví dụ RM-2026-0001) hoặc đăng nhập vào trang Tài khoản để xem toàn bộ lịch sử đơn hàng của mình nhé!`,
       actions: [],
-      suggestions: ["Giá 1 hộp bao nhiêu?", "Có mã voucher nào không?", "Phí giao hàng thế nào?"]
+      suggestions: ["Các dòng cà phê & giá bán", "Có mã voucher nào không?", "Phí giao hàng thế nào?"]
     };
   }
 
@@ -153,19 +189,20 @@ function buildGroundedBaristaResponse(rawMessage, product, vouchers, orderMatch,
       reply:
         "Để kiểm tra nhanh tiến độ đơn hàng, bạn chỉ cần nhắn thẳng Mã đơn hàng (bắt đầu bằng chữ RM-...) vào khung chat này, hoặc bấm vào mục Tài khoản ở góc trên để xem lịch sử đơn đã đặt nhé!",
       actions: [],
-      suggestions: ["Giá & tồn kho hiện tại", "Mã giảm giá hôm nay", "Thời gian giao hàng"]
+      suggestions: ["Xem bảng giá 4 dòng cà phê", "Mã giảm giá hôm nay", "Thời gian giao hàng"]
     };
   }
 
   const parts = [];
 
-  if (hasAnyChat(q, ["gia", "bao nhieu tien", "bn tien", "1 hop", "mot hop", "2 hop", "hai hop", "combo", "quy cach", "may goi", "may ly", "bao nhieu gam", "khoi luong", "trong luong", "ton kho", "con hang", "het hang", "mua", "dat hang", "chot don"])) {
-    const stockLine = inStock
-      ? `Hiện kho đang sẵn sàng ${product.stock_quantity} hộp để giao ngay.`
-      : "Hiện lô rang này đang tạm hết hàng, xưởng đang chuẩn bị mẻ rang mới.";
+  if (hasAnyChat(q, ["gia", "bao nhieu tien", "bn tien", "1 hop", "mot hop", "2 hop", "hai hop", "combo", "may loai", "cac dong", "menu", "danh muc", "san pham", "quy cach", "may goi", "may ly", "bao nhieu gam", "khoi luong", "trong luong", "ton kho", "con hang", "het hang", "mua", "dat hang", "chot don"])) {
+    const catalogLines = list.map((p) => {
+      const st = p.is_available && p.stock_quantity > 0 ? `còn ${p.stock_quantity} hộp` : "tạm hết";
+      return `• ${p.name}: ${fmtVndChat(p.price)}đ (${st})`;
+    });
     let comboTip = "";
-    if (inStock && vouchers.length > 0 && hasAnyChat(q, ["2 hop", "hai hop", "combo", "mua nhieu"])) {
-      const twoBox = product.price * 2;
+    if (pSignature.is_available && pSignature.stock_quantity > 0 && vouchers.length > 0 && hasAnyChat(q, ["2 hop", "hai hop", "combo", "mua nhieu"])) {
+      const twoBox = pSignature.price * 2;
       let bestV = null;
       let bestDisc = 0;
       for (const v of vouchers) {
@@ -176,17 +213,19 @@ function buildGroundedBaristaResponse(rawMessage, product, vouchers, orderMatch,
         }
       }
       if (bestV && bestDisc > 0) {
-        comboTip = `\n• 💡 Ưu đãi 2 hộp: Tạm tính ${fmtVndChat(twoBox)}đ → áp mã ${bestV.code} giảm ${fmtVndChat(bestDisc)}đ, chỉ còn ${fmtVndChat(twoBox - bestDisc)}đ!`;
-        actions.push({ type: "apply_voucher", label: `🏷️ Mua 2 hộp & Áp mã ${bestV.code}`, code: bestV.code });
+        comboTip = `\n💡 Ưu đãi mua 2 hộp ${pSignature.name}: Tạm tính ${fmtVndChat(twoBox)}đ → áp mã ${bestV.code} giảm ${fmtVndChat(bestDisc)}đ, chỉ còn ${fmtVndChat(twoBox - bestDisc)}đ!`;
+        actions.push({ type: "apply_voucher", label: `🏷️ Mua 2 hộp & Áp mã ${bestV.code}`, code: bestV.code, productId: pSignature.id });
       }
     }
     parts.push(
-      `☕ ${product.name} (hộp 10 túi phin giấy × 12g cà phê nguyên chất = 10 ly):\n` +
-      `• Giá niêm yết hiện tại: ${fmtVndChat(product.price)}đ/hộp (chỉ khoảng ${fmtVndChat(pricePerCup)}đ cho 1 ly cà phê đặc sản Măng Đen, miễn phí ship toàn quốc).\n` +
-      `• Tình trạng kho: ${stockLine}${comboTip}`
+      `☕ Bộ sưu tập Cà phê Phin Giấy Rang Mây hiện có ${list.length} lựa chọn (Miễn phí giao hàng toàn quốc):\n` +
+      `${catalogLines.join("\n")}${comboTip}`
     );
-    if (inStock) {
-      actions.push({ type: "add_to_cart", label: `🛒 Thêm vào giỏ (${fmtVndChat(product.price)}đ)` });
+    if (pSignature.is_available && pSignature.stock_quantity > 0) {
+      actions.push({ type: "add_to_cart", productId: pSignature.id, label: `🛒 Thêm Bản Giao Hưởng (${fmtVndChat(pSignature.price)}đ)` });
+    }
+    if (pGift && pGift.id !== pSignature.id && pGift.is_available && pGift.stock_quantity > 0 && hasAnyChat(q, ["hop qua", "mix", "qua bieu", "may loai", "cac dong"])) {
+      actions.push({ type: "add_to_cart", productId: pGift.id, label: `🎁 Thêm Hộp Quà 24 gói (${fmtVndChat(pGift.price)}đ)` });
     }
   }
 
@@ -203,28 +242,34 @@ function buildGroundedBaristaResponse(rawMessage, product, vouchers, orderMatch,
         `Bạn có thể bấm nút bên dưới để tự động thêm sản phẩm và áp mã ngay!`
       );
       vouchers.slice(0, 2).forEach((v) => {
-        actions.push({ type: "apply_voucher", label: `🏷️ Áp mã ${v.code}`, code: v.code });
+        actions.push({ type: "apply_voucher", label: `🏷️ Áp mã ${v.code}`, code: v.code, productId: pSignature.id });
       });
     } else {
       parts.push("Hiện cửa hàng chưa có mã giảm giá mới, nhưng mọi đơn hàng đều đang được Miễn phí giao hàng toàn quốc 🎉.");
     }
   }
 
-  if (hasAnyChat(q, ["cold brew", "coldbrew", "u lanh"])) {
+  if (hasAnyChat(q, ["cold brew", "coldbrew", "u lanh", "suong som"])) {
     parts.push(
-      "❄️ Công thức Cold Brew thanh mát bằng phin giấy Rang Mây:\n" +
+      `❄️ Công thức Cold Brew thanh mát (hợp nhất với dòng ${pArabica.name} – ${fmtVndChat(pArabica.price)}đ):\n` +
       "1. Đặt 1–2 túi phin giấy với 180–220ml nước lọc mát trong bình kín.\n" +
       "2. Ủ trong ngăn mát tủ lạnh 8–12 tiếng qua đêm.\n" +
-      "3. Nhấc túi lọc ra, thêm đá viên và 1 lát cam vàng hoặc chút đường phèn — vị ngọt hậu trái cây chín mở ra cực kỳ sảng khoái!"
+      "3. Nhấc túi lọc ra, thêm đá viên và 1 lát cam vàng — hương hoa trắng & trái cây chín của 100% Arabica Măng Đen mở ra cực kỳ sảng khoái!"
     );
-  } else if (hasAnyChat(q, ["sua da", "bac xiu", "pha sua", "latte", "cappuccino", "capuchino", "sua tuoi"])) {
+    if (pArabica.is_available && pArabica.stock_quantity > 0) {
+      actions.push({ type: "add_to_cart", productId: pArabica.id, label: `🛒 Thêm Sương Sớm Arabica (${fmtVndChat(pArabica.price)}đ)` });
+    }
+  } else if (hasAnyChat(q, ["sua da", "bac xiu", "pha sua", "latte", "cappuccino", "capuchino", "sua tuoi", "dai ngan", "gu dam"])) {
     parts.push(
-      "🥛 Bí quyết pha Cà phê Sữa Đá đậm vị bằng phin giấy:\n" +
+      `🥛 Bí quyết pha Cà phê Sữa Đá đậm vị (chuẩn nhất với dòng ${pStrong.name} – ${fmtVndChat(pStrong.price)}đ):\n` +
       "1. Cho sẵn 20–25ml sữa đặc vào đáy ly.\n" +
       "2. Cài quai phin giấy lên miệng ly, rót 25ml nước sôi 92–95°C ủ cà phê nở đều trong 25 giây.\n" +
-      "3. Rót chậm thêm 65–75ml nước nóng (tổng ~95ml cốt đậm hơn pha nóng thường).\n" +
-      "4. Khuấy đều cốt cà phê nóng với sữa đặc cho dậy mùi caramel rồi thêm đá già đầy ly!"
+      "3. Rót chậm thêm 65–75ml nước nóng thu cốt cà phê sánh đậm.\n" +
+      "4. Khuấy đều cốt nóng với sữa đặc cho dậy mùi bơ cacao rồi thêm đá già đầy ly!"
     );
+    if (pStrong.is_available && pStrong.stock_quantity > 0) {
+      actions.push({ type: "add_to_cart", productId: pStrong.id, label: `🛒 Thêm Đại Ngàn Sữa Đá (${fmtVndChat(pStrong.price)}đ)` });
+    }
   } else if (hasAnyChat(q, ["den da", "pha da", "uong da"])) {
     parts.push(
       "🧊 Cách pha Cà phê Đen Đá đậm thơm không bị nhạt:\n" +
@@ -242,12 +287,13 @@ function buildGroundedBaristaResponse(rawMessage, product, vouchers, orderMatch,
     );
   }
 
-  if (hasAnyChat(q, ["chua", "dang", "huong vi", "vi gi", "chocolate", "caramel", "arabica", "robusta", "caffeine", "mat ngu", "say ca phe", "da day"])) {
+  if (hasAnyChat(q, ["chua", "dang", "huong vi", "vi gi", "chocolate", "caramel", "arabica", "robusta", "caffeine", "mat ngu", "say ca phe", "da day", "chon loai nao", "hop gu"])) {
     parts.push(
-      "🍫 Về hạt & nốt hương vị của Rang Mây:\n" +
-      "• Tuyển chọn hạt Arabica vùng cao Măng Đen (độ cao ~1.200m) rang mộc chậm ở mức Vừa–Đậm (Medium-Dark).\n" +
-      "• Hương thơm tự nhiên của chocolate đen, caramel và đường nâu; vị cân bằng êm dịu, KHÔNG chua gắt và hậu vị ngọt thanh.\n" +
-      "• Hàm lượng caffeine vừa phải (~1,2–1,5%), không tẩm hóa chất hay bơ phụ gia nên rất êm dạ dày, ít gây hồi hộp. Nếu nhạy cảm giấc ngủ, bạn nên thưởng thức trước 15h chiều nhé!"
+      "🍫 Gợi ý chọn đúng dòng Rang Mây hợp gu bạn nhất:\n" +
+      `• Thích cân bằng, thơm chocolate & caramel, KHÔNG chua gắt: chọn ${pSignature.name} (${fmtVndChat(pSignature.price)}đ).\n` +
+      `• Thích đậm sánh, hậu dày, pha Sữa đá / Bạc xỉu: chọn ${pStrong.name} (${fmtVndChat(pStrong.price)}đ).\n` +
+      `• Thích thanh nhẹ, thơm hương hoa & trái cây chín, ít đắng, êm dạ dày: chọn ${pArabica.name} (${fmtVndChat(pArabica.price)}đ).\n` +
+      `• Muốn thử đủ cả 3 vị hoặc làm quà biếu: chọn ${pGift.name} (${fmtVndChat(pGift.price)}đ – áp ngay được mã VIP50K giảm 50.000đ!).`
     );
   }
 
@@ -255,16 +301,16 @@ function buildGroundedBaristaResponse(rawMessage, product, vouchers, orderMatch,
     parts.push(
       "🌲 Nguồn gốc & Bảo quản:\n" +
       "• 100% cà phê rang xay nguyên chất từ vùng đất sương mù Măng Đen – Kon Tum, cam kết 3 KHÔNG: Không hương liệu tổng hợp, Không độn bắp/đậu, Không chất bảo quản.\n" +
-      "• Mỗi phin giấy được đóng gói kín riêng biệt giúp giữ trọn hương thơm suốt 12 tháng kể từ ngày sản xuất (ngon nhất trong 6 tháng đầu, bảo quản nơi khô mát tránh nắng)."
+      "• Mỗi phin giấy được đóng gói kín riêng biệt giúp giữ trọn hương thơm suốt 12 tháng kể từ ngày sản xuất."
     );
   }
 
   if (hasAnyChat(q, ["ship", "giao hang", "van chuyen", "bao lau nhan", "phi ship", "freeship", "thanh toan", "cod", "chuyen khoan", "doi tra", "hoan tien", "bao hanh"])) {
     parts.push(
       "🚚 Chính sách Giao hàng, Thanh toán & Đổi trả:\n" +
-      "• Giao hàng: MIỄN PHÍ giao hàng toàn quốc cho mọi đơn hàng! Thời gian nhận dự kiến 1–2 ngày (TP.HCM & trung tâm) hoặc 2–4 ngày (các tỉnh thành khác).\n" +
-      "• Thanh toán: Nhận hàng kiểm tra ngoại quan rồi mới thanh toán tiền mặt (COD) cực kỳ an tâm.\n" +
-      "• Đổi trả: Hỗ trợ đổi mới 1–1 miễn phí trong vòng 7 ngày nếu hộp bị móp rách do vận chuyển hoặc lỗi bao bì từ nhà sản xuất."
+      "• Giao hàng: MIỄN PHÍ giao hàng toàn quốc cho mọi đơn hàng! Nhận hàng sau 1–2 ngày (TP.HCM) hoặc 2–4 ngày (các tỉnh khác).\n" +
+      "• Thanh toán: Nhận hàng kiểm tra rồi mới thanh toán tiền mặt (COD).\n" +
+      "• Đổi trả: Đổi mới 1–1 miễn phí trong 7 ngày nếu lỗi bao bì hoặc móp rách do vận chuyển."
     );
   }
 
@@ -275,13 +321,16 @@ function buildGroundedBaristaResponse(rawMessage, product, vouchers, orderMatch,
     );
   }
 
-  if (hasAnyChat(q, ["thiep", "qua tang", "bieu", "sinh nhat", "mua si", "so luong lon", "doanh nghiep", "lien he", "hotline", "so dien thoai", "zalo", "dia chi"])) {
+  if (hasAnyChat(q, ["thiep", "qua tang", "hop qua", "bieu", "sinh nhat", "mua si", "so luong lon", "doanh nghiep", "lien he", "hotline", "so dien thoai", "zalo", "dia chi"])) {
     parts.push(
-      "🎁 Quà tặng & Liên hệ nhanh:\n" +
-      "• Khi bấm Thanh toán trên web, bạn có thể tích chọn 'Gửi kèm thiệp chúc mừng viết bằng AI' hoàn toàn miễn phí!\n" +
-      "• Đặt sỉ / quà tặng doanh nghiệp hoặc cần hỗ trợ gấp: gọi/Zalo 0383.505.924 hoặc email hello@rangmaycoffee.vn."
+      `🎁 Quà biếu & Liên hệ nhanh:\n` +
+      `• Gợi ý quà tặng: ${pGift.name} (${fmtVndChat(pGift.price)}đ – 24 gói đủ 3 vị, đủ điều kiện áp mã VIP50K giảm ngay 50.000đ chỉ còn ${fmtVndChat(Math.max(0, pGift.price - 50000))}đ!) kèm thiệp chúc mừng AI miễn phí.\n` +
+      `• Đặt sỉ / quà tặng doanh nghiệp: gọi/Zalo 0383.505.924 hoặc email hello@rangmaycoffee.vn.`
     );
-    actions.push({ type: "scroll_section", label: "📩 Gửi tin nhắn liên hệ", target: "#contact" });
+    if (pGift.is_available && pGift.stock_quantity > 0) {
+      actions.push({ type: "add_to_cart", productId: pGift.id, label: `🎁 Thêm Hộp Quà 24 gói (${fmtVndChat(pGift.price)}đ)` });
+    }
+    actions.push({ type: "scroll_section", label: "📩 Tới mục Liên hệ", target: "#contact" });
   }
 
   if (parts.length > 0) {
@@ -289,10 +338,10 @@ function buildGroundedBaristaResponse(rawMessage, product, vouchers, orderMatch,
       reply: parts.join("\n\n"),
       actions: actions.slice(0, 3),
       suggestions: [
+        "Tư vấn chọn dòng hợp gu",
         "Có mã giảm giá nào không?",
         "Cách pha Cà phê Sữa đá",
-        "Cà phê có chua hay say không?",
-        "Giao hàng mất bao lâu?"
+        "Hộp quà Mix 3 vị có gì?"
       ]
     };
   }
@@ -301,39 +350,40 @@ function buildGroundedBaristaResponse(rawMessage, product, vouchers, orderMatch,
     return {
       reply:
         `Xin chào bạn! Mình là Trợ lý Barista AI của Rang Mây Coffee ☁️\n` +
-        `Hiện hộp Cà phê phin giấy Măng Đen (10 gói) đang có giá ${fmtVndChat(product.price)}đ (còn ${product.stock_quantity} hộp, miễn phí giao hàng` +
-        (vouchers.length > 0 ? ` và có sẵn mã ưu đãi như ${vouchers[0].code}` : "") +
-        `).\nBạn thường thích uống Đen nóng nguyên bản, Sữa đá đậm đà hay Cold Brew thanh mát để mình gợi ý cách pha chuẩn gu nhất?`,
-      actions: inStock ? [{ type: "add_to_cart", label: `🛒 Thêm 1 hộp (${fmtVndChat(product.price)}đ)` }] : [],
-      suggestions: ["Pha Sữa đá sao cho ngon?", "Cho mình xin mã Voucher", "Cà phê có chua không?"]
+        `Hiện cửa hàng có đủ 4 dòng cà phê phin giấy Măng Đen từ ${fmtVndChat(Math.min(...list.map(p => p.price)))}đ – ${fmtVndChat(Math.max(...list.map(p => p.price)))}đ (Bản Giao Hưởng cân bằng, Đại Ngàn đậm Sữa đá, Sương Sớm 100% Arabica và Hộp Quà Mix 24 gói).\n` +
+        `Bạn thích uống Đen nóng, Sữa đá đậm đà, Cold Brew thanh mát hay tìm quà biếu để mình chọn đúng hộp chuẩn gu nhất?`,
+      actions: [{ type: "scroll_section", label: "☕ Xem 4 dòng sản phẩm", target: "#product" }],
+      suggestions: ["Xem bảng giá 4 dòng cà phê", "Cho mình xin mã Voucher", "Mình thích uống Sữa đá đậm"]
     };
   }
 
   if (hasAnyChat(q, ["cam on", "thank", "tks", "ok", "tuyet", "ngon", "hay qua"])) {
     return {
       reply:
-        "Rất vui được đồng hành cùng bạn! Chúc bạn có những phút giây thưởng thức cà phê thật bình yên và trọn vị. Cần mã ưu đãi hay công thức pha chế nào cứ nhắn mình bất cứ lúc nào nhé! ☕✨",
+        "Rất vui được đồng hành cùng bạn! Chúc bạn có những phút giây thưởng thức cà phê thật bình yên và trọn vị. Cần mã ưu đãi hay tư vấn chọn dòng nào cứ nhắn mình nhé! ☕✨",
       actions: [],
-      suggestions: ["Xem mã giảm giá hôm nay", "Cách làm Cold Brew ủ lạnh"]
+      suggestions: ["Xem mã giảm giá hôm nay", "Tư vấn chọn dòng hợp gu"]
     };
   }
 
   return {
     reply:
-      `Cảm ơn câu hỏi của bạn! Với dòng ${product.name} (${fmtVndChat(product.price)}đ/hộp 10 gói, hiện còn ${product.stock_quantity} hộp), mình có thể hỗ trợ ngay cho bạn các thông tin:\n` +
+      `Cảm ơn câu hỏi của bạn! Hiện Rang Mây Coffee có ${list.length} dòng sản phẩm đặc sản Măng Đen (từ ${fmtVndChat(pStrong.price)}đ đến ${fmtVndChat(pGift.price)}đ, miễn phí giao hàng toàn quốc). Mình có thể hỗ trợ ngay:\n` +
+      `• ☕ Tư vấn chọn dòng hợp gu (Êm dịu / Đậm Sữa đá / 100% Arabica / Hộp Quà 24 gói)\n` +
       `• 🏷️ Săn mã Voucher giảm giá đang mở (${vouchers.map((v) => v.code).join(", ") || "Freeship"})\n` +
-      `• ☕ Công thức pha Đen nóng, Đen đá, Sữa đá hoặc Cold Brew\n` +
       `• 📦 Tra cứu nhanh đơn hàng (chỉ cần nhắn mã RM-...)\n` +
-      `• 🚚 Chính sách Freeship toàn quốc, COD & đổi trả 7 ngày\n` +
-      `Bạn muốn tìm hiểu mục nào trước để mình giải đáp chi tiết nhé?`,
-    actions: inStock ? [{ type: "add_to_cart", label: `🛒 Đặt thử 1 hộp (${fmtVndChat(product.price)}đ)` }] : [],
-    suggestions: ["Cho mình xin mã giảm giá", "Cách pha Cà phê Sữa đá", "Hương vị có chua không?"]
+      `Bạn muốn xem bảng giá hay tư vấn hương vị trước nhé?`,
+    actions: [{ type: "scroll_section", label: "☕ Xem bộ sưu tập 4 vị", target: "#product" }],
+    suggestions: ["Xem bảng giá 4 dòng cà phê", "Cho mình xin mã giảm giá", "Tư vấn chọn dòng hợp gu"]
   };
 }
 
-async function tryGeminiBaristaReplyNode(apiKey, message, history, product, vouchers, orderMatch) {
+async function tryGeminiBaristaReplyNode(apiKey, message, history, products, vouchers, orderMatch) {
   if (typeof fetch !== "function") return null;
   try {
+    const prodLines = (products || [])
+      .map((p) => `${p.name} (${p.id}): ${fmtVndChat(p.price)}đ, kho còn ${p.stock_quantity} hộp`)
+      .join(" | ");
     const voucherLines = vouchers
       .map((v) =>
         v.discount_type === "percent"
@@ -343,15 +393,15 @@ async function tryGeminiBaristaReplyNode(apiKey, message, history, product, vouc
       .join("; ");
 
     const systemInstruction =
-      `Bạn là Nghệ Nhân Barista AI chính thức của thương hiệu Rang Mây Coffee (cà phê phin giấy đặc sản từ Măng Đen – Kon Tum, cao 1.200m, hạt Arabica rang mộc vừa-đậm nốt hương chocolate đen & caramel, hậu ngọt thanh, không hương liệu/phụ gia).\n` +
-      `Dữ liệu cửa hàng THỜI GIAN THỰC hiện tại:\n` +
-      `- Sản phẩm: ${product.name} (Hộp 10 túi phin giấy x 12g) | Giá: ${fmtVndChat(product.price)}đ | Tồn kho: ${product.stock_quantity} hộp | Mở bán: ${product.is_available ? "Có" : "Tạm hết"}.\n` +
+      `Bạn là Nghệ Nhân Barista AI chính thức của thương hiệu Rang Mây Coffee (cà phê phin giấy đặc sản từ Măng Đen – Kon Tum).\n` +
+      `Dữ liệu cửa hàng THỜI GIAN THỰC:\n` +
+      `- Danh mục 4 dòng sản phẩm: ${prodLines}.\n` +
       `- Mã giảm giá (Voucher) đang hoạt động: ${voucherLines || "Hiện chưa có mã"}.\n` +
-      `- Chính sách: Miễn phí giao hàng toàn quốc (1-4 ngày), thanh toán COD khi nhận hàng, đổi trả 1-1 trong 7 ngày nếu lỗi bao bì. Liên hệ: 0383.505.924 / hello@rangmaycoffee.vn.\n` +
+      `- Chính sách: Miễn phí giao hàng toàn quốc (1-4 ngày), thanh toán COD, đổi trả 1-1 trong 7 ngày. Liên hệ: 0383.505.924 / hello@rangmaycoffee.vn.\n` +
       (orderMatch
         ? `- Tra cứu đơn khách vừa hỏi (${orderMatch.order_number}): Trạng thái = ${ORDER_STATUS_VI_CHAT[orderMatch.status] || orderMatch.status}, Tổng tiền = ${fmtVndChat(orderMatch.total_amount)}đ.\n`
         : "") +
-      `Quy tắc: Trả lời tiếng Việt ấm áp, tinh tế, súc tích (dưới 130 từ), đúng 100% giá/tồn kho/voucher thực tế ở trên, tuyệt đối không bịa mã giảm giá hay chính sách ngoài danh sách, chỉ trả văn bản thuần (không dùng bảng Markdown hay HTML).`;
+      `Quy tắc: Trả lời tiếng Việt ấm áp, súc tích (dưới 130 từ), đúng 100% giá/tồn kho/voucher thực tế, chỉ trả văn bản thuần.`;
 
     const contents = [
       ...history.slice(-6).map((h) => ({
@@ -954,6 +1004,20 @@ function loadOrCreateStore(dataDir) {
         if (!Array.isArray(parsed.catalog) || parsed.catalog.length === 0) {
           parsed.catalog = cloneDefaultCatalog();
           migrated = true;
+        } else {
+          for (const defProd of DEFAULT_CATALOG) {
+            const existing = parsed.catalog.find((p) => p.id === defProd.id);
+            if (!existing) {
+              parsed.catalog.push({ ...defProd, updated_at: now });
+              migrated = true;
+            } else if (existing.id === "drip-pack-001" && existing.name === "Cà phê phin giấy Rang Mây") {
+              existing.name = defProd.name;
+              if (existing.badge_text === "Phin giấy tiện lợi, minh bạch lô sản xuất") {
+                existing.badge_text = defProd.badge_text;
+              }
+              migrated = true;
+            }
+          }
         }
         if (!Array.isArray(parsed.vouchers)) {
           parsed.vouchers = cloneDefaultVouchers();
@@ -1709,11 +1773,9 @@ export function createSecureServer(options = {}) {
         .filter((item) => Boolean(item && typeof item === "object"))
         .slice(-6);
 
-      const rawProd =
-        (store.catalog || []).find((p) => p.id === "drip-pack-001") ||
-        (store.catalog || [])[0] ||
-        DEFAULT_CATALOG[0];
-      const product = formatCatalogProduct(rawProd);
+      const products = (store.catalog && store.catalog.length > 0 ? store.catalog : DEFAULT_CATALOG).map(
+        formatCatalogProduct
+      );
 
       const nowMs = Date.now();
       const vouchers = (store.vouchers || [])
@@ -1745,7 +1807,7 @@ export function createSecureServer(options = {}) {
 
       const deterministic = buildGroundedBaristaResponse(
         message,
-        product,
+        products,
         vouchers,
         orderMatch,
         askedOrderCode
@@ -1757,7 +1819,7 @@ export function createSecureServer(options = {}) {
           geminiKey,
           message,
           history,
-          product,
+          products,
           vouchers,
           orderMatch
         );
@@ -2384,7 +2446,8 @@ export function createSecureServer(options = {}) {
 
       if (
         !Array.isArray(items) ||
-        items.length !== 1 ||
+        items.length < 1 ||
+        items.length > 10 ||
         paymentMethod !== "COD" ||
         (giftMessage !== undefined &&
           giftMessage !== "" &&
@@ -2394,24 +2457,46 @@ export function createSecureServer(options = {}) {
         return;
       }
 
-      const item = items[0];
-      const product = item && (store.catalog || []).find((p) => p.id === item.id);
-      const quantity = item && item.quantity;
-      if (!product || !Number.isInteger(quantity) || quantity < 1 || quantity > 99) {
-        sendJson(res, 400, { error: "Sản phẩm hoặc số lượng không hợp lệ." });
-        return;
-      }
-      if (!product.is_available || product.stock_quantity < quantity) {
-        sendJson(res, 400, {
-          error: product.is_available
-            ? `Sản phẩm hiện chỉ còn ${product.stock_quantity} hộp trong kho.`
-            : "Sản phẩm hiện đang tạm hết hàng."
-        });
-        return;
+      const consolidatedQty = new Map();
+      for (const rawItem of items) {
+        const id = rawItem && typeof rawItem.id === "string" ? rawItem.id.trim() : "";
+        const qty = rawItem && rawItem.quantity;
+        if (!id || !Number.isInteger(qty) || qty < 1 || qty > 99) {
+          sendJson(res, 400, { error: "Sản phẩm hoặc số lượng không hợp lệ." });
+          return;
+        }
+        const nextQty = (consolidatedQty.get(id) || 0) + qty;
+        if (nextQty > 99) {
+          sendJson(res, 400, { error: "Số lượng mỗi dòng sản phẩm tối đa 99 hộp/đơn." });
+          return;
+        }
+        consolidatedQty.set(id, nextQty);
       }
 
-      const unitPrice = Number(product.price);
-      const subtotal = unitPrice * quantity;
+      const validatedOrderItems = [];
+      const productsToDeduct = [];
+      let subtotal = 0;
+
+      for (const [id, quantity] of consolidatedQty.entries()) {
+        const product = (store.catalog || []).find((p) => p.id === id);
+        if (!product) {
+          sendJson(res, 400, { error: "Sản phẩm hoặc số lượng không hợp lệ." });
+          return;
+        }
+        if (!product.is_available || product.stock_quantity < quantity) {
+          sendJson(res, 400, {
+            error: product.is_available
+              ? `Sản phẩm "${product.name}" hiện chỉ còn ${product.stock_quantity} hộp trong kho.`
+              : `Sản phẩm "${product.name}" hiện đang tạm hết hàng.`
+          });
+          return;
+        }
+        const unitPrice = Number(product.price);
+        validatedOrderItems.push({ id, name: product.name, quantity, unit_price: unitPrice });
+        productsToDeduct.push({ product, quantity });
+        subtotal += unitPrice * quantity;
+      }
+
       const rawVoucherCode = typeof body.voucherCode === "string" ? body.voucherCode.trim().toUpperCase() : "";
       let matchedVoucher = null;
       let discountAmount = 0;
@@ -2430,11 +2515,14 @@ export function createSecureServer(options = {}) {
         discountAmount = evaluated.discountAmount;
       }
 
-      product.stock_quantity -= quantity;
-      product.updated_at = new Date().toISOString();
+      const deductStamp = new Date().toISOString();
+      for (const entry of productsToDeduct) {
+        entry.product.stock_quantity -= entry.quantity;
+        entry.product.updated_at = deductStamp;
+      }
       if (matchedVoucher) {
         matchedVoucher.used_count = (Number(matchedVoucher.used_count) || 0) + 1;
-        matchedVoucher.updated_at = new Date().toISOString();
+        matchedVoucher.updated_at = deductStamp;
       }
 
       store.orderSeq = (Number(store.orderSeq) || 0) + 1;
@@ -2453,7 +2541,7 @@ export function createSecureServer(options = {}) {
               ? optionalActor.user.email
               : null,
         shipping_address: customer.address.trim(),
-        items: [{ id: item.id, name: product.name, quantity, unit_price: unitPrice }],
+        items: validatedOrderItems,
         subtotal_amount: subtotal,
         voucher_code: matchedVoucher ? matchedVoucher.code : null,
         discount_amount: discountAmount,

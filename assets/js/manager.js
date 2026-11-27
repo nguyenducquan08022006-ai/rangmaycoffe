@@ -197,8 +197,10 @@
     document.getElementById("kpiRevenue").textContent = fmtPrice(summary.totalRevenue ?? 0) + "đ";
     document.getElementById("kpiTotalOrders").textContent = String(summary.totalOrders ?? 0);
     document.getElementById("kpiPendingOrders").textContent = String(summary.pendingOrders ?? 0);
-    const liveStock = primaryProduct ? primaryProduct.stock_quantity : (summary.productStock ?? 0);
-    document.getElementById("kpiProductStock").textContent = String(liveStock) + " hộp";
+    const totalStock = typeof summary.totalStock === "number"
+      ? summary.totalStock
+      : (managerState.catalog || []).reduce((acc, p) => acc + (Number(p.stock_quantity) || 0), 0);
+    document.getElementById("kpiProductStock").textContent = String(totalStock) + " hộp";
     document.getElementById("kpiNewContacts").textContent = String(summary.newContacts ?? 0);
   }
 
@@ -312,16 +314,68 @@
     });
   }
 
+  let selectedManagerProductId = "drip-pack-001";
+
   function renderCatalogPanel() {
-    const product = (managerState.catalog || []).find(p => p.id === "drip-pack-001") || (managerState.catalog || [])[0];
+    const list = Array.isArray(managerState.catalog) ? managerState.catalog : [];
     const preview = document.getElementById("catalogLivePreview");
-    if (!product) {
+    const tbody = document.getElementById("managerCatalogBody");
+    const selectEl = document.getElementById("prodId");
+
+    if (tbody) {
+      tbody.replaceChildren();
+      list.forEach((item) => {
+        const tr = document.createElement("tr");
+        const tdSku = createEl("td");
+        tdSku.appendChild(createEl("strong", "", item.sku || item.id));
+        tdSku.appendChild(createEl("span", "table-subtext", item.id));
+
+        const tdName = createEl("td");
+        tdName.appendChild(createEl("strong", "", item.name || ""));
+        tdName.appendChild(createEl("span", "table-subtext", item.badge_text || ""));
+
+        const tdPrice = createEl("td", "", fmtPrice(item.price) + "đ");
+        const tdStock = createEl("td", "", String(item.stock_quantity ?? 0) + " hộp");
+
+        const tdStatus = createEl("td");
+        const avail = item.is_available !== false && (item.stock_quantity ?? 0) > 0;
+        tdStatus.appendChild(
+          createEl("span", "badge " + (avail ? "status-completed" : "status-cancelled"), avail ? "Đang mở bán" : "Tạm ngưng / Hết")
+        );
+
+        const tdAct = createEl("td");
+        const pickBtn = createEl("button", "btn-sm" + (item.id === selectedManagerProductId ? "" : " outline"), item.id === selectedManagerProductId ? "Đang chọn" : "Chọn sửa");
+        pickBtn.type = "button";
+        pickBtn.addEventListener("click", () => {
+          selectedManagerProductId = item.id;
+          renderCatalogPanel();
+        });
+        tdAct.appendChild(pickBtn);
+
+        tr.append(tdSku, tdName, tdPrice, tdStock, tdStatus, tdAct);
+        tbody.appendChild(tr);
+      });
+    }
+
+    if (list.length === 0) {
       if (preview) preview.textContent = "Chưa có dữ liệu sản phẩm trong danh mục.";
       return;
     }
 
-    const idEl = document.getElementById("prodId");
-    const nameEl = document.getElementById("prodName");
+    const product = list.find((p) => p.id === selectedManagerProductId) || list[0];
+    selectedManagerProductId = product.id;
+
+    if (selectEl) {
+      selectEl.replaceChildren();
+      list.forEach((p) => {
+        const opt = document.createElement("option");
+        opt.value = p.id;
+        opt.textContent = p.name + " (" + fmtPrice(p.price) + "đ – kho " + String(p.stock_quantity) + ")";
+        opt.selected = p.id === selectedManagerProductId;
+        selectEl.appendChild(opt);
+      });
+    }
+
     const priceEl = document.getElementById("prodPrice");
     const stockEl = document.getElementById("prodStock");
     const badgeEl = document.getElementById("prodBadge");
@@ -330,8 +384,6 @@
     const permNotice = document.getElementById("pricePermNotice");
     const permNoticeText = document.getElementById("pricePermNoticeText");
 
-    if (idEl) idEl.value = product.id;
-    if (nameEl) nameEl.value = product.name || "Cà phê phin giấy Rang Mây";
     if (priceEl) {
       priceEl.value = String(product.price ?? 119000);
       priceEl.readOnly = !hasPricePerm;
@@ -340,8 +392,8 @@
     if (permNotice && permNoticeText) {
       permNotice.className = "portal-banner " + (hasPricePerm ? "info" : "warning");
       permNoticeText.textContent = hasPricePerm
-        ? "✓ Bạn đã được cấp Quyền sửa giá bán: Có thể điều chỉnh cả Giá bán niêm yết, Tồn kho, Nhãn và Trạng thái mở bán."
-        : "🔒 Ô Giá bán đang khóa theo phân quyền RBAC: Tài khoản Quản lý này chưa được Chủ cửa hàng cấp 'Quyền sửa giá'. Bạn vẫn được phép cập nhật Tồn kho, Nhãn giới thiệu và Mở/Tạm ngưng bán.";
+        ? "✓ Bạn đã được cấp Quyền sửa giá bán: Có thể điều chỉnh Giá bán niêm yết, Tồn kho, Nhãn và Trạng thái mở bán cho cả 4 dòng sản phẩm."
+        : "🔒 Ô Giá bán đang khóa theo phân quyền RBAC: Tài khoản Quản lý này chưa được Chủ cửa hàng cấp 'Quyền sửa giá'. Bạn vẫn được phép cập nhật Tồn kho, Nhãn giới thiệu và Mở/Tạm ngưng bán cho từng dòng.";
     }
     if (stockEl) stockEl.value = String(product.stock_quantity ?? 0);
     if (badgeEl) badgeEl.value = product.badge_text || "";
@@ -633,6 +685,11 @@
     }
     downloadOrdersCsv(orders);
     showBanner("success", "Đã xuất " + String(orders.length) + " đơn hàng ra tệp CSV (an toàn công thức).");
+  });
+
+  document.getElementById("prodId")?.addEventListener("change", (event) => {
+    selectedManagerProductId = event.target.value || "drip-pack-001";
+    renderCatalogPanel();
   });
 
   document.getElementById("productForm")?.addEventListener("submit", async (event) => {

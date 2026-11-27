@@ -11,29 +11,98 @@
     story: "hinhanh/mangden.jpg"
   };
 
-  let liveProduct = {
-    id: "drip-pack-001",
-    name: "Cà phê phin giấy Rang Mây",
-    price: 119000,
-    stock_quantity: 50,
-    is_available: true,
-    badge_text: "Phin giấy tiện lợi, minh bạch lô sản xuất"
+  const PRODUCT_META = {
+    "drip-pack-001": {
+      defaultName: "Rang Mây Bản Giao Hưởng",
+      defaultPrice: 119000,
+      defaultStock: 50,
+      defaultBadge: "Best Seller • Cân bằng êm dịu",
+      image: "hinhanh/sanpham1.webp",
+      imageType: "dripPack",
+      subtitle: "Êm dịu hài hòa • Chocolate đen & Caramel ngọt hậu",
+      description: "Dòng Signature phối trộn cân bằng từ đại ngàn Măng Đen, nổi bật nốt hương chocolate đen và caramel ngọt hậu, không chua gắt. Phù hợp thưởng thức nóng hoặc đá mỗi sáng.",
+      specPack: "Hộp 10 gói tiện lợi",
+      specWeight: "12g/gói (120g/hộp)",
+      specBean: "Arabica & Fine Robusta",
+      specTaste: "Chocolate đen, Caramel"
+    },
+    "drip-pack-002": {
+      defaultName: "Rang Mây Đại Ngàn (Gu Đậm Sữa Đá)",
+      defaultPrice: 109000,
+      defaultStock: 45,
+      defaultBadge: "Đậm đà • Chuyên Sữa đá & Bạc xỉu",
+      image: "hinhanh/coffee-ice.webp",
+      imageType: "coffeeIce",
+      subtitle: "Cốt sánh đậm • Dậy hương bơ cacao khi quyện sữa đặc",
+      description: "Tăng cường tỷ lệ hạt Fine Robusta Tây Nguyên chín mọng kết hợp Arabica Măng Đen rang vừa–đậm. Cho cốt cà phê sánh dày, bùng vị mạnh mẽ không bị nhạt khi pha cùng đá và sữa đặc.",
+      specPack: "Hộp 10 gói đậm vị",
+      specWeight: "12g/gói (120g/hộp)",
+      specBean: "Fine Robusta & Arabica",
+      specTaste: "Cacao đắng dịu, Hạt dẻ rang"
+    },
+    "drip-pack-003": {
+      defaultName: "Rang Mây Sương Sớm (100% Arabica)",
+      defaultPrice: 145000,
+      defaultStock: 35,
+      defaultBadge: "Specialty 1.200m • Hợp Cold Brew",
+      image: "hinhanh/drip-brew.webp",
+      imageType: "dripBrew",
+      subtitle: "Thanh tao tinh tế • Hương hoa trắng & Trái cây chín",
+      description: "Tuyển chọn 100% hạt Arabica vùng cao Măng Đen ở độ cao 1.200m quanh năm mây phủ. Rang vừa sáng giữ trọn hương hoa tinh tế, vị thanh nhẹ, lượng caffeine êm ái cho cả buổi chiều.",
+      specPack: "Hộp 10 gói Specialty",
+      specWeight: "12g/gói (120g/hộp)",
+      specBean: "100% Arabica Măng Đen",
+      specTaste: "Hoa trắng, Mơ chín, Mật ong"
+    },
+    "gift-box-004": {
+      defaultName: "Hộp Quà Tinh Hoa Măng Đen (Mix 3 Vị)",
+      defaultPrice: 269000,
+      defaultStock: 25,
+      defaultBadge: "Quà biếu cao cấp • 24 gói đủ 3 vị",
+      image: "hinhanh/banner1.webp",
+      imageType: "banner",
+      subtitle: "Hộp cứng sang trọng 24 gói (8×3 vị) • Áp ngay mã VIP50K",
+      description: "Bộ quà tặng hội tụ trọn vẹn 3 sắc thái hương vị Măng Đen (8 gói Bản Giao Hưởng + 8 gói Đại Ngàn + 8 gói Sương Sớm) kèm thiệp chúc mừng viết riêng bằng AI hoàn toàn miễn phí.",
+      specPack: "Hộp quà cứng 24 gói",
+      specWeight: "12g × 24 gói (288g)",
+      specBean: "Trọn bộ 3 dòng đặc sản",
+      specTaste: "Trải nghiệm đủ 3 tầng vị"
+    }
   };
+
+  let catalogProducts = Object.entries(PRODUCT_META).map(([id, m]) => ({
+    id,
+    name: m.defaultName,
+    price: m.defaultPrice,
+    stock_quantity: m.defaultStock,
+    is_available: true,
+    badge_text: m.defaultBadge
+  }));
+
+  let selectedProductId = "drip-pack-001";
+
+  function getProductById(id) {
+    return catalogProducts.find((p) => p.id === id) || catalogProducts[0];
+  }
 
   let cart = [];
   try {
     const storedCart = JSON.parse(localStorage.getItem("rangMayCart") || "[]");
     if (Array.isArray(storedCart)) {
       cart = storedCart
-        .filter(item => item && item.id === "drip-pack-001")
-        .map(item => ({
-          id: liveProduct.id,
-          name: liveProduct.name,
-          price: liveProduct.price,
-          qty: Math.min(99, Math.max(1, Number.parseInt(item.qty, 10) || 1)),
-          image: "hinhanh/sanpham1.webp",
-          imageType: "dripPack"
-        }));
+        .filter((item) => item && typeof item.id === "string" && Boolean(PRODUCT_META[item.id]))
+        .map((item) => {
+          const prod = getProductById(item.id);
+          const meta = PRODUCT_META[item.id];
+          return {
+            id: prod.id,
+            name: prod.name,
+            price: prod.price,
+            qty: Math.min(99, Math.max(1, Number.parseInt(item.qty, 10) || 1)),
+            image: meta.image,
+            imageType: meta.imageType
+          };
+        });
     }
   } catch {
     localStorage.removeItem("rangMayCart");
@@ -130,40 +199,44 @@
     document.getElementById("cart-sidebar")?.classList.remove("open");
   }
 
-  function addToCart() {
-    if (!liveProduct.is_available || liveProduct.stock_quantity <= 0) {
-      showToast("⚠️ Sản phẩm hiện tạm hết hàng hoặc đang tạm ngưng bán.");
+  function addToCart(targetProductId) {
+    const id = typeof targetProductId === "string" && targetProductId ? targetProductId : selectedProductId;
+    const prod = getProductById(id);
+    const meta = PRODUCT_META[prod.id] || PRODUCT_META["drip-pack-001"];
+    if (!prod.is_available || prod.stock_quantity <= 0) {
+      showToast("⚠️ Dòng \"" + prod.name + "\" hiện tạm hết hàng.");
       return;
     }
-    const maxCap = Math.min(99, Math.max(1, liveProduct.stock_quantity));
-    const existing = cart.find(i => i.id === liveProduct.id);
+    const maxCap = Math.min(99, Math.max(1, prod.stock_quantity));
+    const existing = cart.find((i) => i.id === prod.id);
     if (existing) {
-      existing.name = liveProduct.name;
-      existing.price = liveProduct.price;
+      existing.name = prod.name;
+      existing.price = prod.price;
       existing.qty = Math.min(maxCap, existing.qty + 1);
     } else {
       cart.push({
-        id: liveProduct.id,
-        name: liveProduct.name,
-        price: liveProduct.price,
+        id: prod.id,
+        name: prod.name,
+        price: prod.price,
         qty: 1,
-        image: "hinhanh/sanpham1.webp",
-        imageType: "dripPack"
+        image: meta.image,
+        imageType: meta.imageType
       });
     }
     updateCartUI();
     openCart();
-    showToast("🛒 Đã thêm cà phê Rang Mây vào giỏ hàng!");
+    showToast("🛒 Đã thêm \"" + prod.name + "\" vào giỏ hàng!");
   }
 
   function updateCartItemQty(id, change) {
-    const item = cart.find(i => i.id === id);
+    const item = cart.find((i) => i.id === id);
     if (item) {
-      const maxCap = Math.min(99, Math.max(1, liveProduct.stock_quantity || 99));
-      item.price = liveProduct.price;
+      const prod = getProductById(id);
+      const maxCap = Math.min(99, Math.max(1, prod ? prod.stock_quantity : 99));
+      if (prod) item.price = prod.price;
       item.qty = Math.min(maxCap, item.qty + change);
       if (item.qty <= 0) {
-        cart = cart.filter(i => i.id !== id);
+        cart = cart.filter((i) => i.id !== id);
       }
     }
     updateCartUI();
@@ -429,6 +502,15 @@
 
     const finalTotal = Math.max(0, subtotal - discountAmount);
 
+    cart.forEach((item) => {
+      const itemRow = createEl("div", "summary-item");
+      itemRow.append(
+        createEl("span", "", item.name + " × " + String(item.qty)),
+        createEl("span", "", fmtPrice(item.price * item.qty) + "đ")
+      );
+      summaryEl.appendChild(itemRow);
+    });
+
     const row1 = createEl("div", "summary-item");
     row1.append(createEl("span", "", "Tạm tính:"), createEl("span", "", fmtPrice(subtotal) + "đ"));
     summaryEl.appendChild(row1);
@@ -645,20 +727,24 @@
 
   function generateLocalBaristaReply(prompt) {
     const q = foldViLocal(prompt);
-    const inStock = liveProduct.is_available && liveProduct.stock_quantity > 0;
+    const pSig = getProductById("drip-pack-001");
+    const pStrong = getProductById("drip-pack-002");
+    const pArabica = getProductById("drip-pack-003");
+    const pGift = getProductById("gift-box-004");
     const actions = [];
 
-    if (["gia", "bao nhieu", "ton kho", "con hang", "1 hop", "2 hop", "mua"].some(k => q.includes(k))) {
-      if (inStock) {
-        actions.push({ type: "add_to_cart", label: "🛒 Thêm vào giỏ (" + fmtPrice(liveProduct.price) + "đ)" });
+    if (["gia", "bao nhieu", "ton kho", "con hang", "1 hop", "2 hop", "may loai", "cac dong", "mua"].some(k => q.includes(k))) {
+      const lines = catalogProducts.map((p) => {
+        const st = p.is_available && p.stock_quantity > 0 ? "còn " + String(p.stock_quantity) + " hộp" : "tạm hết";
+        return "• " + p.name + ": " + fmtPrice(p.price) + "đ (" + st + ")";
+      });
+      if (pSig.is_available && pSig.stock_quantity > 0) {
+        actions.push({ type: "add_to_cart", productId: pSig.id, label: "🛒 Thêm Bản Giao Hưởng (" + fmtPrice(pSig.price) + "đ)" });
       }
       return {
-        reply:
-          "☕ " + liveProduct.name + " (hộp 10 túi phin giấy × 12g):\n" +
-          "• Giá hiện tại: " + fmtPrice(liveProduct.price) + "đ/hộp (Miễn phí giao hàng toàn quốc).\n" +
-          "• Tồn kho: " + (inStock ? "Còn " + String(liveProduct.stock_quantity) + " hộp sẵn sàng giao ngay." : "Đang tạm hết hàng."),
+        reply: "☕ Bộ sưu tập 4 dòng Cà phê Phin Giấy Rang Mây (Freeship toàn quốc):\n" + lines.join("\n"),
         actions,
-        suggestions: ["Cho mình xin mã Voucher", "Cách pha Cà phê Sữa đá", "Cà phê có chua không?"]
+        suggestions: ["Tư vấn chọn dòng hợp gu", "Cho mình xin mã Voucher", "Cách pha Cà phê Sữa đá"]
       };
     }
 
@@ -671,44 +757,52 @@
           return "• " + v.code + ": " + desc + " (đơn từ " + fmtPrice(v.min_order_amount) + "đ)";
         });
         availableVouchers.slice(0, 2).forEach((v) => {
-          actions.push({ type: "apply_voucher", label: "🏷️ Áp mã " + v.code, code: v.code });
+          actions.push({ type: "apply_voucher", label: "🏷️ Áp mã " + v.code, code: v.code, productId: pSig.id });
         });
         return {
           reply: "🏷️ Các mã Voucher đang mở:\n" + lines.join("\n") + "\nBấm nút bên dưới để áp mã tự động nhé!",
           actions,
-          suggestions: ["Giá 1 hộp bao nhiêu?", "Cách pha Sữa đá ngon"]
+          suggestions: ["Xem bảng giá 4 dòng", "Cách pha Sữa đá ngon"]
         };
       }
     }
 
     if (q.includes("cold brew") || q.includes("coldbrew") || q.includes("u lanh")) {
+      if (pArabica.is_available && pArabica.stock_quantity > 0) {
+        actions.push({ type: "add_to_cart", productId: pArabica.id, label: "🛒 Thêm Sương Sớm Arabica (" + fmtPrice(pArabica.price) + "đ)" });
+      }
       return {
         reply:
-          "❄️ Công thức Cold Brew thanh mát:\n" +
-          "1. Ngâm 1–2 túi phin giấy Rang Mây với 180–220ml nước lọc mát trong bình kín.\n" +
+          "❄️ Công thức Cold Brew thanh mát (hợp nhất với dòng " + pArabica.name + "):\n" +
+          "1. Ngâm 1–2 túi phin giấy với 180–220ml nước lọc mát trong bình kín.\n" +
           "2. Ủ ngăn mát tủ lạnh 8–12 giờ qua đêm.\n" +
           "3. Nhấc túi ra, thêm đá và lát cam vàng để mở nốt hương thanh ngọt!",
-        actions: [],
+        actions,
         suggestions: ["Cách pha Sữa đá đậm đà", "Cho xin mã giảm giá"]
       };
     }
 
     if (q.includes("sua da") || q.includes("bac xiu") || q.includes("pha sua")) {
+      if (pStrong.is_available && pStrong.stock_quantity > 0) {
+        actions.push({ type: "add_to_cart", productId: pStrong.id, label: "🛒 Thêm Đại Ngàn Sữa Đá (" + fmtPrice(pStrong.price) + "đ)" });
+      }
       return {
         reply:
-          "🥛 Bí quyết pha Cà phê Sữa đá đậm đà:\n" +
+          "🥛 Bí quyết pha Cà phê Sữa đá đậm đà (chuẩn nhất với dòng " + pStrong.name + "):\n" +
           "1. Cho 20–25ml sữa đặc dưới đáy ly.\n" +
           "2. Ủ phin giấy với 25ml nước nóng 92–95°C trong 25 giây, sau đó rót chậm thêm 70ml nước nóng.\n" +
           "3. Khuấy tan cốt cà phê nóng cùng sữa đặc rồi thêm đá già đầy ly!",
-        actions: [],
-        suggestions: ["Giá 1 hộp & tồn kho", "Săn mã Voucher giảm giá"]
+        actions,
+        suggestions: ["Bảng giá 4 dòng cà phê", "Săn mã Voucher giảm giá"]
       };
     }
 
     return {
       reply:
-        "☕ Với " + liveProduct.name + " (" + fmtPrice(liveProduct.price) + "đ/hộp 10 gói), bạn nên ủ bột 25 giây với 30ml nước 90–95°C rồi rót chậm thêm 120ml nước nóng để nốt hương chocolate & caramel mở ra êm dịu nhất.",
-      actions: inStock ? [{ type: "add_to_cart", label: "🛒 Thêm vào giỏ (" + fmtPrice(liveProduct.price) + "đ)" }] : [],
+        "☕ Rang Mây hiện có 4 dòng đặc sản Măng Đen: " + pSig.name + " (" + fmtPrice(pSig.price) + "đ), " +
+        pStrong.name + " (" + fmtPrice(pStrong.price) + "đ), " + pArabica.name + " (" + fmtPrice(pArabica.price) + "đ) và " +
+        pGift.name + " (" + fmtPrice(pGift.price) + "đ). Bạn thích vị cân bằng, đậm sữa đá hay thanh nhẹ để mình gợi ý nhé?",
+      actions: [{ type: "scroll_section", label: "☕ Xem bộ sưu tập 4 vị", target: "#product" }],
       suggestions: ["Cho mình xin mã Voucher", "Cách pha Cà phê Sữa đá", "Chính sách Freeship & COD"]
     };
   }
@@ -740,34 +834,38 @@
   function handleChatAction(act) {
     if (!act || typeof act !== "object") return;
     if (act.type === "add_to_cart") {
-      addToCart();
+      addToCart(act.productId || selectedProductId);
       return;
     }
     if (act.type === "apply_voucher" && act.code) {
-      if (!liveProduct.is_available || liveProduct.stock_quantity <= 0) {
+      const targetProd = getProductById(act.productId || selectedProductId);
+      const meta = PRODUCT_META[targetProd.id] || PRODUCT_META["drip-pack-001"];
+      if (!targetProd.is_available || targetProd.stock_quantity <= 0) {
         showToast("⚠️ Sản phẩm hiện tạm hết hàng nên chưa thể áp dụng mã.");
         return;
       }
       const vObj = availableVouchers.find((v) => v.code === act.code);
       const minOrder = vObj ? Number(vObj.min_order_amount || 0) : 0;
-      const neededQty = minOrder > 0
-        ? Math.min(liveProduct.stock_quantity, Math.max(1, Math.ceil(minOrder / liveProduct.price)))
-        : 1;
+      const currentSubtotal = cart.reduce((acc, i) => acc + i.price * i.qty, 0);
 
-      const existing = cart.find((i) => i.id === liveProduct.id);
-      if (existing) {
-        existing.name = liveProduct.name;
-        existing.price = liveProduct.price;
-        existing.qty = Math.max(existing.qty, neededQty);
-      } else {
-        cart.push({
-          id: liveProduct.id,
-          name: liveProduct.name,
-          price: liveProduct.price,
-          qty: neededQty,
-          image: "hinhanh/sanpham1.webp",
-          imageType: "dripPack"
-        });
+      if (currentSubtotal < minOrder || cart.length === 0) {
+        const deficit = Math.max(targetProd.price, minOrder - currentSubtotal);
+        const addQty = Math.min(targetProd.stock_quantity, Math.max(1, Math.ceil(deficit / targetProd.price)));
+        const existing = cart.find((i) => i.id === targetProd.id);
+        if (existing) {
+          existing.name = targetProd.name;
+          existing.price = targetProd.price;
+          existing.qty = Math.min(targetProd.stock_quantity, existing.qty + addQty);
+        } else {
+          cart.push({
+            id: targetProd.id,
+            name: targetProd.name,
+            price: targetProd.price,
+            qty: addQty,
+            image: meta.image,
+            imageType: meta.imageType
+          });
+        }
       }
       updateCartUI();
       floatingChatBox?.classList.remove("open");
@@ -949,7 +1047,7 @@
   document.getElementById("cartOverlay")?.addEventListener("click", closeCart);
   document.getElementById("cart-overlay")?.addEventListener("click", closeCart);
   document.getElementById("cartCloseBtn")?.addEventListener("click", closeCart);
-  document.getElementById("addToCartBtn")?.addEventListener("click", addToCart);
+  document.getElementById("addToCartBtn")?.addEventListener("click", () => addToCart(selectedProductId));
   document.getElementById("openCheckoutBtn")?.addEventListener("click", openCheckout);
   document.getElementById("checkoutCloseBtn")?.addEventListener("click", closeCheckout);
   document.getElementById("aiGiftToggleWrap")?.addEventListener("click", toggleAiGiftCard);
@@ -1037,50 +1135,175 @@
     floatingChatBox?.classList.remove("open");
   });
 
-  function applyLiveCatalogToStorefront(product) {
-    if (!product || typeof product !== "object") return;
-    const nextPrice = Number.parseInt(product.price, 10);
-    const nextStock = Number.parseInt(product.stock_quantity, 10);
-    liveProduct = {
-      id: product.id || "drip-pack-001",
-      name: product.name || "Cà phê phin giấy Rang Mây",
-      price: Number.isInteger(nextPrice) && nextPrice > 0 ? nextPrice : liveProduct.price,
-      stock_quantity: Number.isInteger(nextStock) && nextStock >= 0 ? nextStock : liveProduct.stock_quantity,
-      is_available: product.is_available !== false,
-      badge_text: typeof product.badge_text === "string" ? product.badge_text : liveProduct.badge_text
-    };
+  function renderSpotlightProduct() {
+    const prod = getProductById(selectedProductId);
+    if (!prod) return;
+    const meta = PRODUCT_META[prod.id] || PRODUCT_META["drip-pack-001"];
+    const canBuy = prod.is_available && prod.stock_quantity > 0;
+
+    const mainImg = document.getElementById("mainProductImg");
+    if (mainImg) {
+      delete mainImg.dataset.fallbackApplied;
+      mainImg.dataset.fallback = meta.imageType;
+      mainImg.src = meta.image;
+      mainImg.alt = prod.name;
+    }
+    document.querySelectorAll(".thumb-btn").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.thumbSrc === meta.image);
+    });
 
     const badgeEl = document.getElementById("productBadge");
-    if (badgeEl && liveProduct.badge_text) {
-      badgeEl.textContent = liveProduct.badge_text;
-    }
+    if (badgeEl) badgeEl.textContent = prod.badge_text || meta.defaultBadge;
+
+    const titleEl = document.getElementById("productTitle");
+    if (titleEl) titleEl.textContent = prod.name;
+
+    const descEl = document.getElementById("productDesc");
+    if (descEl) descEl.textContent = meta.description;
+
     const priceEl = document.getElementById("productPrice");
-    if (priceEl) {
-      priceEl.textContent = fmtPrice(liveProduct.price) + "đ";
-    }
+    if (priceEl) priceEl.textContent = fmtPrice(prod.price) + "đ";
+
+    const specPackEl = document.getElementById("specPack");
+    const specWeightEl = document.getElementById("specWeight");
+    const specBeanEl = document.getElementById("specBean");
+    const specTasteEl = document.getElementById("specTaste");
+    if (specPackEl) specPackEl.textContent = meta.specPack;
+    if (specWeightEl) specWeightEl.textContent = meta.specWeight;
+    if (specBeanEl) specBeanEl.textContent = meta.specBean;
+    if (specTasteEl) specTasteEl.textContent = meta.specTaste;
+
     const stockEl = document.getElementById("productStockInfo");
-    const addBtn = document.getElementById("addToCartBtn");
-    const canBuy = liveProduct.is_available && liveProduct.stock_quantity > 0;
     if (stockEl) {
       stockEl.textContent = canBuy
-        ? "Tình trạng kho: Còn " + String(liveProduct.stock_quantity) + " hộp sẵn sàng giao"
-        : "Tình trạng kho: Tạm hết hàng / đang cập nhật lô mới";
+        ? "Tình trạng kho: Còn " + String(prod.stock_quantity) + " hộp sẵn sàng giao ngay"
+        : "Tình trạng kho: Tạm hết hàng / đang chuẩn bị mẻ rang mới";
       stockEl.classList.toggle("out-of-stock", !canBuy);
     }
+
+    const addBtn = document.getElementById("addToCartBtn");
     if (addBtn) {
       addBtn.disabled = !canBuy;
-      addBtn.textContent = canBuy ? "THÊM VÀO GIỎ HÀNG" : "TẠM HẾT HÀNG";
+      addBtn.textContent = canBuy
+        ? "THÊM \"" + prod.name.toUpperCase() + "\" (" + fmtPrice(prod.price) + "Đ)"
+        : "TẠM HẾT HÀNG";
     }
+  }
+
+  function renderCollectionGrid() {
+    const grid = document.getElementById("productCollectionGrid");
+    if (!grid) return;
+    grid.replaceChildren();
+
+    catalogProducts.forEach((prod) => {
+      const meta = PRODUCT_META[prod.id] || PRODUCT_META["drip-pack-001"];
+      const canBuy = prod.is_available && prod.stock_quantity > 0;
+      const isSelected = prod.id === selectedProductId;
+
+      const card = createEl("article", "collection-card" + (isSelected ? " active" : ""));
+
+      const imgWrap = createEl("div", "collection-card-media");
+      const img = document.createElement("img");
+      img.src = meta.image;
+      img.alt = prod.name;
+      img.loading = "lazy";
+      img.decoding = "async";
+      img.dataset.fallback = meta.imageType;
+      imgWrap.appendChild(img);
+      imgWrap.appendChild(createEl("span", "collection-card-badge", prod.badge_text || meta.defaultBadge));
+      imgWrap.addEventListener("click", () => {
+        selectedProductId = prod.id;
+        renderCollectionGrid();
+        renderSpotlightProduct();
+      });
+
+      const body = createEl("div", "collection-card-body");
+      const title = createEl("h3", "collection-card-title", prod.name);
+      const sub = createEl("p", "collection-card-sub", meta.subtitle);
+      const spec = createEl("div", "collection-card-spec", meta.specPack + " • " + meta.specBean);
+
+      const priceRow = createEl("div", "collection-card-price-row");
+      priceRow.appendChild(createEl("span", "collection-card-price", fmtPrice(prod.price) + "đ"));
+      priceRow.appendChild(
+        createEl(
+          "span",
+          "collection-card-stock" + (canBuy ? "" : " out"),
+          canBuy ? "Còn " + String(prod.stock_quantity) + " hộp" : "Tạm hết"
+        )
+      );
+
+      const actions = createEl("div", "collection-card-actions");
+      const detailBtn = createEl("button", "btn-card-detail", isSelected ? "Đang xem" : "Chi tiết");
+      detailBtn.type = "button";
+      detailBtn.addEventListener("click", () => {
+        selectedProductId = prod.id;
+        renderCollectionGrid();
+        renderSpotlightProduct();
+        document.getElementById("productSpotlightBox")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      });
+
+      const buyBtn = createEl("button", "btn-card-buy", canBuy ? "🛒 Thêm giỏ" : "Hết hàng");
+      buyBtn.type = "button";
+      buyBtn.disabled = !canBuy;
+      buyBtn.addEventListener("click", () => addToCart(prod.id));
+
+      actions.append(detailBtn, buyBtn);
+      body.append(title, sub, spec, priceRow, actions);
+      card.append(imgWrap, body);
+      grid.appendChild(card);
+    });
+  }
+
+  function applyLiveCatalogList(productsFromApi) {
+    if (!Array.isArray(productsFromApi) || productsFromApi.length === 0) return;
+    const byId = new Map();
+    productsFromApi.forEach((p) => {
+      if (p && typeof p.id === "string") byId.set(p.id, p);
+    });
+
+    catalogProducts = Object.entries(PRODUCT_META).map(([id, meta]) => {
+      const row = byId.get(id);
+      if (!row) {
+        const prev = catalogProducts.find((c) => c.id === id);
+        return prev || {
+          id,
+          name: meta.defaultName,
+          price: meta.defaultPrice,
+          stock_quantity: meta.defaultStock,
+          is_available: true,
+          badge_text: meta.defaultBadge
+        };
+      }
+      const nextPrice = Number.parseInt(row.price, 10);
+      const nextStock = Number.parseInt(row.stock_quantity, 10);
+      return {
+        id,
+        name: row.name || meta.defaultName,
+        price: Number.isInteger(nextPrice) && nextPrice > 0 ? nextPrice : meta.defaultPrice,
+        stock_quantity: Number.isInteger(nextStock) && nextStock >= 0 ? nextStock : meta.defaultStock,
+        is_available: row.is_available !== false,
+        badge_text: typeof row.badge_text === "string" && row.badge_text ? row.badge_text : meta.defaultBadge
+      };
+    });
 
     if (cart.length > 0) {
-      cart = cart.map(item => ({
-        ...item,
-        name: liveProduct.name,
-        price: liveProduct.price,
-        qty: canBuy ? Math.min(liveProduct.stock_quantity, item.qty) : item.qty
-      }));
+      cart = cart
+        .map((item) => {
+          const live = getProductById(item.id);
+          if (!live) return item;
+          const canBuy = live.is_available && live.stock_quantity > 0;
+          return {
+            ...item,
+            name: live.name,
+            price: live.price,
+            qty: canBuy ? Math.min(live.stock_quantity, item.qty) : item.qty
+          };
+        });
       updateCartUI();
     }
+
+    renderCollectionGrid();
+    renderSpotlightProduct();
   }
 
   async function syncStoreCatalog() {
@@ -1088,19 +1311,20 @@
     try {
       const data = await window.RangMayAuth.apiRequest("store-catalog", { method: "GET" });
       if (data && Array.isArray(data.products)) {
-        const matched = data.products.find(p => p.id === "drip-pack-001") || data.products[0];
-        if (matched) applyLiveCatalogToStorefront(matched);
+        applyLiveCatalogList(data.products);
       }
       if (data && Array.isArray(data.vouchers)) {
         availableVouchers = data.vouchers;
         renderVoucherHints();
       }
     } catch {
-      // Fallback to static price cleanly when offline/unconfigured
+      // Fallback to default 4-product collection when offline
     }
   }
 
   // Initialize UI & Auth header
+  renderCollectionGrid();
+  renderSpotlightProduct();
   updateCartUI();
   (async function initHeaderAuth() {
     if (!window.RangMayAuth) return;

@@ -5,11 +5,38 @@ const FALLBACK_PRODUCTS = [
   {
     id: "drip-pack-001",
     sku: "RM-DRIP-001",
-    name: "Cà phê phin giấy Rang Mây",
+    name: "Rang Mây Bản Giao Hưởng",
     price: 119000,
     stock_quantity: 50,
     is_available: true,
-    badge_text: "Phin giấy tiện lợi, minh bạch lô sản xuất"
+    badge_text: "Best Seller • Cân bằng êm dịu"
+  },
+  {
+    id: "drip-pack-002",
+    sku: "RM-DRIP-002",
+    name: "Rang Mây Đại Ngàn (Gu Đậm Sữa Đá)",
+    price: 109000,
+    stock_quantity: 45,
+    is_available: true,
+    badge_text: "Đậm đà • Chuyên Sữa đá & Bạc xỉu"
+  },
+  {
+    id: "drip-pack-003",
+    sku: "RM-DRIP-003",
+    name: "Rang Mây Sương Sớm (100% Arabica)",
+    price: 145000,
+    stock_quantity: 35,
+    is_available: true,
+    badge_text: "Specialty 1.200m • Hợp Cold Brew"
+  },
+  {
+    id: "gift-box-004",
+    sku: "RM-GIFT-004",
+    name: "Hộp Quà Tinh Hoa Măng Đen (Mix 3 Vị)",
+    price: 269000,
+    stock_quantity: 25,
+    is_available: true,
+    badge_text: "Quà biếu cao cấp • 24 gói đủ 3 vị"
   }
 ];
 

@@ -12,8 +12,11 @@ import {
   verifyTurnstileToken
 } from "../_shared/http.ts";
 
-const productCatalog = {
-  "drip-pack-001": { name: "Cà phê phin giấy Rang Mây", unitPrice: 119000 }
+const productCatalog: Record<string, { name: string; unitPrice: number }> = {
+  "drip-pack-001": { name: "Rang Mây Bản Giao Hưởng", unitPrice: 119000 },
+  "drip-pack-002": { name: "Rang Mây Đại Ngàn (Gu Đậm Sữa Đá)", unitPrice: 109000 },
+  "drip-pack-003": { name: "Rang Mây Sương Sớm (100% Arabica)", unitPrice: 145000 },
+  "gift-box-004": { name: "Hộp Quà Tinh Hoa Măng Đen (Mix 3 Vị)", unitPrice: 269000 }
 };
 
 Deno.serve(async (request: Request) => {
@@ -52,43 +55,67 @@ Deno.serve(async (request: Request) => {
       return jsonResponse({ error: "Thông tin người nhận chưa hợp lệ." }, 400, cors);
     }
 
-    if (!Array.isArray(items) || items.length !== 1 || paymentMethod !== "COD" ||
+    if (!Array.isArray(items) || items.length < 1 || items.length > 10 || paymentMethod !== "COD" ||
       (giftMessage !== undefined && giftMessage !== "" &&
         (typeof giftMessage !== "string" || giftMessage.length > 1000))) {
       return jsonResponse({ error: "Thông tin đơn hàng hoặc phương thức thanh toán chưa hợp lệ." }, 400, cors);
     }
 
-    const item = items[0] as Record<string, unknown>;
-    const fallbackProduct = productCatalog[item.id as keyof typeof productCatalog];
-    const quantity = item.quantity;
-    if (!fallbackProduct || !Number.isInteger(quantity) || (quantity as number) < 1 || (quantity as number) > 99) {
-      return jsonResponse({ error: "Sản phẩm hoặc số lượng không hợp lệ." }, 400, cors);
-    }
-
-    let productName = fallbackProduct.name;
-    let unitPrice = fallbackProduct.unitPrice;
-    let liveStockRow: { stock_quantity: number; is_available: boolean } | null = null;
-
-    const { data: dbProduct, error: dbProductErr } = await db
-      .from("store_products")
-      .select("name, price, stock_quantity, is_available")
-      .eq("id", item.id)
-      .maybeSingle();
-
-    if (!dbProductErr && dbProduct) {
-      if (!dbProduct.is_available || dbProduct.stock_quantity < (quantity as number)) {
-        return jsonResponse({
-          error: dbProduct.is_available
-            ? `Sản phẩm hiện chỉ còn ${dbProduct.stock_quantity} hộp trong kho.`
-            : "Sản phẩm hiện đang tạm hết hàng."
-        }, 400, cors);
+    // Consolidate duplicate SKU lines to prevent stock-check bypass
+    const consolidatedQty = new Map<string, number>();
+    for (const rawItem of items) {
+      const itemObj = rawItem as Record<string, unknown>;
+      const id = typeof itemObj?.id === "string" ? itemObj.id.trim() : "";
+      const qty = itemObj?.quantity;
+      if (!id || !Number.isInteger(qty) || (qty as number) < 1 || (qty as number) > 99) {
+        return jsonResponse({ error: "Sản phẩm hoặc số lượng không hợp lệ." }, 400, cors);
       }
-      productName = dbProduct.name;
-      unitPrice = dbProduct.price;
-      liveStockRow = dbProduct;
+      const nextQty = (consolidatedQty.get(id) || 0) + (qty as number);
+      if (nextQty > 99) {
+        return jsonResponse({ error: "Số lượng mỗi dòng sản phẩm tối đa 99 hộp/đơn." }, 400, cors);
+      }
+      consolidatedQty.set(id, nextQty);
     }
 
-    const subtotal = unitPrice * (quantity as number);
+    const requestedIds = Array.from(consolidatedQty.keys());
+    const { data: dbProducts, error: dbProductErr } = await db
+      .from("store_products")
+      .select("id, name, price, stock_quantity, is_available")
+      .in("id", requestedIds);
+
+    const dbMap = new Map<string, { id: string; name: string; price: number; stock_quantity: number; is_available: boolean }>();
+    if (!dbProductErr && Array.isArray(dbProducts)) {
+      for (const row of dbProducts) {
+        dbMap.set(row.id, row);
+      }
+    }
+
+    const validatedItems: Array<{ id: string; name: string; quantity: number; unit_price: number }> = [];
+    const stockUpdates: Array<{ id: string; nextStock: number }> = [];
+    let subtotal = 0;
+
+    for (const [id, quantity] of consolidatedQty.entries()) {
+      const dbProd = dbMap.get(id);
+      const fallbackProd = productCatalog[id];
+      if (!dbProd && !fallbackProd) {
+        return jsonResponse({ error: "Sản phẩm không tồn tại trong danh mục." }, 400, cors);
+      }
+      if (dbProd) {
+        if (!dbProd.is_available || dbProd.stock_quantity < quantity) {
+          return jsonResponse({
+            error: dbProd.is_available
+              ? `Sản phẩm "${dbProd.name}" hiện chỉ còn ${dbProd.stock_quantity} hộp trong kho.`
+              : `Sản phẩm "${dbProd.name}" hiện đang tạm hết hàng.`
+          }, 400, cors);
+        }
+        validatedItems.push({ id, name: dbProd.name, quantity, unit_price: dbProd.price });
+        stockUpdates.push({ id, nextStock: Math.max(0, dbProd.stock_quantity - quantity) });
+        subtotal += dbProd.price * quantity;
+      } else {
+        validatedItems.push({ id, name: fallbackProd.name, quantity, unit_price: fallbackProd.unitPrice });
+        subtotal += fallbackProd.unitPrice * quantity;
+      }
+    }
     const rawVoucherCode = typeof body.voucherCode === "string" ? body.voucherCode.trim().toUpperCase() : "";
     let appliedVoucherCode: string | null = null;
     let discountAmount = 0;
@@ -136,7 +163,7 @@ Deno.serve(async (request: Request) => {
         ? customer.email.trim()
         : (actor ? actor.email : null),
       shipping_address: customer.address.trim(),
-      items: [{ id: item.id, name: productName, quantity, unit_price: unitPrice }],
+      items: validatedItems,
       subtotal_amount: subtotal,
       voucher_code: appliedVoucherCode,
       discount_amount: discountAmount,
@@ -150,14 +177,15 @@ Deno.serve(async (request: Request) => {
       return jsonResponse({ error: "Không lưu được đơn hàng. Vui lòng thử lại." }, 500, cors);
     }
 
-    if (liveStockRow) {
+    const nowIso = new Date().toISOString();
+    for (const upd of stockUpdates) {
       await db
         .from("store_products")
         .update({
-          stock_quantity: Math.max(0, liveStockRow.stock_quantity - (quantity as number)),
-          updated_at: new Date().toISOString()
+          stock_quantity: upd.nextStock,
+          updated_at: nowIso
         })
-        .eq("id", item.id);
+        .eq("id", upd.id);
     }
 
     if (appliedVoucherCode && liveVoucherUsedCount !== null) {

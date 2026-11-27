@@ -1274,7 +1274,66 @@ async function main() {
     assert(aiGiftRes.data.giftMessage.includes("Mẹ yêu"));
     console.log("[21/21 OK] Smart Barista AI grounded price/stock/vouchers/combo & zero-PII order lookup verified");
 
-    console.log("\nALL_21_ORIGINAL_WEBSITE_SECURITY_TESTS_PASSED");
+    // [22/22] 4-Product Collection, Multi-SKU Cart Order + Voucher Enforcement & Duplicate-SKU Stock Bypass Guard
+    const fullCatRes = await httpsReq({ path: "/api/functions/store-catalog" });
+    assert.equal(fullCatRes.status, 200);
+    assert.equal(fullCatRes.data.products.length, 4);
+    assert(fullCatRes.data.products.some((p) => p.id === "drip-pack-002" && p.price === 109000));
+    assert(fullCatRes.data.products.some((p) => p.id === "drip-pack-003" && p.price === 145000));
+    assert(fullCatRes.data.products.some((p) => p.id === "gift-box-004" && p.price === 269000));
+
+    // Duplicate SKU lines trying to exceed stock (15 + 15 = 30 > 25) MUST be rejected
+    const dupBypassTry = await httpsReq({
+      path: "/api/functions/create-order",
+      method: "POST",
+      headers: sameOriginHeaders,
+      json: {
+        customer: { name: "Khách Multi", phone: "0905556666", address: "88 Đồng Khởi, Q1" },
+        items: [
+          { id: "gift-box-004", quantity: 15 },
+          { id: "gift-box-004", quantity: 15 }
+        ],
+        paymentMethod: "COD"
+      }
+    });
+    assert.equal(dupBypassTry.status, 400);
+
+    // Multi-SKU order: 1 × Đại Ngàn (109.000) + 1 × Sương Sớm (145.000) = 254.000 - VIP50K (50.000) = 204.000
+    const multiOrderRes = await httpsReq({
+      path: "/api/functions/create-order",
+      method: "POST",
+      headers: sameOriginHeaders,
+      json: {
+        customer: { name: "Khách Gu Mix", phone: "0905556666", address: "88 Đồng Khởi, Q1" },
+        items: [
+          { id: "drip-pack-002", quantity: 1, price: 1 },
+          { id: "drip-pack-003", quantity: 1, price: 1 }
+        ],
+        voucherCode: "VIP50K",
+        paymentMethod: "COD"
+      }
+    });
+    assert.equal(multiOrderRes.status, 201);
+    assert.equal(multiOrderRes.data.subtotalAmount, 254000);
+    assert.equal(multiOrderRes.data.discountAmount, 50000);
+    assert.equal(multiOrderRes.data.totalAmount, 204000);
+
+    const catAfterMulti = await httpsReq({ path: "/api/functions/store-catalog" });
+    assert.equal(catAfterMulti.data.products.find((p) => p.id === "drip-pack-002").stock_quantity, 44);
+    assert.equal(catAfterMulti.data.products.find((p) => p.id === "drip-pack-003").stock_quantity, 34);
+
+    // Barista AI recommends exact matching SKU for Sữa đá (drip-pack-002) and Gift Box (gift-box-004)
+    const aiSuaDa = await httpsReq({
+      path: "/api/functions/barista-ai",
+      method: "POST",
+      headers: sameOriginHeaders,
+      json: { message: "minh thich uong ca phe sua da dam thi chon loai nao?" }
+    });
+    assert.equal(aiSuaDa.status, 200);
+    assert(aiSuaDa.data.actions.some((a) => a.type === "add_to_cart" && a.productId === "drip-pack-002"));
+    console.log("[22/22 OK] 4-Product collection, multi-SKU order + voucher math, stock-bypass guard & AI SKU recommendation verified");
+
+    console.log("\nALL_22_ORIGINAL_WEBSITE_SECURITY_TESTS_PASSED");
   } finally {
     await server.stop();
     fs.rmSync(tmpDir, { recursive: true, force: true });

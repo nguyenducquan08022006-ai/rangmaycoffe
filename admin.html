@@ -231,16 +231,32 @@
         <div id="panelCatalog" class="admin-panel-spaced" hidden>
           <div class="portal-banner info">
             <div>
-              <strong>Toàn quyền định giá của Chủ cửa hàng:</strong> Chủ cửa hàng luôn có quyền thay đổi đơn giá niêm yết, tồn kho và trạng thái mở bán. Bạn cũng có thể bật/tắt <strong>Quyền sửa giá</strong> cho từng tài khoản Quản lý cửa hàng ngay tại tab <em>Phân quyền &amp; Nhân sự</em>.
+              <strong>Toàn quyền định giá Bộ sưu tập 4 dòng sản phẩm:</strong> Chủ cửa hàng luôn có quyền thay đổi đơn giá niêm yết, tồn kho và trạng thái mở bán cho từng dòng cà phê. Bạn cũng có thể bật/tắt <strong>Quyền sửa giá</strong> cho từng tài khoản Quản lý cửa hàng ngay tại tab <em>Phân quyền &amp; Nhân sự</em>.
             </div>
           </div>
-          <form class="onboarding-box" id="ownerProductForm">
-            <h3>Điều chỉnh Giá bán &amp; Tồn kho sản phẩm</h3>
-            <input type="hidden" id="ownerProdId" value="drip-pack-001">
+
+          <div class="table-scroll admin-panel-spaced">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Mã SKU</th>
+                  <th>Dòng sản phẩm</th>
+                  <th>Giá niêm yết</th>
+                  <th>Tồn kho</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="ownerCatalogBody"></tbody>
+            </table>
+          </div>
+
+          <form class="onboarding-box admin-panel-spaced" id="ownerProductForm">
+            <h3>Điều chỉnh Giá bán &amp; Tồn kho dòng sản phẩm đang chọn</h3>
             <div class="catalog-grid">
               <div class="field-group">
-                <label for="ownerProdName">Tên sản phẩm</label>
-                <input type="text" id="ownerProdName" value="Cà phê phin giấy Rang Mây" readonly>
+                <label for="ownerProdId">Chọn dòng sản phẩm *</label>
+                <select id="ownerProdId"></select>
               </div>
               <div class="field-group">
                 <label for="ownerProdPrice">Giá bán niêm yết (VND) *</label>

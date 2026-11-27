@@ -150,13 +150,29 @@
               Đang kiểm tra phân quyền sửa giá bán...
             </div>
           </div>
-          <form class="onboarding-box" id="productForm">
-            <h3>Cập nhật Sản phẩm kinh doanh</h3>
-            <input type="hidden" id="prodId" value="drip-pack-001">
+
+          <div class="table-scroll admin-panel-spaced">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Mã SKU</th>
+                  <th>Dòng sản phẩm</th>
+                  <th>Giá niêm yết</th>
+                  <th>Tồn kho</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="managerCatalogBody"></tbody>
+            </table>
+          </div>
+
+          <form class="onboarding-box admin-panel-spaced" id="productForm">
+            <h3>Cập nhật Dòng sản phẩm đang chọn</h3>
             <div class="catalog-grid">
               <div class="field-group">
-                <label for="prodName">Tên sản phẩm</label>
-                <input type="text" id="prodName" value="Cà phê phin giấy Rang Mây" readonly>
+                <label for="prodId">Chọn dòng sản phẩm *</label>
+                <select id="prodId"></select>
               </div>
               <div class="field-group">
                 <label for="prodPrice">Giá bán niêm yết (VND) *</label>

@@ -802,22 +802,73 @@
     }
   }
 
+  let selectedOwnerProductId = "drip-pack-001";
+
   function renderOwnerCatalogPanel() {
-    const product = (dashboardState.catalog || []).find(p => p.id === "drip-pack-001") || (dashboardState.catalog || [])[0];
+    const list = Array.isArray(dashboardState.catalog) ? dashboardState.catalog : [];
     const preview = document.getElementById("ownerCatalogLivePreview");
-    if (!product) {
+    const tbody = document.getElementById("ownerCatalogBody");
+    const selectEl = document.getElementById("ownerProdId");
+
+    if (tbody) {
+      tbody.replaceChildren();
+      list.forEach((item) => {
+        const tr = document.createElement("tr");
+        const tdSku = createEl("td");
+        tdSku.appendChild(createEl("strong", "", item.sku || item.id));
+        tdSku.appendChild(createEl("span", "table-subtext", item.id));
+
+        const tdName = createEl("td");
+        tdName.appendChild(createEl("strong", "", item.name || ""));
+        tdName.appendChild(createEl("span", "table-subtext", item.badge_text || ""));
+
+        const tdPrice = createEl("td", "", fmtPrice(item.price) + "đ");
+        const tdStock = createEl("td", "", String(item.stock_quantity ?? 0) + " hộp");
+
+        const tdStatus = createEl("td");
+        const avail = item.is_available !== false && (item.stock_quantity ?? 0) > 0;
+        tdStatus.appendChild(
+          createEl("span", "badge " + (avail ? "status-completed" : "status-cancelled"), avail ? "Đang mở bán" : "Tạm ngưng / Hết")
+        );
+
+        const tdAct = createEl("td");
+        const pickBtn = createEl("button", "btn-sm" + (item.id === selectedOwnerProductId ? "" : " outline"), item.id === selectedOwnerProductId ? "Đang chọn" : "Chọn sửa");
+        pickBtn.type = "button";
+        pickBtn.addEventListener("click", () => {
+          selectedOwnerProductId = item.id;
+          renderOwnerCatalogPanel();
+        });
+        tdAct.appendChild(pickBtn);
+
+        tr.append(tdSku, tdName, tdPrice, tdStock, tdStatus, tdAct);
+        tbody.appendChild(tr);
+      });
+    }
+
+    if (list.length === 0) {
       if (preview) preview.textContent = "Chưa có dữ liệu sản phẩm.";
       return;
     }
-    const idEl = document.getElementById("ownerProdId");
-    const nameEl = document.getElementById("ownerProdName");
+
+    const product = list.find((p) => p.id === selectedOwnerProductId) || list[0];
+    selectedOwnerProductId = product.id;
+
+    if (selectEl) {
+      selectEl.replaceChildren();
+      list.forEach((p) => {
+        const opt = document.createElement("option");
+        opt.value = p.id;
+        opt.textContent = p.name + " (" + fmtPrice(p.price) + "đ – kho " + String(p.stock_quantity) + ")";
+        opt.selected = p.id === selectedOwnerProductId;
+        selectEl.appendChild(opt);
+      });
+    }
+
     const priceEl = document.getElementById("ownerProdPrice");
     const stockEl = document.getElementById("ownerProdStock");
     const badgeEl = document.getElementById("ownerProdBadge");
     const availEl = document.getElementById("ownerProdAvailable");
 
-    if (idEl) idEl.value = product.id;
-    if (nameEl) nameEl.value = product.name || "Cà phê phin giấy Rang Mây";
     if (priceEl) priceEl.value = String(product.price ?? 119000);
     if (stockEl) stockEl.value = String(product.stock_quantity ?? 0);
     if (badgeEl) badgeEl.value = product.badge_text || "";
@@ -877,6 +928,11 @@
     const roleVal = event.target?.value || "staff";
     if (wrap) wrap.hidden = roleVal !== "manager";
     if (check && roleVal !== "manager") check.checked = false;
+  });
+
+  document.getElementById("ownerProdId")?.addEventListener("change", (event) => {
+    selectedOwnerProductId = event.target.value || "drip-pack-001";
+    renderOwnerCatalogPanel();
   });
 
   document.getElementById("ownerProductForm")?.addEventListener("submit", async (event) => {
