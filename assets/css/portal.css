@@ -1,5 +1,15 @@
 /* Portal & Authentication Pages (login.html, account.html, admin.html) */
 
+.portal-main,
+.portal-main h1,
+.portal-main h2,
+.portal-main h3,
+.portal-main h4,
+.portal-main .kpi-value {
+  font-family: var(--font-body);
+  letter-spacing: 0;
+}
+
 .portal-main {
   padding: 44px 0 80px;
   min-height: calc(100vh - 180px);
