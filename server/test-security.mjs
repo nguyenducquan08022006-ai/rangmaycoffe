@@ -1298,11 +1298,11 @@ async function main() {
     });
     assert.equal(dupBypassTry.status, 400);
 
-    // Multi-SKU order: 1 × Đại Ngàn (109.000) + 1 × Sương Sớm (145.000) = 254.000 - VIP50K (50.000) = 204.000
+    // Multi-SKU order by Customer B: 1 × Đại Ngàn (109.000) + 1 × Sương Sớm (145.000) = 254.000 - VIP50K (50.000) = 204.000
     const multiOrderRes = await httpsReq({
       path: "/api/functions/create-order",
       method: "POST",
-      headers: sameOriginHeaders,
+      headers: { ...sameOriginHeaders, Authorization: `Bearer ${custBToken}` },
       json: {
         customer: { name: "Khách Gu Mix", phone: "0905556666", address: "88 Đồng Khởi, Q1" },
         items: [
@@ -1321,6 +1321,36 @@ async function main() {
     const catAfterMulti = await httpsReq({ path: "/api/functions/store-catalog" });
     assert.equal(catAfterMulti.data.products.find((p) => p.id === "drip-pack-002").stock_quantity, 44);
     assert.equal(catAfterMulti.data.products.find((p) => p.id === "drip-pack-003").stock_quantity, 34);
+
+    // Customer B self-cancels their own pending multi-SKU order via account-api -> restores stock (44->45, 34->35)
+    const custBAcc = await httpsReq({
+      path: "/api/functions/account-api",
+      headers: { Authorization: `Bearer ${custBToken}` }
+    });
+    const pendingMultiOrder = custBAcc.data.orders.find((o) => o.order_number === multiOrderRes.data.orderNumber);
+    assert(pendingMultiOrder && pendingMultiOrder.status === "pending");
+
+    const selfCancelRes = await httpsReq({
+      path: "/api/functions/account-api",
+      method: "PATCH",
+      headers: { ...sameOriginHeaders, Authorization: `Bearer ${custBToken}` },
+      json: { action: "cancel_order", orderId: pendingMultiOrder.id }
+    });
+    assert.equal(selfCancelRes.status, 200);
+    assert.equal(selfCancelRes.data.order.status, "cancelled");
+
+    // Re-cancelling an already-cancelled order MUST fail with 400
+    const doubleCancelTry = await httpsReq({
+      path: "/api/functions/account-api",
+      method: "PATCH",
+      headers: { ...sameOriginHeaders, Authorization: `Bearer ${custBToken}` },
+      json: { action: "cancel_order", orderId: pendingMultiOrder.id }
+    });
+    assert.equal(doubleCancelTry.status, 400);
+
+    const catAfterSelfCancel = await httpsReq({ path: "/api/functions/store-catalog" });
+    assert.equal(catAfterSelfCancel.data.products.find((p) => p.id === "drip-pack-002").stock_quantity, 45);
+    assert.equal(catAfterSelfCancel.data.products.find((p) => p.id === "drip-pack-003").stock_quantity, 35);
 
     // Barista AI recommends exact matching SKU for Sữa đá (drip-pack-002) and Gift Box (gift-box-004)
     const aiSuaDa = await httpsReq({

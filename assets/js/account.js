@@ -158,7 +158,37 @@
 
       const tdStatus = createEl("td");
       const st = order.status || "pending";
-      tdStatus.appendChild(createEl("span", "badge status-" + st, ORDER_STATUS_LABELS[st] || st));
+      const statusStack = createEl("div", "inline-control-stack");
+      statusStack.appendChild(createEl("span", "badge status-" + st, ORDER_STATUS_LABELS[st] || st));
+
+      if (st === "pending" && order.id) {
+        const cancelBtn = createEl("button", "btn-sm outline", "Hủy đơn");
+        cancelBtn.type = "button";
+        cancelBtn.addEventListener("click", async () => {
+          clearBanner();
+          cancelBtn.disabled = true;
+          cancelBtn.textContent = "Đang hủy...";
+          try {
+            await auth.apiRequest("account-api", {
+              method: "PATCH",
+              authRequired: true,
+              body: { action: "cancel_order", orderId: order.id }
+            });
+            const refreshed = await auth.fetchCurrentAccountData();
+            renderOrders(refreshed.orders || []);
+            showBanner(
+              "info",
+              "Đã hủy đơn hàng " + (order.order_number || "") + " và hoàn lại tồn kho / lượt mã giảm giá."
+            );
+          } catch (error) {
+            showBanner("error", error instanceof Error ? error.message : "Không thể hủy đơn hàng lúc này.");
+            cancelBtn.disabled = false;
+            cancelBtn.textContent = "Hủy đơn";
+          }
+        });
+        statusStack.appendChild(cancelBtn);
+      }
+      tdStatus.appendChild(statusStack);
 
       tr.append(tdCode, tdDate, tdItems, tdTotal, tdPay, tdStatus);
       tbody.appendChild(tr);

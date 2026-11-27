@@ -2710,6 +2710,51 @@ export function createSecureServer(options = {}) {
 
       if (method === "PATCH") {
         const body = await readJsonBody(req);
+
+        if (body.action === "cancel_order") {
+          const orderId = body.orderId;
+          if (!isValidUuid(orderId)) {
+            sendJson(res, 400, { error: "Mã định danh đơn hàng không hợp lệ." });
+            return;
+          }
+          const order = (store.orders || []).find((o) => o.id === orderId && o.user_id === actor.user.id);
+          if (!order) {
+            sendJson(res, 404, { error: "Không tìm thấy đơn hàng thuộc tài khoản của bạn." });
+            return;
+          }
+          if (order.status !== "pending") {
+            sendJson(res, 400, { error: "Chỉ có thể tự hủy khi đơn hàng còn ở trạng thái Chờ xác nhận." });
+            return;
+          }
+          const prevStatus = order.status;
+          restoreOrderStockIfCancelled(order, prevStatus, "cancelled");
+          order.status = "cancelled";
+          order.internal_note = "Khách hàng tự hủy đơn khi chờ xác nhận";
+          order.updated_by = actor.user.id;
+          order.updated_at = new Date().toISOString();
+
+          appendAuditLog({
+            actorId: actor.user.id,
+            actorEmail: actor.user.email,
+            actorRole: actor.user.role,
+            action: "order.cancelled_by_customer",
+            targetType: "order",
+            targetId: order.id,
+            details: { orderNumber: order.order_number },
+            ipHash
+          });
+          persistStore();
+          sendJson(res, 200, {
+            order: {
+              id: order.id,
+              order_number: order.order_number,
+              status: order.status,
+              updated_at: order.updated_at
+            }
+          });
+          return;
+        }
+
         if (!validText(body.fullName, 2, 100)) {
           sendJson(res, 400, { error: "Họ và tên phải từ 2 đến 100 ký tự." });
           return;
