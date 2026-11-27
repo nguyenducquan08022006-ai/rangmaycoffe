@@ -588,6 +588,37 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function openPolicyModal(focusSectionId) {
+    const overlay = document.getElementById("policy-overlay");
+    if (!overlay) return;
+    overlay.classList.add("open");
+    document.querySelectorAll(".policy-detail.highlighted").forEach((el) => el.classList.remove("highlighted"));
+    if (typeof focusSectionId === "string" && focusSectionId) {
+      const target = document.getElementById(focusSectionId);
+      if (target) {
+        target.classList.add("highlighted");
+        window.setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "nearest" }), 80);
+      }
+    }
+  }
+
+  function closePolicyModal() {
+    document.getElementById("policy-overlay")?.classList.remove("open");
+  }
+
+  function toggleCheckoutTerms() {
+    const drawer = document.getElementById("checkoutTermsDrawer");
+    const btn = document.getElementById("toggleCheckoutTermsBtn");
+    if (!drawer) return;
+    const nextHidden = !drawer.hidden;
+    drawer.hidden = nextHidden;
+    if (btn) {
+      btn.textContent = nextHidden
+        ? "📋 Xem điều khoản thanh toán, giao hàng & đổi trả ▾"
+        : "📋 Thu gọn điều khoản thanh toán & giao dịch ▴";
+    }
+  }
+
   function toggleAiGiftCard() {
     const toggle = document.getElementById("aiGiftToggle");
     const genBox = document.getElementById("aiGiftGenerator");
@@ -1103,6 +1134,18 @@
   document.getElementById("success-overlay")?.addEventListener("click", (event) => {
     if (event.target && event.target.id === "success-overlay") closeSuccess();
   });
+  document.getElementById("policy-overlay")?.addEventListener("click", (event) => {
+    if (event.target && event.target.id === "policy-overlay") closePolicyModal();
+  });
+  document.getElementById("policyCloseBtn")?.addEventListener("click", closePolicyModal);
+  document.getElementById("toggleCheckoutTermsBtn")?.addEventListener("click", toggleCheckoutTerms);
+  document.getElementById("openFullPolicyModalBtn")?.addEventListener("click", () => openPolicyModal("policy-payment"));
+  document.querySelectorAll("[data-open-policy]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      openPolicyModal(link.getAttribute("data-open-policy") || "policy-payment");
+    });
+  });
 
   document.querySelectorAll(".ai-preset-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -1166,6 +1209,7 @@
     closeCart();
     closeCheckout();
     closeSuccess();
+    closePolicyModal();
     floatingChatBox?.classList.remove("open");
   });
 

@@ -424,86 +424,9 @@ Mình là Barista AI của Rang Mây — bạn có thể hỏi mình bất cứ 
         <input type="email" id="contactEmail" placeholder="Email" maxlength="254" autocomplete="email" required>
         <input type="tel" id="contactPhone" placeholder="Số điện thoại" maxlength="16" autocomplete="tel">
         <textarea id="contactMsg" rows="5" placeholder="Nội dung liên hệ" maxlength="2000" required></textarea>
-        <p class="contact-privacy-note">Thông tin chỉ dùng để phản hồi yêu cầu của bạn. <a href="#policy-privacy">Xem chính sách quyền riêng tư</a>.</p>
+        <p class="contact-privacy-note">Thông tin chỉ dùng để phản hồi yêu cầu của bạn. <a href="#policy-privacy" data-open-policy="policy-privacy">Xem chính sách quyền riêng tư</a>.</p>
         <button type="submit" class="btn btn-primary">GỬI LIÊN HỆ</button>
       </form>
-    </div>
-  </section>
-
-  <section class="section policy-section" id="policies">
-    <div class="container">
-      <div class="section-title">
-        <span>THÔNG TIN MUA HÀNG</span>
-        <h2>Chính sách giao dịch và quyền riêng tư</h2>
-        <p>Vui lòng xem điều kiện giao hàng, đổi trả, thanh toán và cách sử dụng dữ liệu trước khi gửi yêu cầu.</p>
-      </div>
-      <div class="policy-detail-grid">
-        <article class="policy-detail" id="policy-delivery">
-          <h3>Giao hàng</h3>
-          <ul>
-            <li>Giao hàng toàn quốc; trang hiện hiển thị miễn phí vận chuyển trong checkout.</li>
-            <li>Đơn được xử lý mục tiêu trong 24 giờ; thời gian giao thực tế tùy địa chỉ và đơn vị vận chuyển.</li>
-            <li>Kiểm tra tình trạng gói hàng khi nhận. Nếu kiện hàng có dấu hiệu hư hỏng, hãy chụp ảnh và liên hệ cửa hàng.</li>
-          </ul>
-        </article>
-        <article class="policy-detail" id="policy-return">
-          <h3>Đổi trả và hoàn tiền</h3>
-          <ul>
-            <li>Nếu giao sai sản phẩm, thiếu hàng hoặc hàng bị hư hỏng, vui lòng liên hệ sớm qua hotline/email và cung cấp mã đơn cùng hình ảnh liên quan.</li>
-            <li>Cửa hàng sẽ xác nhận phương án đổi hàng hoặc hoàn tiền trước khi bạn gửi hàng lại; với lỗi giao hàng/sản phẩm từ phía cửa hàng, cửa hàng chịu phí gửi trả.</li>
-            <li>Yêu cầu đổi trả khác được xem xét theo tình trạng hàng và quy định pháp luật hiện hành. Chính sách này không hạn chế quyền hợp pháp của người tiêu dùng.</li>
-          </ul>
-        </article>
-        <article class="policy-detail" id="policy-payment">
-          <h3>Thanh toán</h3>
-          <ul>
-            <li>Hiện chỉ hỗ trợ COD (thanh toán khi nhận hàng). MoMo/VNPay đang tắt và chưa nhận thanh toán trực tuyến.</li>
-            <li>Đơn chỉ được xem là đã ghi nhận khi website trả mã đơn hàng từ backend. Nếu trang báo lỗi, đơn chưa được xác nhận.</li>
-            <li>Website không yêu cầu hoặc lưu số thẻ, mã CVV hay mật khẩu ngân hàng.</li>
-          </ul>
-        </article>
-        <article class="policy-detail" id="policy-privacy">
-          <h3>Quyền riêng tư</h3>
-          <ul>
-            <li>Thông tin có thể gồm họ tên, số điện thoại, địa chỉ giao hàng, email, nội dung liên hệ, mặt hàng/số lượng và lời nhắn thiệp.</li>
-            <li>Dữ liệu chỉ dùng để xử lý đơn, giao hàng và phản hồi yêu cầu. Tài khoản thành viên hỗ trợ xác thực hai yếu tố (2FA) và phân quyền truy cập dữ liệu.</li>
-            <li>Không nhập thông tin thẻ hoặc dữ liệu nhạy cảm vào biểu mẫu. Có thể yêu cầu xem, sửa hoặc xóa dữ liệu qua hello@rangmaycoffee.vn; một số hồ sơ giao dịch có thể cần lưu theo quy định pháp luật.</li>
-            <li>Giỏ hàng được lưu trên thiết bị của bạn; nếu đăng nhập tài khoản trước khi đặt hàng, đơn mới sẽ được liên kết để bạn tra cứu trong trang Tài khoản.</li>
-          </ul>
-        </article>
-      </div>
-
-      <div class="security-trust-strip" id="security-standards">
-        <div class="security-strip-head">
-          <div>
-            <h3>5 Lớp Bảo Mật Đang Bảo Vệ Website Rang Mây</h3>
-            <p>Áp dụng đồng bộ cho phiên bán hàng HTTPS cục bộ và triển khai Cloud Production.</p>
-          </div>
-          <a href="login.html" class="btn btn-outline security-strip-btn">Cổng Đăng Nhập &amp; 2FA</a>
-        </div>
-        <div class="security-strip-grid">
-          <div class="security-strip-item">
-            <strong>1. Mật khẩu mạnh &amp; 2FA</strong>
-            <span>Tối thiểu 10 ký tự, khóa chống dò mật khẩu &amp; xác thực TOTP QR.</span>
-          </div>
-          <div class="security-strip-item">
-            <strong>2. Mã hóa HTTPS &amp; Header</strong>
-            <span>SSL/TLS, HSTS, X-Frame-Options DENY, strict CSP chặn script lạ.</span>
-          </div>
-          <div class="security-strip-item">
-            <strong>3. Phân quyền RBAC &amp; RLS</strong>
-            <span>Tách biệt Khách hàng, Nhân viên, Quản trị theo đặc quyền tối thiểu.</span>
-          </div>
-          <div class="security-strip-item">
-            <strong>4. Sao lưu 3-2-1 SHA-256</strong>
-            <span>Xuất Snapshot JSON đã kiểm tra toàn vẹn, loại bỏ trường mật khẩu.</span>
-          </div>
-          <div class="security-strip-item">
-            <strong>5. Checklist &amp; Audit Log</strong>
-            <span>Lưu dấu mọi thao tác đăng nhập, đổi quyền và kiểm tra định kỳ.</span>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -523,11 +446,11 @@ Mình là Barista AI của Rang Mây — bạn có thể hỏi mình bất cứ 
         <a href="login.html">Tài khoản / Đăng nhập</a>
       </div>
       <div>
-        <h4>Chính sách</h4>
-        <a href="#policy-delivery">Chính sách giao hàng</a>
-        <a href="#policy-return">Chính sách đổi trả</a>
-        <a href="#policy-payment">Chính sách thanh toán</a>
-        <a href="#policy-privacy">Chính sách bảo mật</a>
+        <h4>Điều khoản &amp; Chính sách</h4>
+        <a href="#policy-delivery" data-open-policy="policy-delivery">Chính sách giao hàng</a>
+        <a href="#policy-return" data-open-policy="policy-return">Chính sách đổi trả</a>
+        <a href="#policy-payment" data-open-policy="policy-payment">Điều khoản thanh toán</a>
+        <a href="#policy-privacy" data-open-policy="policy-privacy">Chính sách bảo mật</a>
       </div>
       <div>
         <h4>Mạng xã hội</h4>
@@ -607,6 +530,34 @@ Mình là Barista AI của Rang Mây — bạn có thể hỏi mình bất cứ 
         <div class="payment-methods-grid">
           <div class="pay-method-card selected" data-method="COD">💵 COD (Khi nhận hàng)</div>
         </div>
+        <div class="checkout-terms-box">
+          <div class="checkout-terms-bar">
+            <button type="button" class="checkout-terms-toggle" id="toggleCheckoutTermsBtn">
+              📋 Xem điều khoản thanh toán, giao hàng &amp; đổi trả ▾
+            </button>
+            <button type="button" class="checkout-terms-modal-link" id="openFullPolicyModalBtn">
+              Mở cửa sổ chi tiết ↗
+            </button>
+          </div>
+          <div class="checkout-terms-drawer" id="checkoutTermsDrawer" hidden>
+            <div class="checkout-terms-item">
+              <strong>💵 Điều khoản Thanh toán:</strong>
+              <span>Thanh toán tiền mặt khi nhận hàng (COD) sau khi kiểm tra ngoại quan hộp sản phẩm. Đơn hàng được xác nhận khi hệ thống cấp mã đơn <code>RM-...</code> từ máy chủ. Website không yêu cầu hay lưu số thẻ, CVV hoặc mật khẩu ngân hàng.</span>
+            </div>
+            <div class="checkout-terms-item">
+              <strong>🚚 Chính sách Giao hàng:</strong>
+              <span>Miễn phí vận chuyển toàn quốc; xử lý đơn trong 24 giờ (nhận hàng sau 1–2 ngày tại TP.HCM, 2–4 ngày tại tỉnh thành khác).</span>
+            </div>
+            <div class="checkout-terms-item">
+              <strong>🔄 Đổi trả &amp; Hoàn tiền:</strong>
+              <span>Đổi mới 1–1 miễn phí trong 7 ngày nếu giao sai sản phẩm, thiếu hàng hoặc bao bì móp rách do vận chuyển (cửa hàng chịu 100% phí gửi trả).</span>
+            </div>
+            <div class="checkout-terms-item">
+              <strong>🔒 Bảo mật &amp; Quyền riêng tư:</strong>
+              <span>Thông tin người nhận được mã hóa qua HTTPS/TLS và bảo vệ bằng phân quyền RLS, chỉ dùng để giao đơn hàng của bạn.</span>
+            </div>
+          </div>
+        </div>
 
         <p class="checkout-section-title">Mã giảm giá / Voucher</p>
         <div class="voucher-box">
@@ -621,6 +572,83 @@ Mình là Barista AI của Rang Mây — bạn có thể hỏi mình bất cứ 
 
         <div class="checkout-order-summary" id="checkoutOrderSummary"></div>
         <button type="button" class="checkout-submit-btn btn btn-primary" id="submitOrderBtn">XÁC NHẬN ĐẶT HÀNG</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL XEM ĐIỀU KHOẢN THANH TOÁN, GIAO DỊCH & BẢO MẬT -->
+  <div id="policy-overlay" class="policy-modal-overlay">
+    <div class="policy-modal" role="dialog" aria-modal="true" aria-labelledby="policyModalTitle">
+      <div class="checkout-header">
+        <h3 id="policyModalTitle">📋 Điều Khoản Thanh Toán, Giao Dịch &amp; Quyền Riêng Tư</h3>
+        <button type="button" class="checkout-close-btn" id="policyCloseBtn" aria-label="Đóng điều khoản">✕</button>
+      </div>
+      <div class="policy-modal-body">
+        <div class="policy-detail-grid">
+          <article class="policy-detail" id="policy-payment">
+            <h3>💵 Điều khoản Thanh toán</h3>
+            <ul>
+              <li>Hỗ trợ thanh toán tiền mặt khi nhận hàng (COD). Quý khách được kiểm tra ngoại quan hộp cà phê trước khi thanh toán.</li>
+              <li>Đơn chỉ được ghi nhận khi máy chủ trả về mã đơn hàng chính thức (<code>RM-...</code>).</li>
+              <li>Website tuyệt đối không yêu cầu hoặc lưu số thẻ, mã CVV hay mật khẩu ngân hàng.</li>
+            </ul>
+          </article>
+          <article class="policy-detail" id="policy-delivery">
+            <h3>🚚 Chính sách Giao hàng</h3>
+            <ul>
+              <li>Miễn phí giao hàng toàn quốc cho mọi đơn hàng hiển thị trong trang Thanh toán.</li>
+              <li>Đơn được xử lý trong vòng 24 giờ; thời gian nhận hàng từ 1–2 ngày (TP.HCM) hoặc 2–4 ngày (các tỉnh thành khác).</li>
+              <li>Nếu kiện hàng có dấu hiệu móp rách khi nhận, quý khách vui lòng chụp ảnh và liên hệ hotline 0383.505.924.</li>
+            </ul>
+          </article>
+          <article class="policy-detail" id="policy-return">
+            <h3>🔄 Đổi trả và Hoàn tiền</h3>
+            <ul>
+              <li>Hỗ trợ đổi mới 1–1 miễn phí hoặc hoàn tiền trong 7 ngày nếu giao sai dòng sản phẩm, thiếu hàng hoặc hư hỏng bao bì.</li>
+              <li>Với lỗi giao vận hoặc lỗi sản phẩm từ phía cửa hàng, Rang Mây chịu 100% chi phí gửi trả.</li>
+            </ul>
+          </article>
+          <article class="policy-detail" id="policy-privacy">
+            <h3>🔒 Quyền riêng tư &amp; Bảo vệ Dữ liệu</h3>
+            <ul>
+              <li>Họ tên, số điện thoại, địa chỉ nhận hàng và lời nhắn thiệp chỉ dùng để xử lý đơn và giao vận.</li>
+              <li>Tài khoản thành viên được bảo vệ bằng mật khẩu mạnh, xác thực hai yếu tố (2FA TOTP) và phân quyền truy cập dữ liệu (RLS).</li>
+              <li>Quý khách có thể yêu cầu xem, cập nhật hoặc xóa dữ liệu cá nhân qua <code>hello@rangmaycoffee.vn</code>.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="security-trust-strip" id="security-standards">
+          <div class="security-strip-head">
+            <div>
+              <h3>5 Lớp Bảo Mật Đang Bảo Vệ Giao Dịch Của Bạn</h3>
+              <p>Áp dụng đồng bộ trên toàn hệ thống cửa hàng trực tuyến Rang Mây Coffee.</p>
+            </div>
+            <a href="login.html" class="btn btn-outline security-strip-btn">Cổng Đăng Nhập &amp; 2FA</a>
+          </div>
+          <div class="security-strip-grid">
+            <div class="security-strip-item">
+              <strong>1. Mật khẩu mạnh &amp; 2FA</strong>
+              <span>Tối thiểu 10 ký tự, khóa chống dò mật khẩu &amp; xác thực TOTP QR.</span>
+            </div>
+            <div class="security-strip-item">
+              <strong>2. Mã hóa HTTPS &amp; Header</strong>
+              <span>SSL/TLS, HSTS, X-Frame-Options DENY, strict CSP chặn script lạ.</span>
+            </div>
+            <div class="security-strip-item">
+              <strong>3. Phân quyền RBAC &amp; RLS</strong>
+              <span>Tách biệt Khách hàng, Nhân viên, Quản lý, Chủ shop theo đặc quyền tối thiểu.</span>
+            </div>
+            <div class="security-strip-item">
+              <strong>4. Sao lưu 3-2-1 AES-256</strong>
+              <span>Snapshot mã hóa AES-256-GCM kèm kiểm tra toàn vẹn SHA-256.</span>
+            </div>
+            <div class="security-strip-item">
+              <strong>5. Checklist &amp; Audit Log</strong>
+              <span>Lưu dấu mọi thao tác đăng nhập, đổi quyền và rà soát định kỳ.</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
