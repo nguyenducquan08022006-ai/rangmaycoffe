@@ -409,10 +409,14 @@
       data: { full_name: fullName.trim() }
     };
     if (website) payload.website = website;
-    return await authFetch("/signup?redirect_to=" + redirect, {
+    const data = await authFetch("/signup?redirect_to=" + redirect, {
       method: "POST",
       body: payload
     });
+    if (data && typeof data.access_token === "string" && data.access_token) {
+      saveSession(data, false);
+    }
+    return data;
   }
 
   async function signInWithPassword({ email, password, remember = false }) {

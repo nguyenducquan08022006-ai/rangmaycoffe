@@ -375,19 +375,41 @@
     }
 
     try {
-      await auth.signUp({ email, password, fullName, website });
+      const signupRes = await auth.signUp({ email, password, fullName, website });
       registerForm.reset();
       updateStrengthMeter(regPassword, regEmail, regLabel, regBars, regChecklist);
-      switchTab("login");
-      showStatus(
-        "success",
-        "Đăng ký thành công! Nếu email hợp lệ, liên kết xác minh đã được gửi tới hộp thư của bạn. Hãy xác minh email trước khi đăng nhập."
-      );
+
+      if (signupRes && typeof signupRes.access_token === "string" && signupRes.access_token) {
+        showStatus("success", "🎉 Tạo tài khoản Gmail (" + email + ") thành công! Đang chuyển vào trang Tài khoản...");
+        await completeAuthenticatedNavigation();
+        return;
+      }
+
+      try {
+        await auth.signInWithPassword({ email, password, remember: false });
+        showStatus("success", "🎉 Tạo tài khoản Gmail (" + email + ") thành công! Đang chuyển vào trang Tài khoản...");
+        await completeAuthenticatedNavigation();
+        return;
+      } catch {
+        switchTab("login");
+        const loginEmailEl = document.getElementById("loginEmail");
+        if (loginEmailEl) loginEmailEl.value = email;
+        showStatus(
+          "success",
+          "🎉 Tạo tài khoản (" + email + ") thành công! Bạn có thể đăng nhập ngay bên dưới."
+        );
+      }
     } catch (error) {
+      const errMsg = error instanceof Error ? error.message.toLowerCase() : "";
       if (error && error.code === "BACKEND_NOT_CONFIGURED") {
         showStatus("warning", error.message);
+      } else if (errMsg.includes("already registered") || errMsg.includes("already been registered")) {
+        switchTab("login");
+        const loginEmailEl = document.getElementById("loginEmail");
+        if (loginEmailEl) loginEmailEl.value = email;
+        showStatus("info", "Tài khoản Gmail (" + email + ") đã tồn tại trên hệ thống! Mình đã điền sẵn email để bạn đăng nhập ngay bên dưới.");
       } else {
-        showStatus("error", "Không thể hoàn tất đăng ký lúc này. Vui lòng kiểm tra thông tin và thử lại.");
+        showStatus("error", (error instanceof Error && error.message) ? error.message : "Không thể hoàn tất đăng ký lúc này. Vui lòng kiểm tra thông tin và thử lại.");
       }
     } finally {
       if (submitBtn) {
