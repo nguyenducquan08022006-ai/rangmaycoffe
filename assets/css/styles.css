@@ -1290,6 +1290,347 @@ select {
 .contact-privacy-note { color: var(--muted); font-size: 12px; line-height: 1.5; margin: -4px 0 14px; }
 .contact-privacy-note a { color: var(--brown); text-decoration: underline; }
 
+/* SEO BLOG ARTICLE PAGE (blog.html) */
+.seo-article-hero {
+  padding: 56px 0 42px;
+  background: linear-gradient(155deg, #f8efe2 0%, #efe0cb 100%);
+  border-bottom: 1px solid #e6d5bf;
+}
+
+.seo-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.seo-breadcrumb a {
+  color: var(--brown);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.seo-kicker {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+  color: var(--brown);
+  background: rgba(255, 253, 249, 0.8);
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #e2ceba;
+  margin-bottom: 14px;
+}
+
+.seo-article-hero h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 3.6vw, 44px);
+  line-height: 1.22;
+  color: var(--brown-dark);
+  max-width: 920px;
+  margin-bottom: 16px;
+}
+
+.seo-lead {
+  font-size: 17px;
+  line-height: 1.78;
+  color: #4d3828;
+  max-width: 880px;
+  margin-bottom: 18px;
+}
+
+.seo-meta-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.seo-body-section {
+  background: var(--cream-light);
+}
+
+.seo-layout {
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr);
+  gap: 36px;
+  align-items: start;
+}
+
+.seo-sidebar {
+  position: sticky;
+  top: 96px;
+}
+
+.seo-toc-card {
+  background: #fffdf9;
+  border: 1px solid #eadccd;
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 10px 26px rgba(58, 36, 21, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.seo-toc-card strong {
+  color: var(--brown-dark);
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.seo-toc-card > a {
+  color: #5a4230;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.seo-toc-card > a:hover {
+  background: #f5eadc;
+  color: var(--brown-dark);
+}
+
+.seo-toc-cta {
+  margin-top: 10px;
+  padding-top: 14px;
+  border-top: 1px dashed #dfcbb4;
+}
+
+.seo-toc-cta p {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.seo-toc-cta .btn {
+  width: 100%;
+  text-align: center;
+}
+
+.seo-prose {
+  background: #fffdf9;
+  border: 1px solid #eadccd;
+  border-radius: 24px;
+  padding: 36px 40px;
+  box-shadow: 0 12px 32px rgba(58, 36, 21, 0.05);
+}
+
+.seo-hero-figure {
+  margin: 0 0 28px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #eadccd;
+  background: #f4eadb;
+}
+
+.seo-hero-figure img {
+  width: 100%;
+  max-height: 460px;
+  object-fit: contain;
+  display: block;
+}
+
+.seo-hero-figure figcaption {
+  padding: 10px 16px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  background: #fbf5ec;
+  border-top: 1px solid #eadccd;
+}
+
+.seo-prose h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(22px, 2.5vw, 30px);
+  color: var(--brown-dark);
+  margin: 34px 0 14px;
+  line-height: 1.3;
+}
+
+.seo-prose h3 {
+  font-size: 18px;
+  color: var(--brown);
+  margin: 22px 0 10px;
+  font-weight: 800;
+}
+
+.seo-prose p,
+.seo-prose li {
+  font-size: 15.5px;
+  line-height: 1.82;
+  color: #3f2d20;
+}
+
+.seo-prose p {
+  margin-bottom: 16px;
+}
+
+.seo-prose ul,
+.seo-prose ol {
+  padding-left: 22px;
+  margin-bottom: 20px;
+}
+
+.seo-prose li {
+  margin-bottom: 8px;
+}
+
+.seo-product-showcase {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 22px 0 26px;
+}
+
+.seo-prod-item {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  background: #fbf5eb;
+  border: 1px solid #e7d6c1;
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.seo-prod-item img {
+  width: 92px;
+  height: 92px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #f4eadb;
+  flex-shrink: 0;
+}
+
+.seo-prod-item strong {
+  display: block;
+  font-size: 15px;
+  color: var(--brown-dark);
+  margin-bottom: 4px;
+}
+
+.seo-prod-item p {
+  font-size: 13.5px;
+  line-height: 1.55;
+  margin: 0;
+  color: var(--muted);
+}
+
+.seo-table-wrap {
+  overflow-x: auto;
+  margin: 20px 0 28px;
+  border-radius: 14px;
+  border: 1px solid #e5d4bf;
+}
+
+.seo-compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.seo-compare-table th,
+.seo-compare-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid #eee1d1;
+}
+
+.seo-compare-table th {
+  background: #5a341b;
+  color: #fffdfa;
+  font-weight: 700;
+}
+
+.seo-compare-table tr:nth-child(even) td {
+  background: #fcf7f0;
+}
+
+.seo-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.seo-faq-box {
+  background: #fbf5ec;
+  border: 1px solid #e7d6c1;
+  border-radius: 14px;
+  padding: 16px 20px;
+}
+
+.seo-faq-box h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+  color: var(--brown-dark);
+}
+
+.seo-faq-box p {
+  margin: 0;
+  font-size: 14.5px;
+}
+
+.seo-cta-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 26px 28px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #3a2415, #633b1f);
+  color: #fffaf2;
+}
+
+.seo-cta-banner h3 {
+  color: #fffaf2;
+  margin: 0 0 6px;
+  font-size: 20px;
+}
+
+.seo-cta-banner p {
+  color: rgba(255, 250, 242, 0.86);
+  margin: 0;
+  max-width: 520px;
+  font-size: 14.5px;
+}
+
+.seo-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.seo-cta-banner .btn-outline {
+  color: #fffaf2;
+  border-color: rgba(255, 250, 242, 0.6);
+}
+
+@media (max-width: 960px) {
+  .seo-layout {
+    grid-template-columns: 1fr;
+  }
+  .seo-sidebar {
+    position: static;
+  }
+  .seo-product-showcase {
+    grid-template-columns: 1fr;
+  }
+  .seo-prose {
+    padding: 24px 20px;
+  }
+}
+
 /* FOOTER */
 .footer { background: var(--brown-dark); color: #f7efe5; padding-top: 50px; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 28px; padding-bottom: 32px; }

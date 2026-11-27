@@ -100,7 +100,7 @@ function createHttpsClient(caCertPem, port) {
 }
 
 function runStaticSecurityAudits() {
-  const htmlFiles = ["index.html", "login.html", "account.html", "admin.html", "manager.html", "staff.html"];
+  const htmlFiles = ["index.html", "blog.html", "login.html", "account.html", "admin.html", "manager.html", "staff.html"];
   for (const rel of htmlFiles) {
     const html = fs.readFileSync(path.join(ROOT_DIR, rel), "utf8");
     const nonJsonLdScripts = html

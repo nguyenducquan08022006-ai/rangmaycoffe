@@ -468,6 +468,7 @@ const COMMON_PASSWORDS = new Set([
 const STATIC_ROOT_ALLOWLIST = new Map([
   ["/", "index.html"],
   ["/index.html", "index.html"],
+  ["/blog.html", "blog.html"],
   ["/login.html", "login.html"],
   ["/account.html", "account.html"],
   ["/admin.html", "admin.html"],
