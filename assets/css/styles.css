@@ -1633,8 +1633,14 @@ select {
 /* FOOTER */
 .footer { background: var(--brown-dark); color: #f7efe5; padding-top: 50px; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 28px; padding-bottom: 32px; }
-.footer-brand img { width: 180px; height: auto; margin-bottom: 12px; }
-.footer-logo-img { filter: brightness(0) invert(1); }
+.footer-brand img { width: 190px; height: auto; margin-bottom: 12px; }
+.footer-logo-img {
+  filter: none;
+  border-radius: 12px;
+  background: #fdf9f2;
+  padding: 4px 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+}
 .footer-logo-img.no-filter { filter: none; }
 .footer p { color: #d9c7b7; line-height: 1.7; }
 .footer h4 { margin-bottom: 15px; color: white; }
